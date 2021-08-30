@@ -275,5 +275,5 @@ def decompress_file(inp_file, verbose=False):
 def test_compress(filename):
     copyfile(filename, f"{filename}.bak")
     compress(filename, verbose=True)
-    decompress_file(f"{filename}.hac")
+    decompress_file(f"{filename}.hac", verbose=True)
     return filecmp.cmp(f"{filename}.bak", filename)
