@@ -108,7 +108,7 @@ def encode(term, tree: HuffNode, path=""):
 # In[9]:
 
 
-def encode_all(leaves: list, final_tree: HuffNode, verbose=False):
+def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
     terms = leaves.keys()
     res = {}
     for term in tqdm(terms, disable=not verbose):
