@@ -208,12 +208,13 @@ def compress(inp, verbose=False, mode=CompressMode.DEFAULT):
             return compress_string(inp, verbose=verbose)
 
 
-def reverse_final_sequence(bstr):
+def reverse_final_sequence(bstr, verbose=False):
+    print("Reversing final sequence")
     data = list(bstr)
     rem = data[0]
     data = data[1:]
     fbin = ""
-    for dec in tqdm(data):
+    for dec in tqdm(data, disable=not verbose):
         dbin = dec_to_bin(dec)
         vbin = "".join(list(map(str, dbin))).rjust(8, "0")
         fbin += vbin
@@ -221,11 +222,12 @@ def reverse_final_sequence(bstr):
     return fbin
 
 
-def reverse_huff_sequence(huff: dict, seq: str):
+def reverse_huff_sequence(huff: dict, seq: str, verbose=False):
+    print("Reversing Huffman sequence")
     term = ""
     res = []
     huff = {v: k for k, v in huff.items()}
-    for sq in tqdm(seq):
+    for sq in tqdm(seq, disable=not verbose):
         term += sq
         val = huff.get(term)
         if val is not None:
@@ -234,12 +236,13 @@ def reverse_huff_sequence(huff: dict, seq: str):
     return bytearray(res)
 
 
-def extract_huff_map(inp_str):
+def extract_huff_map(inp_str, verbose=False):
+    print("Extracting Huffman Tree")
     rev_str = list(inp_str)
     rev_str.reverse()
     rev_bytes = bytearray(rev_str)
     huff_len_bytes = []
-    for r in rev_bytes:
+    for r in tqdm(rev_bytes, disable=not verbose):
         if r == ord('}'):
             break
         huff_len_bytes.append(r)
@@ -251,21 +254,18 @@ def extract_huff_map(inp_str):
     return huff_map, len_of_len + len(huff_dic_str)
 
 
-def decompress_string(inp_str):
-    print("Extracting Huffman Tree")
-    huff_map, rem = extract_huff_map(inp_str)
+def decompress_string(inp_str, verbose=False):
+    huff_map, rem = extract_huff_map(inp_str, verbose=verbose)
     inp_str = inp_str[:-rem]
-    print("Reversing final sequence")
-    rev_seq = reverse_final_sequence(inp_str)
-    print("Reversing Huffman sequence")
-    res = reverse_huff_sequence(huff_map, rev_seq)
+    rev_seq = reverse_final_sequence(inp_str, verbose=verbose)
+    res = reverse_huff_sequence(huff_map, rev_seq, verbose=verbose)
     return res
 
 
-def decompress_file(inp_file):
+def decompress_file(inp_file, verbose=False):
     with open(inp_file, "rb") as f:
         inp = f.read()
-    decomp = decompress_string(inp)
+    decomp = decompress_string(inp, verbose=verbose)
     inp_file = inp_file[:-4] if inp_file[-4:].lower() == ".hac" else inp_file
     with open(f"{inp_file}", "wb") as f:
         f.write(decomp)
@@ -276,6 +276,4 @@ def test_compress(filename):
     copyfile(filename, f"{filename}.bak")
     compress(filename, verbose=True)
     decompress_file(f"{filename}.hac")
-    print("COMPARISON IDENTICAL: " + str(filecmp.cmp(f"{filename}.bak", filename)))
-    print(os.stat(filename))
-    print(os.stat(f"{filename}.hac"))
+    return filecmp.cmp(f"{filename}.bak", filename)
