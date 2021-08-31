@@ -280,3 +280,10 @@ def test_compress(filename):
     compress(filename, verbose=True)
     decompress_file(f"{filename}.hac", verbose=True)
     return filecmp.cmp(f"{filename}.bak", filename)
+
+
+def test_string(inp_txt):
+    comp = compress_string(inp_txt)
+    decomp = decompress_string(comp)
+    dec_txt = "".join(map(chr, list(decomp)))
+    return inp_txt == dec_txt

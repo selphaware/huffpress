@@ -1,6 +1,6 @@
 import unittest
 
-from src.huffpress.huffpress import test_compress
+from src.huffpress.huffpress import test_compress, test_string
 from os import remove
 
 
@@ -24,3 +24,27 @@ class TestHuffPress(unittest.TestCase):
         self.assertEqual(test_compress("tests/files/u.exe"), True)
         remove("tests/files/u.exe.bak")
         remove("tests/files/u.exe.hac")
+
+    def test_string1(self):
+        in_txt = "A_DEAD_DAD_CEDED_A_BAD_BABE_A_BEADED_ABACA_BED"
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string2(self):
+        in_txt = "AABBCC"
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string3(self):
+        in_txt = "AAA"
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string4(self):
+        in_txt = "A"
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string5(self):
+        in_txt = "!\"£$%^&*()_+{}:@~<>?,./;'#[]789654321/*-+\\`¬|"
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string6(self):
+        in_txt = "AB"
+        self.assertEqual(test_string(in_txt), True)
