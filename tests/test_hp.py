@@ -48,3 +48,11 @@ class TestHuffPress(unittest.TestCase):
     def test_string6(self):
         in_txt = "AB"
         self.assertEqual(test_string(in_txt), True)
+
+    def test_string7(self):
+        in_txt = "        A B C D E F G       P       "
+        self.assertEqual(test_string(in_txt), True)
+
+    def test_string8(self):
+        in_txt = "A "
+        self.assertEqual(test_string(in_txt), True)
