@@ -273,11 +273,12 @@ def decompress_string(inp_str, verbose=False):
     return res
 
 
-def decompress_file(inp_file, verbose=False):
+def decompress_file(inp_file, outfile=None, verbose=False):
     with open(inp_file, "rb") as f:
         inp = f.read()
     decomp = decompress_string(inp, verbose=verbose)
-    inp_file = inp_file[:-4] if inp_file[-4:].lower() == ".hac" else inp_file
-    with open(f"{inp_file}", "wb") as f:
+    if outfile is None:
+        outfile = inp_file[:-4] if inp_file[-4:].lower() == ".hac" else inp_file
+    with open(f"{outfile}", "wb") as f:
         f.write(decomp)
-    return inp_file
+    return outfile
