@@ -1,7 +1,7 @@
 import unittest
 
-from src.huffpress.decompress import decompress_string
-from src.huffpress.compress import compress_string
+from src.huffpress.decompress import decompress
+from src.huffpress.compress import compress
 
 
 class TestHuffPress(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestHuffPress(unittest.TestCase):
 
 
 def test_string(inp_txt):
-    comp = compress_string(inp_txt)
-    decomp = decompress_string(comp)
+    comp = compress(inp_txt)
+    decomp = decompress(comp)
     dec_txt = "".join(map(chr, list(decomp)))
     return inp_txt == dec_txt

@@ -43,7 +43,7 @@ def extract_huff_map(inp_str, verbose=False):
     rev_str.reverse()
     rev_bytes = bytearray(rev_str)
     huff_len_bytes = []
-    for r in tqdm(rev_bytes, disable=not verbose):
+    for r in rev_bytes:
         if r == ord('}'):
             break
         huff_len_bytes.append(r)
@@ -74,11 +74,12 @@ def decompress_file(inp_file, outfile=None, verbose=False):
     return outfile
 
 
-def decompress(inp, verbose=False, mode=Mode.DEFAULT):
-    if not isinstance(inp, str):
-        raise TypeError("input must be a string: either a filename including path OR a compressed binary text.")
+def decompress(inp, verbose=False):
+    if (not isinstance(inp, bytearray)) and (not isinstance(inp, str)):
+        raise TypeError("input must be a string or bytes: "
+                        "either a filename including path OR a compressed binary text.")
     else:
-        if (mode is not Mode.RAW) and os.path.exists(inp):
-            return decompress_file(inp, verbose=verbose)
-        else:
+        if isinstance(inp, bytearray):
             return decompress_string(inp, verbose=verbose)
+        else:
+            return decompress_file(inp, verbose=verbose)

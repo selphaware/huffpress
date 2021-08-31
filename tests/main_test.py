@@ -66,5 +66,5 @@ class TestHuffPress(unittest.TestCase):
 def test_compress(filename, mode=Mode.DEFAULT):
     copyfile(filename, f"{filename}.bak")
     compress(filename, mode=mode, verbose=True)
-    decompress(f"{filename}.hac", mode=mode, verbose=True)
+    decompress(f"{filename}.hac", verbose=True)
     return filecmp.cmp(f"{filename}.bak", filename)
