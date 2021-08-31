@@ -209,7 +209,8 @@ def compress(inp, verbose=False, mode=CompressMode.DEFAULT):
 
 
 def reverse_final_sequence(bstr, verbose=False):
-    print("Reversing final sequence")
+    if verbose:
+        print("Reversing final sequence")
     data = list(bstr)
     rem = data[0]
     data = data[1:]
@@ -223,7 +224,8 @@ def reverse_final_sequence(bstr, verbose=False):
 
 
 def reverse_huff_sequence(huff: dict, seq: str, verbose=False):
-    print("Reversing Huffman sequence")
+    if verbose:
+        print("Reversing Huffman sequence")
     term = ""
     res = []
     huff = {v: k for k, v in huff.items()}
@@ -237,7 +239,8 @@ def reverse_huff_sequence(huff: dict, seq: str, verbose=False):
 
 
 def extract_huff_map(inp_str, verbose=False):
-    print("Extracting Huffman Tree")
+    if verbose:
+        print("Extracting Huffman Tree")
     rev_str = list(inp_str)
     rev_str.reverse()
     rev_bytes = bytearray(rev_str)
