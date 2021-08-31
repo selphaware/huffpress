@@ -2,7 +2,7 @@ import json
 
 from tqdm import tqdm
 
-from src.huffpress.generic import dec_to_bin, bin_to_dec
+from huffpress.generic import dec_to_bin, bin_to_dec
 
 
 def reverse_final_sequence(bstr, verbose=False):
@@ -82,15 +82,3 @@ def decompress(inp, outfile=None, verbose=False):
             return decompress_bytes(inp, verbose=verbose)
         else:
             return decompress_file(inp, outfile=outfile, verbose=verbose)
-
-
-def decomp(*str_vars):
-    def inner(fun):
-        def decorator(*args, **kwargs):
-            new_kwargs = {}
-            for k, v in kwargs.items():
-                decomp_bytes = decompress_bytes(v) if k in str_vars else v
-                new_kwargs[k] = "".join(map(chr, list(decomp_bytes)))
-            return fun(*args, **new_kwargs)
-        return decorator
-    return inner
