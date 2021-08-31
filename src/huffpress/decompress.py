@@ -3,7 +3,7 @@ import os
 
 from tqdm import tqdm
 
-from src.huffpress.generic import dec_to_bin, bin_to_dec, Mode
+from huffpress.generic import dec_to_bin, bin_to_dec, Mode
 
 
 def reverse_final_sequence(bstr, verbose=False):

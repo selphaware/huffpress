@@ -3,8 +3,8 @@ import os
 
 from tqdm import tqdm
 
-from src.huffpress.generic import bin_to_dec, dec_to_bin, Mode
-from src.huffpress.huffman import create_huff_tree
+from huffpress.generic import bin_to_dec, dec_to_bin, Mode
+from huffpress.huffman import create_huff_tree
 
 
 def create_huff_sequence(huff: dict, itxt, verbose=False):
