@@ -1,6 +1,8 @@
+import filecmp
 import unittest
+from shutil import copyfile
 
-from src.huffpress.huffpress import test_compress, test_string
+from src.huffpress.huffpress import compress, decompress_file, compress_string, decompress_string
 from os import remove
 
 
@@ -56,3 +58,17 @@ class TestHuffPress(unittest.TestCase):
     def test_string8(self):
         in_txt = "A "
         self.assertEqual(test_string(in_txt), True)
+
+
+def test_compress(filename):
+    copyfile(filename, f"{filename}.bak")
+    compress(filename, verbose=True)
+    decompress_file(f"{filename}.hac", verbose=True)
+    return filecmp.cmp(f"{filename}.bak", filename)
+
+
+def test_string(inp_txt):
+    comp = compress_string(inp_txt)
+    decomp = decompress_string(comp)
+    dec_txt = "".join(map(chr, list(decomp)))
+    return inp_txt == dec_txt

@@ -6,8 +6,6 @@ from tqdm import tqdm
 import os
 from enum import Enum
 import json
-import filecmp
-from shutil import copyfile
 
 
 class HuffNode(object):
@@ -273,17 +271,3 @@ def decompress_file(inp_file, verbose=False):
     with open(f"{inp_file}", "wb") as f:
         f.write(decomp)
     return inp_file
-
-
-def test_compress(filename):
-    copyfile(filename, f"{filename}.bak")
-    compress(filename, verbose=True)
-    decompress_file(f"{filename}.hac", verbose=True)
-    return filecmp.cmp(f"{filename}.bak", filename)
-
-
-def test_string(inp_txt):
-    comp = compress_string(inp_txt)
-    decomp = decompress_string(comp)
-    dec_txt = "".join(map(chr, list(decomp)))
-    return inp_txt == dec_txt
