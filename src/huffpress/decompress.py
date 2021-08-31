@@ -74,7 +74,7 @@ def decompress_file(inp_file, outfile=None, verbose=False):
     return outfile
 
 
-def decompress(inp, verbose=False):
+def decompress(inp, outfile=None, verbose=False):
     if (not isinstance(inp, bytearray)) and (not isinstance(inp, str)):
         raise TypeError("input must be a string or bytes: "
                         "either a filename including path OR a compressed binary text.")
@@ -82,4 +82,4 @@ def decompress(inp, verbose=False):
         if isinstance(inp, bytearray):
             return decompress_string(inp, verbose=verbose)
         else:
-            return decompress_file(inp, verbose=verbose)
+            return decompress_file(inp, outfile=outfile, verbose=verbose)
