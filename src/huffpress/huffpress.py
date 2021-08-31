@@ -37,6 +37,7 @@ def sort_tree(tree: dict):
 def build_tree(leaves: list, verbose=False):
     start_len = len(leaves)
     with tqdm(total=start_len - 1, disable=not verbose) as tbar:
+        # TODO: FIX ME - when input only has 1 unique character, the tree does not get built
         while len(leaves) > 1:
             ls = [(x, y, z) for x, (y, z) in leaves]
             new_term = f"{ls[0][0]},{ls[1][0]}"
