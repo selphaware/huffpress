@@ -1,6 +1,7 @@
 import unittest
 
-from src.huffpress.huffpress import compress_string, decompress_string
+from src.huffpress.decompress import decompress_string
+from src.huffpress.compress import compress_string
 
 
 class TestHuffPress(unittest.TestCase):
