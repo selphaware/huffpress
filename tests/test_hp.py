@@ -1,6 +1,6 @@
 import unittest
 
-from src.huffpress import test_compress
+from src.huffpress.huffpress import test_compress
 from os import remove
 
 
