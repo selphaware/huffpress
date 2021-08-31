@@ -2,7 +2,8 @@ import filecmp
 import unittest
 from shutil import copyfile
 
-from src.huffpress.huffpress import compress, decompress_file, compress_string, decompress_string
+from src.huffpress.huffpress import compress, decompress_file
+from tests.simple_test import test_string
 from os import remove
 
 
@@ -65,10 +66,3 @@ def test_compress(filename):
     compress(filename, verbose=True)
     decompress_file(f"{filename}.hac", verbose=True)
     return filecmp.cmp(f"{filename}.bak", filename)
-
-
-def test_string(inp_txt):
-    comp = compress_string(inp_txt)
-    decomp = decompress_string(comp)
-    dec_txt = "".join(map(chr, list(decomp)))
-    return inp_txt == dec_txt

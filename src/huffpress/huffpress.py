@@ -36,23 +36,32 @@ def sort_tree(tree: dict):
 
 def build_tree(leaves: list, verbose=False):
     start_len = len(leaves)
+    while_one = start_len == 1
     with tqdm(total=start_len - 1, disable=not verbose) as tbar:
-        # TODO: FIX ME - when input only has 1 unique character, the tree does not get built
-        while len(leaves) > 1:
+        while len(leaves) > 1 or while_one:
             ls = [(x, y, z) for x, (y, z) in leaves]
-            new_term = f"{ls[0][0]},{ls[1][0]}"
-            new_freq = ls[0][1] + ls[1][1]
+            fterm = ls[0][0]
+            sterm = "" if len(ls) <= 1 else f",{ls[1][0]}"
+            new_term = f"{fterm}{sterm}"
+            ffreq = ls[0][1]
+            sfreq = 0 if len(ls) <= 1 else ls[1][1]
+            new_freq = ffreq + sfreq
             new_left = ls[0][2]
-            new_right = ls[1][2]
+            new_right = None if len(ls) <= 1 else ls[1][2]
             node = HuffNode(
                 term=new_term,
                 freq=new_freq,
                 left_child=new_left,
                 right_child=new_right
             )
-            new_ls = ls[2:] + [(new_term, new_freq, node)]
+            if len(ls) <= 1:
+                new_ls = [(new_term, new_freq, node)]
+            else:
+                new_ls = ls[2:] + [(new_term, new_freq, node)]
             leaves = sort_tree({k: (f, n) for k, f, n in new_ls})
             tbar.update(1)
+            if while_one:
+                while_one = False
     return leaves
 
 
