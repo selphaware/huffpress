@@ -1,9 +1,8 @@
 import json
-import os
 
 from tqdm import tqdm
 
-from huffpress.generic import dec_to_bin, bin_to_dec, Mode
+from src.huffpress.generic import dec_to_bin, bin_to_dec
 
 
 def reverse_final_sequence(bstr, verbose=False):
@@ -55,7 +54,7 @@ def extract_huff_map(inp_str, verbose=False):
     return huff_map, len_of_len + len(huff_dic_str)
 
 
-def decompress_string(inp_str, verbose=False):
+def decompress_bytes(inp_str, verbose=False):
     huff_map, rem = extract_huff_map(inp_str, verbose=verbose)
     inp_str = inp_str[:-rem]
     rev_seq = reverse_final_sequence(inp_str, verbose=verbose)
@@ -66,11 +65,11 @@ def decompress_string(inp_str, verbose=False):
 def decompress_file(inp_file, outfile=None, verbose=False):
     with open(inp_file, "rb") as f:
         inp = f.read()
-    decomp = decompress_string(inp, verbose=verbose)
+    decomp_var = decompress_bytes(inp, verbose=verbose)
     if outfile is None:
         outfile = inp_file[:-4] if inp_file[-4:].lower() == ".hac" else inp_file
     with open(f"{outfile}", "wb") as f:
-        f.write(decomp)
+        f.write(decomp_var)
     return outfile
 
 
@@ -80,6 +79,18 @@ def decompress(inp, outfile=None, verbose=False):
                         "either a filename including path OR a compressed binary text.")
     else:
         if isinstance(inp, bytearray):
-            return decompress_string(inp, verbose=verbose)
+            return decompress_bytes(inp, verbose=verbose)
         else:
             return decompress_file(inp, outfile=outfile, verbose=verbose)
+
+
+def decomp(*str_vars):
+    def inner(fun):
+        def decorator(*args, **kwargs):
+            new_kwargs = {}
+            for k, v in kwargs.items():
+                decomp_bytes = decompress_bytes(v) if k in str_vars else v
+                new_kwargs[k] = "".join(map(chr, list(decomp_bytes)))
+            return fun(*args, **new_kwargs)
+        return decorator
+    return inner
