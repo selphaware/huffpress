@@ -2,17 +2,7 @@ from collections import Counter
 
 from tqdm import tqdm
 
-
-class HuffNode(object):
-    def __init__(self, term: str, freq: int, left_child=None, right_child=None):
-        self.term = term
-        self.freq = freq
-        self.left_child = left_child
-        self.right_child = right_child
-
-    @property
-    def is_leaf(self):
-        return (self.left_child is None) and (self.right_child is None)
+from huffpress.huffman.HuffNode import HuffNode
 
 
 def sort_tree(tree: dict):
