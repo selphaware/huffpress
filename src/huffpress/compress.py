@@ -1,13 +1,26 @@
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
+
+    compress.py
+
+    Contains all compression functions
+"""
+
 import json
 import os
-
 from tqdm import tqdm
-
 from huffpress.generic import bin_to_dec, dec_to_bin, Mode
 from huffpress.huffman.hfunctions import create_huff_tree
 
 
 def create_huff_sequence(huff: dict, itxt, verbose=False):
+    """
+
+    :param huff:
+    :param itxt:
+    :param verbose:
+    :return:
+    """
     new_str = ""
     for i in tqdm(itxt, disable=not verbose):
         new_str += huff[i]

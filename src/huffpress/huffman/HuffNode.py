@@ -1,6 +1,15 @@
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
+
+    HuffNode.py
+
+    Huffman tree class
+"""
+
+
 class HuffNode(object):
     """
-    A class representing a Huffman Binary tree
+    A class representing a Huffman Binary tree (Huffman node)
 
     ...
 
@@ -22,7 +31,10 @@ class HuffNode(object):
     """
     def __init__(self, term: str, freq: int, left_child=None, right_child=None):
         """
+        __init__(self, term: str, freq: int, left_child=None, right_child=None):
+
         Constructs HuffNode with all necessary attributes
+
         :param term: (str) ordinal character terms i.e. ascii values delimited by comma
         :param freq: (int) total number of occurrences of this term
         :param left_child: (HuffNode) left child node / recursive left branch
@@ -36,7 +48,11 @@ class HuffNode(object):
     @property
     def is_leaf(self):
         """
-        checks if current node is a leaf node
+        @property
+        def is_leaf(self):
+
+        Checks if current node is a leaf node
+
         :return: True if leaf, False otherwise
         """
         return (self.left_child is None) and (self.right_child is None)
