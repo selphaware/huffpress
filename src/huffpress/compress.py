@@ -3,7 +3,9 @@
 
     compress.py
 
-    Contains all compression functions
+    Contains all compression functions using the Huffman encoding algorithm to
+    encode most frequently occurring terms with short binary sequences,
+    and encoding least frequently occurring terms with longer binary sequences.
 """
 
 import json
@@ -13,13 +15,16 @@ from huffpress.generic import bin_to_dec, dec_to_bin, Mode
 from huffpress.huffman.hfunctions import create_huff_tree
 
 
-def create_huff_sequence(huff: dict, itxt, verbose=False):
+def create_huff_sequence(huff: dict, itxt: str, verbose: bool = False) -> tuple:
     """
+    create_huff_sequence(huff: dict, itxt: str, verbose: bool = False) -> tuple:
 
-    :param huff:
-    :param itxt:
-    :param verbose:
-    :return:
+    Creates an encoded Huffman sequence from a given Huffman tree dictionary and input data string text.
+
+    :param huff: Huffman tree dictionary (encoded sequences per term) computed by hfunctions.create_huff_tree
+    :param itxt: input data string text to be encoded
+    :param verbose: set to True for printing console outputs
+    :return: (number of 0 paddings required, new encoded sequence)
     """
     new_str = ""
     for i in tqdm(itxt, disable=not verbose):
@@ -30,6 +35,12 @@ def create_huff_sequence(huff: dict, itxt, verbose=False):
 
 
 def create_final_sequence(huff_seq: tuple, verbose=False):
+    """
+
+    :param huff_seq:
+    :param verbose:
+    :return:
+    """
     if verbose:
         print("Generating final sequence")
     bin_rem = "".join(list(map(str, dec_to_bin(huff_seq[0]))))

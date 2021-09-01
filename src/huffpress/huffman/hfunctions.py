@@ -239,7 +239,7 @@ def create_huff_tree(data: str, verbose: bool = False) -> tuple:
 
     :param data: input data string to be transformed to a Huffman tree
     :param verbose: set to True to print to console, False to return string output
-    :return: tuple of final encoded sequences and constructed Huffman tree
+    :return: tuple of final encoded sequences per term and constructed Huffman tree
     """
     leaves = build_leaves(calc_term_freq(data), verbose=verbose)
     sleaves = sort_tree(leaves)
