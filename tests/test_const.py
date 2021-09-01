@@ -1,35 +1,36 @@
-import filecmp
-from shutil import copyfile
-
-from huffpress.compress import compress
-from huffpress.decompress import decompress
-from huffpress.decorators import comp, decomp
-from huffpress.generic import Mode
-
-
-def string_test(inp_txt):
-    comp_var = compress(inp_txt)
-    decomp_var = decompress(comp_var)
-    dec_txt = "".join(map(chr, list(decomp_var)))
-    return inp_txt == dec_txt
-
-
-@comp
-def decorator_comp_test():
-    return LONG_TEXT
-
-
-@decomp("in_var")
-def decorator_decomp_test(in_var):
-    return in_var
-
-
-def compress_test(filename, mode=Mode.DEFAULT):
-    copyfile(filename, f"{filename}.bak")
-    compress(filename, mode=mode, verbose=True)
-    decompress(f"{filename}.hac", verbose=True)
-    return filecmp.cmp(f"{filename}.bak", filename)
-
+PRINT_RES_1 = "" \
+"""\nTerm: _,D,A,E,C,B, Freq: 46
+|
+Left child:
+|--o--[1> Term: _,D, Freq: 20
+|
+|--Left child:
+|--o--o--[2> Term: _, Freq: 10
+|
+|--Right child:
+|--o--o--[2> Term: D, Freq: 10
+|
+Right child:
+|--o--[1> Term: A,E,C,B, Freq: 26
+|
+|--Left child:
+|--o--o--[2> Term: A, Freq: 11
+|
+|--Right child:
+|--o--o--[2> Term: E,C,B, Freq: 15
+|
+|----Left child:
+|--o--o--o--[3> Term: E, Freq: 7
+|
+|----Right child:
+|--o--o--o--[3> Term: C,B, Freq: 8
+|
+|------Left child:
+|--o--o--o--o--[4> Term: C, Freq: 2
+|
+|------Right child:
+|--o--o--o--o--[4> Term: B, Freq: 6
+"""
 
 LONG_TEXT = "This will be compressed  and then decompressed by the huffman algorithm. "\
             "What is holding up the public confirmation of whether it is Russell or Bottas is unclear, "\

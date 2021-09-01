@@ -1,6 +1,6 @@
 import unittest
 
-from huffpress.test_funcs import string_test, compress_test
+from tests.test_funcs import string_test, compress_test
 from os import remove
 
 
@@ -27,32 +27,40 @@ class TestHuffPress(unittest.TestCase):
 
     def test_string1(self):
         in_txt = "A_DEAD_DAD_CEDED_A_BAD_BABE_A_BEADED_ABACA_BED"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string2(self):
         in_txt = "AABBCC"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string3(self):
         in_txt = "AAA"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string4(self):
         in_txt = "A"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string5(self):
         in_txt = "!\"£$%^&*()_+{}:@~<>?,./;'#[]789654321/*-+\\`¬|"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string6(self):
         in_txt = "AB"
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string7(self):
         in_txt = "        A B C D E F G       P       "
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)
 
     def test_string8(self):
         in_txt = "A "
-        self.assertEqual(string_test(in_txt), True)
+        com_dat, decom_dat = string_test(in_txt)
+        self.assertEqual(com_dat, decom_dat)

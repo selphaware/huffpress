@@ -77,7 +77,9 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
     # track progress of tree building
     with tqdm(total=start_len - 1, disable=not verbose) as tbar:
 
-        # traverse through all terms, combining and collapsing least frequent terms into one term (HuffNode)
+        # traverse through all terms, combining and collapsing least frequent terms into one term (HuffNode).
+        # keep on looping through the tree until only one combined term is left. the combined term contains
+        # all terms.
         while len(sorted_new_tree) > 1 or while_one:
 
             # build list of (term, total-frequency, HuffNode)
@@ -115,13 +117,14 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
             if single_char_only:
                 new_tree = [(new_term, new_freq, node)]
 
-            # otherwise: add new term to rest of tree (excluding the first two terms) to be processed
-            # here we are trimming the list of terms everytime, collapsing the least two frequent
-            # terms and building the tree.
+            # otherwise: add new term to rest of tree (excluding the first two terms) to be processed.
+            # Here we are trimming the list of terms everytime, collapsing the least two frequent terms
+            # into one term then continuing to build the tree until only one combined term is left, which is
+            # defined in the while loop condition
             else:
                 new_tree = tree[2:] + [(new_term, new_freq, node)]
 
-            # sort tree
+            # sort tree with least frequent terms at the top
             sorted_new_tree = sort_tree({k: (f, n) for k, f, n in new_tree})
 
             # update progress bar
@@ -131,21 +134,40 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
             if while_one:
                 while_one = False
 
-            # end tree building while loop
-
-        # end tqdm with
-
     return sorted_new_tree[0][1][1]  # returning tree HuffNode object
 
 
-def print_node(node: HuffNode):
-    print(f"Term: {node.term}, Freq: {node.freq}")
+def print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
+    """
+    print_node(node: HuffNode) -> None:
+
+    Recursive printing of the HuffNode tree showing all branches, leaves and their terms and total-frequencies
+
+    :param node: HuffNode tree i.e. Huffman tree
+    :param depth: How many whitespaces to print to represent depth level (starting at depth 0)
+    :param verbose: set to True to print to console, False to return string output
+    :return: None (prints Huffman tree to console)
+    """
+    res = ""
+    spc = "-" * depth * 2
+    line_chr = ("--o" * depth) + (("--" + f"[{depth}> ") * (1 if depth else 0))
+    if depth == 0:
+        dash_chr = ""
+        res += "\n"
+    else:
+        dash_chr = "|"
+    res += f"{dash_chr}{line_chr}Term: {node.term}, Freq: {node.freq}\n"
     if node.left_child is not None:
-        print("\nLeft child:")
-        print_node(node.left_child)
+        res += f"|\n{dash_chr}{spc}Left child:\n"
+        res += print_node(node.left_child, depth=depth+1, verbose=verbose)
     if node.right_child is not None:
-        print("\nRight child:")
-        print_node(node.right_child)
+        res += f"|\n{dash_chr}{spc}Right child:\n"
+        res += print_node(node.right_child, depth=depth+1, verbose=verbose)
+    if verbose:
+        print(res)
+        return ""
+    else:
+        return res
 
 
 def encode(term, tree: HuffNode, path=""):
@@ -168,7 +190,7 @@ def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
     return res
 
 
-def create_huff_tree(data, verbose=False):
+def create_huff_tree(data: str, verbose: bool = False):
     if verbose:
         print("Building leaves")
     leaves = build_leaves(calc_term_freq(data), verbose=verbose)
