@@ -36,10 +36,12 @@ def build_leaves(term_freq: dict, verbose: bool = False) -> dict:
     :param verbose: set to True for printing console outputs
     :return: dictionary of leaf HuffNode's for a given character frequency count dictionary
     """
+    if verbose:
+        print("Building leaves")
     return {k: (v, HuffNode(k, v)) for k, v in tqdm(term_freq.items(), disable=not verbose)}
 
 
-def sort_tree(tree: dict) -> list:
+def sort_tree(tree: dict, verbose: bool = False) -> list:
     """
     sort_tree(tree: dict) -> list:
 
@@ -54,8 +56,11 @@ def sort_tree(tree: dict) -> list:
     [ ("ABC", (2, HuffNode)), ("E": (3, HuffNode)), ("D": (4, HuffNode)), ("F": (7, HuffNode)) ]
 
     :param tree: dictionary of HuffNode's { term : (total-frequency, HuffNode) }
+    :param verbose: set to True for printing console outputs
     :return: sorted dictionary of HuffNode's converted to a list
     """
+    if verbose:
+        print("Sorting tree")
     term_freq = sorted(tree.items(), key=lambda pair: pair[1][0], reverse=False)
     return term_freq
 
@@ -71,6 +76,9 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
     :return: Built Huffman tree from initial asc sorted  list of leaves HuffNode's
             computed by build_leaves function and sorted by sort_tree function
     """
+    if verbose:
+        print("Building Huffman tree")
+
     start_len = len(sorted_new_tree)
     while_one = start_len == 1  # escape condition for single unique character inputs
 
@@ -183,6 +191,9 @@ def encode(term, tree: HuffNode, path=""):
 
 
 def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
+    if verbose:
+        print("Encoding tree")
+
     terms = leaves.keys()
     res = {}
     for term in tqdm(terms, disable=not verbose):
@@ -191,16 +202,8 @@ def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
 
 
 def create_huff_tree(data: str, verbose: bool = False):
-    if verbose:
-        print("Building leaves")
     leaves = build_leaves(calc_term_freq(data), verbose=verbose)
-    if verbose:
-        print("Sorting tree")
     sleaves = sort_tree(leaves)
-    if verbose:
-        print("Building Huffman tree")
     mtree = build_tree(sleaves, verbose=verbose)
-    if verbose:
-        print("Encoding tree")
     f_tree = encode_all(leaves, mtree, verbose=verbose)
     return f_tree, mtree
