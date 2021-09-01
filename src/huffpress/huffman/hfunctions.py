@@ -178,19 +178,42 @@ def print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
         return res
 
 
-def encode(term, tree: HuffNode, path=""):
+def encode(single_term: str, tree: HuffNode, path="") -> dict:
+    """
+    encode(single_term: str, tree: HuffNode, path="") -> dict:
+
+    Encode Huffman tree recursively adding 0's to left branches, and 1's to right branches.
+
+    Most frequent occurring terms will be encoded with a shorter sequence.
+    Least frequent occurring terms will be encoded with a longer sequence
+
+    :param single_term: single character term
+    :param tree: HuffNode tree already built by create_huff_tree function
+    :param path: visited nodes collecting 0's (left side), 1's (right side) along the way
+    :return: dictionary containing a single term as the key, and its continually constructed binary sequence
+    """
     if tree is None:
-        return ""
+        return {}
     elif tree.is_leaf:
-        return {term: path}
+        return {single_term: path}
     else:
-        if str(term) in str(tree.left_child.term).split(","):
-            return encode(term, tree.left_child, path + "0")
-        elif str(term) in str(tree.right_child.term).split(","):
-            return encode(term, tree.right_child, path + "1")
+        if str(single_term) in str(tree.left_child.term).split(","):
+            return encode(single_term, tree.left_child, path + "0")
+        elif str(single_term) in str(tree.right_child.term).split(","):
+            return encode(single_term, tree.right_child, path + "1")
 
 
-def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
+def encode_all(leaves: dict, final_tree: HuffNode, verbose=False) -> dict:
+    """
+    encode_all(leaves: dict, final_tree: HuffNode, verbose=False) -> dict:
+
+    Encode all unique character terms, constructing binary sequences from the Huffman tree
+
+    :param leaves: initial list of leaves with unique character terms
+    :param final_tree: constructed Huffman tree computed by create_huff_tree function
+    :param verbose: set to True to print to console, False to return string output
+    :return: dictionary of all terms as keys, and their encoded binary sequence
+    """
     if verbose:
         print("Encoding tree")
 
@@ -201,9 +224,25 @@ def encode_all(leaves: dict, final_tree: HuffNode, verbose=False):
     return res
 
 
-def create_huff_tree(data: str, verbose: bool = False):
+def create_huff_tree(data: str, verbose: bool = False) -> tuple:
+    """
+    create_huff_tree(data: str, verbose: bool = False) -> tuple:
+
+    Method:
+        leaves = build_leaves(calc_term_freq(data), verbose=verbose)
+        sleaves = sort_tree(leaves)
+        huff_tree = build_tree(sleaves, verbose=verbose)
+        encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
+        return encod_seq, huff_tree
+
+    Main function to create Huffman tree from an input data string
+
+    :param data: input data string to be transformed to a Huffman tree
+    :param verbose: set to True to print to console, False to return string output
+    :return: tuple of final encoded sequences and constructed Huffman tree
+    """
     leaves = build_leaves(calc_term_freq(data), verbose=verbose)
     sleaves = sort_tree(leaves)
-    mtree = build_tree(sleaves, verbose=verbose)
-    f_tree = encode_all(leaves, mtree, verbose=verbose)
-    return f_tree, mtree
+    huff_tree = build_tree(sleaves, verbose=verbose)
+    encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
+    return encod_seq, huff_tree

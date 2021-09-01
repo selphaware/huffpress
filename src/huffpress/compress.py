@@ -66,12 +66,12 @@ def add_huff_map(final_seq, huff_map: dict):
 
 
 def compress_bytes(inp_st, verbose=False):
-    huff, mtree = create_huff_tree(inp_st, verbose=verbose)
-    huff_seq = create_huff_sequence(huff, inp_st, verbose=verbose)
+    encod_seq, huff_tree = create_huff_tree(inp_st, verbose=verbose)
+    huff_seq = create_huff_sequence(encod_seq, inp_st, verbose=verbose)
     final_seq = create_final_sequence(huff_seq, verbose=verbose)
     seq_bins = create_seq_bins(final_seq, verbose=verbose)
     final_res = create_seq_chars(seq_bins, verbose=verbose)
-    app_res = add_huff_map(final_res, huff)
+    app_res = add_huff_map(final_res, encod_seq)
 
     return app_res
 
