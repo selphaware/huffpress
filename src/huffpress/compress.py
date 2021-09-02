@@ -6,6 +6,10 @@
     Contains all compression functions using the Huffman encoding algorithm to
     encode most frequently occurring terms with short binary sequences,
     and encoding least frequently occurring terms with longer binary sequences.
+
+    Collapsing occurs in the following way:
+
+    TODO: FINISH
 """
 
 import json
@@ -34,22 +38,35 @@ def create_huff_sequence(huff: dict, itxt: str, verbose: bool = False) -> tuple:
     return rem, new_str
 
 
-def create_final_sequence(huff_seq: tuple, verbose=False):
+def create_final_sequence(huff_seq_rem: tuple, verbose: bool = False) -> str:
     """
+    create_final_sequence(huff_seq: tuple, verbose=False) -> str:
 
-    :param huff_seq:
-    :param verbose:
-    :return:
+    From a given Huffman encoded sequence (computed by create_huff_sequence function), convert to a binary sequence.
+
+    :param huff_seq_rem: tuple of 0:Huffman sequence and 1:remainder length (to be used for '0' padding)
+    :param verbose: set to True for printing console outputs
+    :return: final Huffman sequence converted to a binary sequence
     """
     if verbose:
         print("Generating final sequence")
-    bin_rem = "".join(list(map(str, dec_to_bin(huff_seq[0]))))
+    bin_rem = "".join(list(map(str, dec_to_bin(huff_seq_rem[0]))))
     bin_rem = bin_rem.rjust(8, "0")
-    data = bin_rem + huff_seq[1]
+    data = bin_rem + huff_seq_rem[1]
     return data
 
 
-def create_seq_bins(final_seq: str, verbose=False):
+def create_seq_bins(final_seq: str, verbose: bool = False) -> list:
+    """
+    create_seq_bins(final_seq: str, verbose: bool = False) -> list:
+
+    From a given final Huffman sequence (computed by create_final_sequence function) extract
+    the sequence of binaries of length 8 and store in a list
+
+    :param final_seq: Final Huffman sequence string of binaries
+    :param verbose: set to True for printing console outputs
+    :return:
+    """
     res = []
     fin = len(final_seq) // 8
     for i in tqdm(range(fin), disable=not verbose):
@@ -59,7 +76,17 @@ def create_seq_bins(final_seq: str, verbose=False):
     return res
 
 
-def create_seq_chars(final_bins, verbose=False):
+def create_seq_chars(final_bins: list, verbose: bool = False) -> bytearray:
+    """
+    create_seq_chars(final_bins: list, verbose: bool = False) -> bytearray:
+
+    From a given list of binaries constructed from the final Huffman sequence i.e. create_seq_bins function,
+    compress the binaries (converting) to an ASCII ordinal value.
+
+    :param final_bins: list of binary sequences construct from the final Huffman sequence
+    :param verbose: set to True for printing console outputs
+    :return: bytearray of ascii ordinal values constructed from the Huffman sequence of binaries
+    """
     res = []
     for fbin in tqdm(final_bins, disable=not verbose):
         val = bin_to_dec(list(map(int, list(fbin))))
