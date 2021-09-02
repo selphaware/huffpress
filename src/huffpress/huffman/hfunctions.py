@@ -8,6 +8,7 @@
 
 from collections import Counter
 from tqdm import tqdm
+from typing import Union
 from huffpress.huffman.HuffNode import HuffNode
 
 
@@ -224,9 +225,9 @@ def encode_all(leaves: dict, final_tree: HuffNode, verbose=False) -> dict:
     return res
 
 
-def create_huff_tree(data: str, verbose: bool = False) -> tuple:
+def create_huff_tree(data: Union[str, bytes], verbose: bool = False) -> tuple:
     """
-    create_huff_tree(data: str, verbose: bool = False) -> tuple:
+    def create_huff_tree(data: Union[str, bytearray], verbose: bool = False) -> tuple:
 
     Method:
         leaves = build_leaves(calc_term_freq(data), verbose=verbose)
@@ -237,7 +238,7 @@ def create_huff_tree(data: str, verbose: bool = False) -> tuple:
 
     Main function to create Huffman tree from an input data string
 
-    :param data: input data string to be transformed to a Huffman tree
+    :param data: input data string or bytearray to be transformed to a Huffman tree
     :param verbose: set to True to print to console, False to return string output
     :return: tuple of final encoded sequences per term and constructed Huffman tree
     """
