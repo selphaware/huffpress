@@ -1,3 +1,4 @@
+# noinspection Mypy
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -5,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="huffpress",
-    version="0.1.1",
+    version="0.2.0",
     author="Usman Ahmad",
     author_email="uahmad3013@outlook.com",
     description="Library containing Huffman algos and bespoke compressor",
