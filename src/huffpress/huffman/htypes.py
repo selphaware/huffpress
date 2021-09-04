@@ -7,9 +7,16 @@
 
     ----------------
 
+    CompData = Union[str, bytearray]
+
+    Data to be compressed will either be the filename (str) or compressed data
+    (bytearray)
+
+    ----------------
+
     InputData = Union[str, bytes]
 
-    Input data will either be a string or sequence of bytes
+    Input data to be compressed will either be a string or sequence of bytes
     string e.g. "Hello"
     bytes e.g. b"ABC" or [65, 66, 67]
 
@@ -62,6 +69,7 @@ from typing import Union, Dict, Tuple, List, Optional
 from huffpress.huffman.HuffNode import HuffNode
 
 InputData = Union[str, bytes]
+CompData = Union[str, bytearray]
 TermFreq = Dict[int, int]
 HuffTerm = Tuple[int, Optional[HuffNode]]
 Leaves = Dict[str, HuffTerm]

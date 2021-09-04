@@ -9,7 +9,7 @@
 from collections import Counter
 # noinspection Mypy
 from tqdm import tqdm
-from typing import Union, Tuple, List, Optional
+from typing import Tuple, List, Optional
 from huffpress.huffman.HuffNode import HuffNode
 from huffpress.huffman.htypes import InputData, TermFreq, Leaves, \
     SortedTree, HuffTuple, HuffCode
