@@ -1,11 +1,24 @@
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
+
+    test_funcs.py
+
+    Testing functionality used in main_test and simple_test
+"""
+
 import filecmp
 from shutil import copyfile
-
+# noinspection Mypy
 from huffpress.compress import compress
+# noinspection Mypy
 from huffpress.decompress import decompress
+# noinspection Mypy
 from huffpress.decorators import comp, decomp
+# noinspection Mypy
 from huffpress.generic import Mode
+# noinspection Mypy
 from huffpress.huffman.hfunctions import create_huff_tree, print_node
+# noinspection Mypy
 from tests.test_const import LONG_TEXT, PRINT_RES_1
 
 

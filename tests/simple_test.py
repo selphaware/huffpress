@@ -1,8 +1,18 @@
-import unittest
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
 
+    main_test.py
+
+    Testing mainly string compressions, term frequencies, and a decorator test
+"""
+
+import unittest
+# noinspection Mypy
 from tests.test_funcs import string_test, decorator_comp_test, \
     decorator_decomp_test, print_test
+# noinspection Mypy
 from tests.test_const import LONG_TEXT
+# noinspection Mypy
 from huffpress.huffman.hfunctions import calc_term_freq
 
 

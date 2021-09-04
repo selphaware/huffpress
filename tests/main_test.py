@@ -1,5 +1,13 @@
-import unittest
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
 
+    main_test.py
+
+    Testing mainly file compressions and some string compressions
+"""
+
+import unittest
+# noinspection Mypy
 from tests.test_funcs import string_test, compress_test
 from os import remove
 

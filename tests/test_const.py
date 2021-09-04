@@ -1,3 +1,11 @@
+"""
+    (c) 2021 Usman Ahmad https://github.com/selphaware
+
+    test_const.py
+
+    Test strings
+"""
+
 PRINT_RES_1 = "" \
 """\nTerm: 95,68,65,69,67,66, Freq: 46
 |
