@@ -267,7 +267,7 @@ def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
     return res
 
 
-def create_huff_tree(data: Union[str, bytes],
+def create_huff_tree(data: InputData,
                      verbose: bool = False) -> Tuple[HuffCode,
                                                      Optional[HuffNode]]:
     """
