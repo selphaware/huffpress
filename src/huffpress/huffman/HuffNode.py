@@ -35,7 +35,8 @@ class HuffNode(object):
 
         Constructs HuffNode with all necessary attributes
 
-        :param term: (str) ordinal character terms i.e. ascii values delimited by comma
+        :param term: (str) ordinal character terms i.e. ascii values
+                     delimited by comma
         :param freq: (int) total number of occurrences of this term
         :param left_child: (HuffNode) left child node / recursive left branch
         :param right_child: (HuffNode) right child node / recursive right branch
@@ -46,10 +47,10 @@ class HuffNode(object):
         self.right_child = right_child
 
     @property
-    def is_leaf(self):
+    def is_leaf(self) -> bool:
         """
         @property
-        def is_leaf(self):
+        def is_leaf(self) -> bool:
 
         Checks if current node is a leaf node
 

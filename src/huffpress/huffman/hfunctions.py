@@ -7,54 +7,75 @@
 """
 
 from collections import Counter
+# noinspection Mypy
 from tqdm import tqdm
-from typing import Union
+from typing import Union, Tuple, Dict, List, Optional
 from huffpress.huffman.HuffNode import HuffNode
 
 
-def calc_term_freq(data: str) -> dict:
+# Define data structure types
+InputData = Union[str, bytes]
+OrdChr = Union[str, int, None]
+TermFreq = Dict[OrdChr, int]
+HuffTerm = Tuple[int, Optional[HuffNode]]
+Leaves = Dict[OrdChr, HuffTerm]
+SortedTree = List[Tuple[OrdChr, HuffTerm]]
+HuffTuple = Tuple[OrdChr, int, Optional[HuffNode]]
+HuffCode = Dict[int, str]
+
+
+def calc_term_freq(data: InputData) -> TermFreq:
     """
     calc_term_freq(data: str) -> dict:
 
-    Returns dictionary of frequency occurrence counts for each character of a given string
+    Returns dictionary of frequency occurrence counts for each character
+    of a given string
 
     e.g. "ABBcCC" --> { "A": 1, "B": 2, "c": 1, "C": 2 }
 
     :param data: input string text
     :return: dictionary of character frequency occurrence counts
     """
-    dc = Counter(data)
-    return dict(dc)
+    dc: TermFreq = dict(Counter(data))
+    return dc
 
 
-def build_leaves(term_freq: dict, verbose: bool = False) -> dict:
+def build_leaves(term_freq: TermFreq,
+                 verbose: bool = False) -> Leaves:
     """
     build_leaves(term_freq: dict, verbose=False) -> dict:
 
-    Builds initial leaf HuffNode's from a given dictionary of character frequency occurrence counts
+    Builds initial leaf HuffNode's from a given dictionary of character
+    frequency occurrence counts
 
-    :param term_freq: dictionary of frequency occurrence counts of a given string computed by calc_term_freq function
+    :param term_freq: dictionary of frequency occurrence counts of a given
+    string computed by calc_term_freq function
     :param verbose: set to True for printing console outputs
-    :return: dictionary of leaf HuffNode's for a given character frequency count dictionary
+    :return: dictionary of leaf HuffNode's for a given character frequency
+    count dictionary
     """
     if verbose:
         print("Building leaves")
-    return {k: (v, HuffNode(k, v)) for k, v in tqdm(term_freq.items(), disable=not verbose)}
+    return {k: (v, HuffNode(k, v)) for k, v in tqdm(term_freq.items(),
+                                                    disable=not verbose)}
 
 
-def sort_tree(tree: dict, verbose: bool = False) -> list:
+def sort_tree(tree: dict, verbose: bool = False) -> SortedTree:
     """
     sort_tree(tree: dict) -> list:
 
-    Sorts a Huffman tree dictionary by total frequency ascending order returning a list
+    Sorts a Huffman tree dictionary by total frequency ascending order
+    returning a list
 
     e.g.
 
-    { "D": (4, HuffNode), "E": (3, HuffNode), "F": (7, HuffNode), "ABC": (2, HuffNode) }
+    { "D": (4, HuffNode), "E": (3, HuffNode),
+      "F": (7, HuffNode), "ABC": (2, HuffNode) }
 
     -->
 
-    [ ("ABC", (2, HuffNode)), ("E": (3, HuffNode)), ("D": (4, HuffNode)), ("F": (7, HuffNode)) ]
+    [ ("ABC", (2, HuffNode)), ("E", (3, HuffNode)),
+      ("D", (4, HuffNode)), ("F", (7, HuffNode)) ]
 
     :param tree: dictionary of HuffNode's { term : (total-frequency, HuffNode) }
     :param verbose: set to True for printing console outputs
@@ -66,33 +87,36 @@ def sort_tree(tree: dict, verbose: bool = False) -> list:
     return term_freq
 
 
-def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
+def build_tree(sorted_new_tree: SortedTree,
+               verbose: bool = False) -> Optional[HuffNode]:
     """
     build_tree(leaves: list, verbose=False) -> list:
 
-    Builds Huffman tree made out of HuffNode's, constructed from initial HuffNode leaves
+    Builds Huffman tree made out of HuffNode's, constructed from initial
+    HuffNode leaves
 
     :param sorted_new_tree: sorted [ term, (total-frequency, HuffNode) ]
     :param verbose: set to True for printing console outputs
-    :return: Built Huffman tree from initial asc sorted  list of leaves HuffNode's
-            computed by build_leaves function and sorted by sort_tree function
+    :return: Built Huffman tree from initial asc sorted  list of leaves
+             HuffNode's computed by build_leaves function and sorted by
+             sort_tree function
     """
     if verbose:
         print("Building Huffman tree")
 
     start_len = len(sorted_new_tree)
-    while_one = start_len == 1  # escape condition for single unique character inputs
+    while_one = start_len == 1  # escape condition for single unique char inputs
 
     # track progress of tree building
     with tqdm(total=start_len - 1, disable=not verbose) as tbar:
 
-        # traverse through all terms, combining and collapsing least frequent terms into one term (HuffNode).
-        # keep on looping through the tree until only one combined term is left. the combined term contains
-        # all terms.
+        # traverse through all terms, combining and collapsing least frequent
+        # terms into one term (HuffNode).keep on looping through the tree until
+        # only one combined term is left. the combined term contains all terms.
         while len(sorted_new_tree) > 1 or while_one:
 
             # build list of (term, total-frequency, HuffNode)
-            tree = [(x, y, z) for x, (y, z) in sorted_new_tree]
+            tree: List[HuffTuple] = [(x, y, z) for x, (y, z) in sorted_new_tree]
 
             # check if there is only a single unique character in the input data
             single_char_only = len(tree) <= 1
@@ -104,15 +128,20 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
             first_freq = first_obj[1]
 
             # second
-            second_obj = None if single_char_only else tree[1]
-            second_term = "" if single_char_only else f",{second_obj[0]}"
-            second_freq = 0 if single_char_only else second_obj[1]
+            second_obj: HuffTuple = (-1, -1, None) \
+                if single_char_only else tree[1]
+            second_term: str = "" if single_char_only else f",{second_obj[0]}"
+            second_freq: int = 0 if single_char_only else second_obj[1]
 
-            # create new term: combining least two frequent term HuffNode's collapsing into one HuffNode
+            # create new term: combining least two frequent
+            # term HuffNode's collapsing into one HuffNode
             new_term = f"{first_term}{second_term}"
-            new_freq = first_freq + second_freq  # sum total-frequencies
-            new_left = first_obj[2]  # get HuffNode of first tuple, set to left branch
-            new_right = None if single_char_only else second_obj[2]  # get HuffNode of second tuple, set to right branch
+            # sum total-frequencies
+            new_freq = first_freq + second_freq
+            # get HuffNode of first tuple, set to left branch
+            new_left = first_obj[2]
+            # get HuffNode of second tuple, set to right branch
+            new_right = None if single_char_only else second_obj[2]
 
             # create new HuffNode, expanding the tree
             node = HuffNode(
@@ -122,14 +151,16 @@ def build_tree(sorted_new_tree: list, verbose: bool = False) -> HuffNode:
                 right_child=new_right
             )
 
+            new_tree: List[HuffTuple]
             # if only single unique char then there is no other chars to process
             if single_char_only:
                 new_tree = [(new_term, new_freq, node)]
 
-            # otherwise: add new term to rest of tree (excluding the first two terms) to be processed.
-            # Here we are trimming the list of terms everytime, collapsing the least two frequent terms
-            # into one term then continuing to build the tree until only one combined term is left, which is
-            # defined in the while loop condition
+            # otherwise: add new term to rest of tree (excluding the first
+            # two terms) to be processed.Here we are trimming the list of terms
+            # everytime, collapsing the least two frequent terms into one term
+            # then continuing to build the tree until only one combined term is
+            # left, which is defined in the while loop condition
             else:
                 new_tree = tree[2:] + [(new_term, new_freq, node)]
 
@@ -150,11 +181,14 @@ def print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
     """
     print_node(node: HuffNode) -> None:
 
-    Recursive printing of the HuffNode tree showing all branches, leaves and their terms and total-frequencies
+    Recursive printing of the HuffNode tree showing all branches, leaves and
+    their terms and total-frequencies
 
     :param node: HuffNode tree i.e. Huffman tree
-    :param depth: How many whitespaces to print to represent depth level (starting at depth 0)
-    :param verbose: set to True to print to console, False to return string output
+    :param depth: How many whitespaces to print to represent depth level
+                 (starting at depth 0)
+    :param verbose: set to True to print to console, False to return string
+                    output
     :return: None (prints Huffman tree to console)
     """
     res = ""
@@ -179,19 +213,22 @@ def print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
         return res
 
 
-def encode(single_term: str, tree: HuffNode, path="") -> dict:
+def encode(single_term: int, tree: Optional[HuffNode], path="") -> HuffCode:
     """
     encode(single_term: str, tree: HuffNode, path="") -> dict:
 
-    Encode Huffman tree recursively adding 0's to left branches, and 1's to right branches.
+    Encode Huffman tree recursively adding 0's to left branches, and 1's to
+    right branches.
 
     Most frequent occurring terms will be encoded with a shorter sequence.
     Least frequent occurring terms will be encoded with a longer sequence
 
     :param single_term: single character term
     :param tree: HuffNode tree already built by create_huff_tree function
-    :param path: visited nodes collecting 0's (left side), 1's (right side) along the way
-    :return: dictionary containing a single term as the key, and its continually constructed binary sequence
+    :param path: visited nodes collecting 0's (left side), 1's (right side)
+                 along the way
+    :return: dictionary containing a single term as the key, and its continually
+             constructed binary sequence
     """
     if tree is None:
         return {}
@@ -202,32 +239,42 @@ def encode(single_term: str, tree: HuffNode, path="") -> dict:
             return encode(single_term, tree.left_child, path + "0")
         elif str(single_term) in str(tree.right_child.term).split(","):
             return encode(single_term, tree.right_child, path + "1")
+        else:
+            return {}
 
 
-def encode_all(leaves: dict, final_tree: HuffNode, verbose=False) -> dict:
+def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
+               verbose=False) -> HuffCode:
     """
     encode_all(leaves: dict, final_tree: HuffNode, verbose=False) -> dict:
 
-    Encode all unique character terms, constructing binary sequences from the Huffman tree
+    Encode all unique character terms, constructing binary sequences from the
+    Huffman tree
 
     :param leaves: initial list of leaves with unique character terms
-    :param final_tree: constructed Huffman tree computed by create_huff_tree function
-    :param verbose: set to True to print to console, False to return string output
+    :param final_tree: constructed Huffman tree computed by create_huff_tree
+                       function
+    :param verbose: set to True to print to console, False to return string
+                    output
     :return: dictionary of all terms as keys, and their encoded binary sequence
     """
     if verbose:
         print("Encoding tree")
 
-    terms = leaves.keys()
+    terms: List[OrdChr] = list(leaves.keys())
     res = {}
     for term in tqdm(terms, disable=not verbose):
-        res.update(encode(term, final_tree))
+        encoded_term = encode(term, final_tree)
+        res.update(encoded_term)
     return res
 
 
-def create_huff_tree(data: Union[str, bytes], verbose: bool = False) -> tuple:
+def create_huff_tree(data: Union[str, bytes],
+                     verbose: bool = False) -> Tuple[HuffCode,
+                                                     Optional[HuffNode]]:
     """
-    def create_huff_tree(data: Union[str, bytearray], verbose: bool = False) -> tuple:
+    def create_huff_tree(data: Union[str, bytearray],
+                         verbose: bool = False) -> Tuple[dict, HuffNode]:
 
     Method:
         leaves = build_leaves(calc_term_freq(data), verbose=verbose)
@@ -238,12 +285,16 @@ def create_huff_tree(data: Union[str, bytes], verbose: bool = False) -> tuple:
 
     Main function to create Huffman tree from an input data string
 
-    :param data: input data string or bytearray to be transformed to a Huffman tree
-    :param verbose: set to True to print to console, False to return string output
-    :return: tuple of final encoded sequences per term and constructed Huffman tree
+    :param data: input data string or bytearray to be transformed to a
+                 Huffman tree
+    :param verbose: set to True to print to console, False to return
+                    string output
+    :return: tuple of final encoded sequences per term and constructed
+             Huffman tree
     """
-    leaves = build_leaves(calc_term_freq(data), verbose=verbose)
-    sleaves = sort_tree(leaves)
+    term_freq: TermFreq = calc_term_freq(data)
+    leaves: Leaves = build_leaves(term_freq, verbose=verbose)
+    sleaves: SortedTree = sort_tree(leaves)
     huff_tree = build_tree(sleaves, verbose=verbose)
     encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
     return encod_seq, huff_tree
