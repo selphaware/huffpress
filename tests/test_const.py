@@ -1,35 +1,35 @@
 PRINT_RES_1 = "" \
-"""\nTerm: _,D,A,E,C,B, Freq: 46
+"""\nTerm: 95,68,65,69,67,66, Freq: 46
 |
 Left child:
-|--o--[1> Term: _,D, Freq: 20
+|--o--[1> Term: 95,68, Freq: 20
 |
 |--Left child:
-|--o--o--[2> Term: _, Freq: 10
+|--o--o--[2> Term: 95, Freq: 10
 |
 |--Right child:
-|--o--o--[2> Term: D, Freq: 10
+|--o--o--[2> Term: 68, Freq: 10
 |
 Right child:
-|--o--[1> Term: A,E,C,B, Freq: 26
+|--o--[1> Term: 65,69,67,66, Freq: 26
 |
 |--Left child:
-|--o--o--[2> Term: A, Freq: 11
+|--o--o--[2> Term: 65, Freq: 11
 |
 |--Right child:
-|--o--o--[2> Term: E,C,B, Freq: 15
+|--o--o--[2> Term: 69,67,66, Freq: 15
 |
 |----Left child:
-|--o--o--o--[3> Term: E, Freq: 7
+|--o--o--o--[3> Term: 69, Freq: 7
 |
 |----Right child:
-|--o--o--o--[3> Term: C,B, Freq: 8
+|--o--o--o--[3> Term: 67,66, Freq: 8
 |
 |------Left child:
-|--o--o--o--o--[4> Term: C, Freq: 2
+|--o--o--o--o--[4> Term: 67, Freq: 2
 |
 |------Right child:
-|--o--o--o--o--[4> Term: B, Freq: 6
+|--o--o--o--o--[4> Term: 66, Freq: 6
 """
 
 LONG_TEXT = "This will be compressed  and then decompressed by the huffman algorithm. "\

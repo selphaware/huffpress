@@ -9,19 +9,10 @@
 from collections import Counter
 # noinspection Mypy
 from tqdm import tqdm
-from typing import Union, Tuple, Dict, List, Optional
+from typing import Union, Tuple, List, Optional
 from huffpress.huffman.HuffNode import HuffNode
-
-
-# Define data structure types
-InputData = Union[str, bytes]
-OrdChr = Union[str, int, None]
-TermFreq = Dict[OrdChr, int]
-HuffTerm = Tuple[int, Optional[HuffNode]]
-Leaves = Dict[OrdChr, HuffTerm]
-SortedTree = List[Tuple[OrdChr, HuffTerm]]
-HuffTuple = Tuple[OrdChr, int, Optional[HuffNode]]
-HuffCode = Dict[int, str]
+from huffpress.huffman.htypes import InputData, TermFreq, Leaves, \
+    SortedTree, HuffTuple, HuffCode
 
 
 def calc_term_freq(data: InputData) -> TermFreq:
@@ -36,7 +27,11 @@ def calc_term_freq(data: InputData) -> TermFreq:
     :param data: input string text
     :return: dictionary of character frequency occurrence counts
     """
-    dc: TermFreq = dict(Counter(data))
+    count_dat = {
+        k if isinstance(k, int) else ord(str(k)): v
+        for k, v in dict(Counter(data)).items()
+    }
+    dc: TermFreq = count_dat
     return dc
 
 
@@ -56,8 +51,11 @@ def build_leaves(term_freq: TermFreq,
     """
     if verbose:
         print("Building leaves")
-    return {k: (v, HuffNode(k, v)) for k, v in tqdm(term_freq.items(),
-                                                    disable=not verbose)}
+    leaves: Leaves = {
+        k: (v, HuffNode(k, v)) for k, v in tqdm(term_freq.items(),
+                                                disable=not verbose)
+    }
+    return leaves
 
 
 def sort_tree(tree: dict, verbose: bool = False) -> SortedTree:
@@ -128,7 +126,7 @@ def build_tree(sorted_new_tree: SortedTree,
             first_freq = first_obj[1]
 
             # second
-            second_obj: HuffTuple = (-1, -1, None) \
+            second_obj: HuffTuple = ("", -1, None) \
                 if single_char_only else tree[1]
             second_term: str = "" if single_char_only else f",{second_obj[0]}"
             second_freq: int = 0 if single_char_only else second_obj[1]
@@ -261,7 +259,7 @@ def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
     if verbose:
         print("Encoding tree")
 
-    terms: List[OrdChr] = list(leaves.keys())
+    terms: List[str] = list(leaves.keys())
     res = {}
     for term in tqdm(terms, disable=not verbose):
         encoded_term = encode(term, final_tree)
@@ -295,6 +293,6 @@ def create_huff_tree(data: Union[str, bytes],
     term_freq: TermFreq = calc_term_freq(data)
     leaves: Leaves = build_leaves(term_freq, verbose=verbose)
     sleaves: SortedTree = sort_tree(leaves)
-    huff_tree = build_tree(sleaves, verbose=verbose)
-    encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
+    huff_tree: Optional[HuffNode] = build_tree(sleaves, verbose=verbose)
+    encod_seq: HuffCode = encode_all(leaves, huff_tree, verbose=verbose)
     return encod_seq, huff_tree
