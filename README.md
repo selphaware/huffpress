@@ -1,387 +1,67 @@
-# huffpress.huffman package
+<!-- src documentation master file, created by
+sphinx-quickstart on Sat Sep  4 23:52:27 2021.
+You can adapt this file completely to your liking, but it should at least
+contain the root `toctree` directive. -->
+# Welcome to src’s documentation!
 
-## Submodules
+# Contents:
 
-## huffpress.huffman.HuffNode module
 
+* huffpress package
 
-1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
 
-HuffNode.py
+    * Subpackages
 
-Huffman tree class
 
+        * huffpress.huffman package
 
-### class huffpress.huffman.HuffNode.HuffNode(term: str, freq: int, left_child=None, right_child=None)
-Bases: `object`
 
-A class representing a Huffman Binary tree (Huffman node)
+            * Submodules
 
-…
 
-term
+            * huffpress.huffman.HuffNode module
 
-    ordinal character terms i.e. ascii values delimited by comma
 
-freq
+            * huffpress.huffman.hfunctions module
 
-    total number of occurrences of this term
 
-left_child
+            * huffpress.huffman.htypes module
 
-    left child node / recursive left branch
 
-right_child
+            * Module contents
 
-    right child node / recursive right branch
 
-is_leaf():
+    * Submodules
 
-    Returns True if leaf node, otherwise False
 
+    * huffpress.compress module
 
-#### \__init__(term: str, freq: int, left_child=None, right_child=None)
-__init__(self, term: str, freq: int, left_child=None, right_child=None):
 
-Constructs HuffNode with all necessary attributes
+        * Process:
 
 
-* **Parameters**
+    * huffpress.decompress module
 
-    
-    * **term** – (str) ordinal character terms i.e. ascii values
-    delimited by comma
 
+    * huffpress.decorators module
 
-    * **freq** – (int) total number of occurrences of this term
 
+    * huffpress.generic module
 
-    * **left_child** – (HuffNode) left child node / recursive left branch
 
+    * Module contents
 
-    * **right_child** – (HuffNode) right child node / recursive right branch
 
+# Indices and tables
 
 
-#### property is_leaf(: bool)
-@property
-def is_leaf(self) -> bool:
+* Index
 
-Checks if current node is a leaf node
 
+* Module Index
 
-* **Returns**
 
-    True if leaf, False otherwise
-
-
-## huffpress.huffman.hfunctions module
-
-
-1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
-
-hfunctions.py
-
-Contains all Huffman building and deconstructing functions
-
-
-### huffpress.huffman.hfunctions.build_leaves(term_freq: Dict[int, int], verbose: bool = False)
-build_leaves(term_freq: TermFreq,
-
-    verbose: bool = False) -> Leaves:
-
-Builds initial leaf HuffNode’s from a given dictionary of character
-frequency occurrence counts
-
-
-* **Parameters**
-
-    **term_freq** – dictionary of frequency occurrence counts of a given
-
-
-string computed by calc_term_freq function
-:param verbose: set to True for printing console outputs
-:return: dictionary of leaf HuffNode’s for a given character frequency
-count dictionary
-
-
-### huffpress.huffman.hfunctions.build_tree(sorted_new_tree: List[Tuple[str, Tuple[int, Optional[huffpress.huffman.HuffNode.HuffNode]]]], verbose: bool = False)
-build_tree(sorted_new_tree: SortedTree,
-
-    verbose: bool = False) -> Optional[HuffNode]:
-
-Builds Huffman tree made out of HuffNode’s, constructed from initial
-HuffNode leaves
-
-
-* **Parameters**
-
-    
-    * **sorted_new_tree** – sorted [ term, (total-frequency, HuffNode) ]
-
-
-    * **verbose** – set to True for printing console outputs
-
-
-
-* **Returns**
-
-    Built Huffman tree from initial asc sorted  list of leaves
-    HuffNode’s computed by build_leaves function and sorted by
-    sort_tree function
-
-
-
-### huffpress.huffman.hfunctions.calc_term_freq(data: InputData)
-Returns dictionary of frequency occurrence counts for each character
-of a given string
-
-e.g. “ABBcCC” –> { “A”: 1, “B”: 2, “c”: 1, “C”: 2 }
-
-
-* **Parameters**
-
-    **data** – input string text
-
-
-
-* **Returns**
-
-    dictionary of character frequency occurrence counts
-
-
-
-### huffpress.huffman.hfunctions.create_huff_tree(data: Union[str, bytes], verbose: bool = False)
-create_huff_tree(data: InputData,
-
-    verbose: bool = False) -> Tuple[HuffCode,
-
-        Optional[HuffNode]]:
-
-Method:
-
-    leaves = build_leaves(calc_term_freq(data), verbose=verbose)
-    sleaves = sort_tree(leaves)
-    huff_tree = build_tree(sleaves, verbose=verbose)
-    encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
-    return encod_seq, huff_tree
-
-Main function to create Huffman tree from an input data string
-
-
-* **Parameters**
-
-    
-    * **data** – input data string or bytearray to be transformed to a
-    Huffman tree
-
-
-    * **verbose** – set to True to print to console, False to return
-    string output
-
-
-
-* **Returns**
-
-    tuple of final encoded sequences per term and constructed
-    Huffman tree
-
-
-
-### huffpress.huffman.hfunctions.encode(single_term: int, tree: Optional[HuffNode], path='')
-Encode Huffman tree recursively adding 0’s to left branches, and 1’s to
-right branches.
-
-Most frequent occurring terms will be encoded with a shorter sequence.
-Least frequent occurring terms will be encoded with a longer sequence
-
-
-* **Parameters**
-
-    
-    * **single_term** – single character term
-
-
-    * **tree** – HuffNode tree already built by create_huff_tree function
-
-
-    * **path** – visited nodes collecting 0’s (left side), 1’s (right side)
-    along the way
-
-
-
-* **Returns**
-
-    dictionary containing a single term as the key, and its continually
-    constructed binary sequence (Huffman map)
-
-
-
-### huffpress.huffman.hfunctions.encode_all(leaves: Dict[str, Tuple[int, Optional[huffpress.huffman.HuffNode.HuffNode]]], final_tree: Optional[huffpress.huffman.HuffNode.HuffNode], verbose=False)
-encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
-
-    verbose=False) -> HuffCode:
-
-Encode all unique character terms, constructing binary sequences from the
-Huffman tree
-
-
-* **Parameters**
-
-    
-    * **leaves** – initial list of leaves with unique character terms
-
-
-    * **final_tree** – constructed Huffman tree computed by create_huff_tree
-    function
-
-
-    * **verbose** – set to True to print to console, False to return string
-    output
-
-
-
-* **Returns**
-
-    dictionary of all terms as keys, and their encoded binary sequence
-
-
-
-### huffpress.huffman.hfunctions.print_node(node: HuffNode, depth: int = 0, verbose: bool = True)
-Recursive printing of the HuffNode tree showing all branches, leaves and
-their terms and total-frequencies
-
-
-* **Parameters**
-
-    
-    * **node** – HuffNode tree i.e. Huffman tree
-
-
-    * **depth** – How many whitespaces to print to represent depth level
-    (starting at depth 0)
-
-
-    * **verbose** – set to True to print to console, False to return string
-    output
-
-
-
-* **Returns**
-
-    None (prints Huffman tree to console)
-
-
-
-### huffpress.huffman.hfunctions.sort_tree(tree: dict, verbose: bool = False)
-Sorts a Huffman tree dictionary by total frequency ascending order
-returning a list
-
-e.g.
-
-{ “D”: (4, HuffNode), “E”: (3, HuffNode),
-
-    “F”: (7, HuffNode), “ABC”: (2, HuffNode) }
-
-–>
-
-[ (“ABC”, (2, HuffNode)), (“E”, (3, HuffNode)),
-
-    (“D”, (4, HuffNode)), (“F”, (7, HuffNode)) ]
-
-
-* **Parameters**
-
-    
-    * **tree** – dictionary of HuffNode’s { term : (total-frequency, HuffNode) }
-
-
-    * **verbose** – set to True for printing console outputs
-
-
-
-* **Returns**
-
-    sorted dictionary of HuffNode’s converted to a list
-
-
-## huffpress.huffman.htypes module
-
-
-1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
-
-htypes.py
-
-Contains all Huffman Data Structure Types:
-
-
----
-
-CompData = Union[str, bytearray]
-
-Data to be compressed will either be the filename (str) or compressed data
-(bytearray)
-
-
----
-
-InputData = Union[str, bytes]
-
-Input data to be compressed will either be a string or sequence of bytes
-string e.g. “Hello”
-bytes e.g. b”ABC” or [65, 66, 67]
-
-
----
-
-TermFreq = Dict[str, int]
-
-When calculating collections.Counter on a input string or bytes,
-we return a dictionary of key being the ordinal ASCII value, and
-the value being the frequency of occurrence in the input data.
-
-
----
-
-HuffTerm = Tuple[int, Optional[HuffNode]]
-
-For a single Huffman Node we have a tuple of total number of frequency
-occurrences, and we have the node (which can be null)
-
-
----
-
-Leaves = Dict[str, HuffTerm]
-
-Initial set of leaves set as a dictionary of keys as the term made up of
-comma delimited ordinal ASCII values, and the value as the HuffTerm.
-
-
----
-
-SortedTree = List[Tuple[str, HuffTerm]]
-
-Huffman tree structure, which is a list of tuples of the term made up of
-comma delimited ordinal ASCII values, and the HuffTerm. The list is sorted
-by the total number of frequency order in ascending order.
-
-
----
-
-HuffTuple = Tuple[str, int, Optional[HuffNode]]
-
-Similar structure to SortedTree where we have a tuple of string term,
-total frequency, and the HuffNode (which could be null)
-
-
----
-
-HuffCode = Dict[int, str]
-
-Final encoded Huffman encoded sequences with key as the ordinal ASCII value
-and the value as the binary sequence string
-
-## Module contents
+* Search Page
 # huffpress package
 
 ## Subpackages
@@ -942,67 +622,387 @@ Convert decimal to binary list
 
 
 ## Module contents
-<!-- src documentation master file, created by
-sphinx-quickstart on Sat Sep  4 23:52:27 2021.
-You can adapt this file completely to your liking, but it should at least
-contain the root `toctree` directive. -->
-# Welcome to src’s documentation!
+# huffpress.huffman package
 
-# Contents:
+## Submodules
+
+## huffpress.huffman.HuffNode module
 
 
-* huffpress package
+1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
+
+HuffNode.py
+
+Huffman tree class
 
 
-    * Subpackages
+### class huffpress.huffman.HuffNode.HuffNode(term: str, freq: int, left_child=None, right_child=None)
+Bases: `object`
+
+A class representing a Huffman Binary tree (Huffman node)
+
+…
+
+term
+
+    ordinal character terms i.e. ascii values delimited by comma
+
+freq
+
+    total number of occurrences of this term
+
+left_child
+
+    left child node / recursive left branch
+
+right_child
+
+    right child node / recursive right branch
+
+is_leaf():
+
+    Returns True if leaf node, otherwise False
 
 
-        * huffpress.huffman package
+#### \__init__(term: str, freq: int, left_child=None, right_child=None)
+__init__(self, term: str, freq: int, left_child=None, right_child=None):
+
+Constructs HuffNode with all necessary attributes
 
 
-            * Submodules
+* **Parameters**
+
+    
+    * **term** – (str) ordinal character terms i.e. ascii values
+    delimited by comma
 
 
-            * huffpress.huffman.HuffNode module
+    * **freq** – (int) total number of occurrences of this term
 
 
-            * huffpress.huffman.hfunctions module
+    * **left_child** – (HuffNode) left child node / recursive left branch
 
 
-            * huffpress.huffman.htypes module
+    * **right_child** – (HuffNode) right child node / recursive right branch
 
 
-            * Module contents
+
+#### property is_leaf(: bool)
+@property
+def is_leaf(self) -> bool:
+
+Checks if current node is a leaf node
 
 
-    * Submodules
+* **Returns**
+
+    True if leaf, False otherwise
 
 
-    * huffpress.compress module
+## huffpress.huffman.hfunctions module
 
 
-        * Process:
+1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
+
+hfunctions.py
+
+Contains all Huffman building and deconstructing functions
 
 
-    * huffpress.decompress module
+### huffpress.huffman.hfunctions.build_leaves(term_freq: Dict[int, int], verbose: bool = False)
+build_leaves(term_freq: TermFreq,
+
+    verbose: bool = False) -> Leaves:
+
+Builds initial leaf HuffNode’s from a given dictionary of character
+frequency occurrence counts
 
 
-    * huffpress.decorators module
+* **Parameters**
+
+    **term_freq** – dictionary of frequency occurrence counts of a given
 
 
-    * huffpress.generic module
+string computed by calc_term_freq function
+:param verbose: set to True for printing console outputs
+:return: dictionary of leaf HuffNode’s for a given character frequency
+count dictionary
 
 
-    * Module contents
+### huffpress.huffman.hfunctions.build_tree(sorted_new_tree: List[Tuple[str, Tuple[int, Optional[huffpress.huffman.HuffNode.HuffNode]]]], verbose: bool = False)
+build_tree(sorted_new_tree: SortedTree,
+
+    verbose: bool = False) -> Optional[HuffNode]:
+
+Builds Huffman tree made out of HuffNode’s, constructed from initial
+HuffNode leaves
 
 
-# Indices and tables
+* **Parameters**
+
+    
+    * **sorted_new_tree** – sorted [ term, (total-frequency, HuffNode) ]
 
 
-* Index
+    * **verbose** – set to True for printing console outputs
 
 
-* Module Index
+
+* **Returns**
+
+    Built Huffman tree from initial asc sorted  list of leaves
+    HuffNode’s computed by build_leaves function and sorted by
+    sort_tree function
 
 
-* Search Page
+
+### huffpress.huffman.hfunctions.calc_term_freq(data: InputData)
+Returns dictionary of frequency occurrence counts for each character
+of a given string
+
+e.g. “ABBcCC” –> { “A”: 1, “B”: 2, “c”: 1, “C”: 2 }
+
+
+* **Parameters**
+
+    **data** – input string text
+
+
+
+* **Returns**
+
+    dictionary of character frequency occurrence counts
+
+
+
+### huffpress.huffman.hfunctions.create_huff_tree(data: Union[str, bytes], verbose: bool = False)
+create_huff_tree(data: InputData,
+
+    verbose: bool = False) -> Tuple[HuffCode,
+
+        Optional[HuffNode]]:
+
+Method:
+
+    leaves = build_leaves(calc_term_freq(data), verbose=verbose)
+    sleaves = sort_tree(leaves)
+    huff_tree = build_tree(sleaves, verbose=verbose)
+    encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
+    return encod_seq, huff_tree
+
+Main function to create Huffman tree from an input data string
+
+
+* **Parameters**
+
+    
+    * **data** – input data string or bytearray to be transformed to a
+    Huffman tree
+
+
+    * **verbose** – set to True to print to console, False to return
+    string output
+
+
+
+* **Returns**
+
+    tuple of final encoded sequences per term and constructed
+    Huffman tree
+
+
+
+### huffpress.huffman.hfunctions.encode(single_term: int, tree: Optional[HuffNode], path='')
+Encode Huffman tree recursively adding 0’s to left branches, and 1’s to
+right branches.
+
+Most frequent occurring terms will be encoded with a shorter sequence.
+Least frequent occurring terms will be encoded with a longer sequence
+
+
+* **Parameters**
+
+    
+    * **single_term** – single character term
+
+
+    * **tree** – HuffNode tree already built by create_huff_tree function
+
+
+    * **path** – visited nodes collecting 0’s (left side), 1’s (right side)
+    along the way
+
+
+
+* **Returns**
+
+    dictionary containing a single term as the key, and its continually
+    constructed binary sequence (Huffman map)
+
+
+
+### huffpress.huffman.hfunctions.encode_all(leaves: Dict[str, Tuple[int, Optional[huffpress.huffman.HuffNode.HuffNode]]], final_tree: Optional[huffpress.huffman.HuffNode.HuffNode], verbose=False)
+encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
+
+    verbose=False) -> HuffCode:
+
+Encode all unique character terms, constructing binary sequences from the
+Huffman tree
+
+
+* **Parameters**
+
+    
+    * **leaves** – initial list of leaves with unique character terms
+
+
+    * **final_tree** – constructed Huffman tree computed by create_huff_tree
+    function
+
+
+    * **verbose** – set to True to print to console, False to return string
+    output
+
+
+
+* **Returns**
+
+    dictionary of all terms as keys, and their encoded binary sequence
+
+
+
+### huffpress.huffman.hfunctions.print_node(node: HuffNode, depth: int = 0, verbose: bool = True)
+Recursive printing of the HuffNode tree showing all branches, leaves and
+their terms and total-frequencies
+
+
+* **Parameters**
+
+    
+    * **node** – HuffNode tree i.e. Huffman tree
+
+
+    * **depth** – How many whitespaces to print to represent depth level
+    (starting at depth 0)
+
+
+    * **verbose** – set to True to print to console, False to return string
+    output
+
+
+
+* **Returns**
+
+    None (prints Huffman tree to console)
+
+
+
+### huffpress.huffman.hfunctions.sort_tree(tree: dict, verbose: bool = False)
+Sorts a Huffman tree dictionary by total frequency ascending order
+returning a list
+
+e.g.
+
+{ “D”: (4, HuffNode), “E”: (3, HuffNode),
+
+    “F”: (7, HuffNode), “ABC”: (2, HuffNode) }
+
+–>
+
+[ (“ABC”, (2, HuffNode)), (“E”, (3, HuffNode)),
+
+    (“D”, (4, HuffNode)), (“F”, (7, HuffNode)) ]
+
+
+* **Parameters**
+
+    
+    * **tree** – dictionary of HuffNode’s { term : (total-frequency, HuffNode) }
+
+
+    * **verbose** – set to True for printing console outputs
+
+
+
+* **Returns**
+
+    sorted dictionary of HuffNode’s converted to a list
+
+
+## huffpress.huffman.htypes module
+
+
+1. 2021 Usman Ahmad [https://github.com/selphaware](https://github.com/selphaware)
+
+htypes.py
+
+Contains all Huffman Data Structure Types:
+
+
+---
+
+CompData = Union[str, bytearray]
+
+Data to be compressed will either be the filename (str) or compressed data
+(bytearray)
+
+
+---
+
+InputData = Union[str, bytes]
+
+Input data to be compressed will either be a string or sequence of bytes
+string e.g. “Hello”
+bytes e.g. b”ABC” or [65, 66, 67]
+
+
+---
+
+TermFreq = Dict[str, int]
+
+When calculating collections.Counter on a input string or bytes,
+we return a dictionary of key being the ordinal ASCII value, and
+the value being the frequency of occurrence in the input data.
+
+
+---
+
+HuffTerm = Tuple[int, Optional[HuffNode]]
+
+For a single Huffman Node we have a tuple of total number of frequency
+occurrences, and we have the node (which can be null)
+
+
+---
+
+Leaves = Dict[str, HuffTerm]
+
+Initial set of leaves set as a dictionary of keys as the term made up of
+comma delimited ordinal ASCII values, and the value as the HuffTerm.
+
+
+---
+
+SortedTree = List[Tuple[str, HuffTerm]]
+
+Huffman tree structure, which is a list of tuples of the term made up of
+comma delimited ordinal ASCII values, and the HuffTerm. The list is sorted
+by the total number of frequency order in ascending order.
+
+
+---
+
+HuffTuple = Tuple[str, int, Optional[HuffNode]]
+
+Similar structure to SortedTree where we have a tuple of string term,
+total frequency, and the HuffNode (which could be null)
+
+
+---
+
+HuffCode = Dict[int, str]
+
+Final encoded Huffman encoded sequences with key as the ordinal ASCII value
+and the value as the binary sequence string
+
+## Module contents
