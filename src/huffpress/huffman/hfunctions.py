@@ -130,12 +130,12 @@ def build_tree(sorted_new_tree: SortedTree,
             # second
             second_obj: HuffTuple = ("", -1, None) \
                 if single_char_only else tree[1]
-            second_term: str = "" if single_char_only else f",{second_obj[0]}"
+            second_term: str = "" if single_char_only else f"{second_obj[0]}"
             second_freq: int = 0 if single_char_only else second_obj[1]
 
             # create new term: combining least two frequent
             # term HuffNode's collapsing into one HuffNode
-            new_term = f"{first_term}{second_term}"
+            new_term = f"{first_term},{second_term}"
             # sum total-frequencies
             new_freq = first_freq + second_freq
             # get HuffNode of first tuple, set to left branch
