@@ -1,7 +1,11 @@
-# Huffman compression and decompression functions and decorators (0.2.4)
+# Huffman compression and decompression functions and decorators (0.2.5)
+
+# Installation
+```commandline
+pip install huffpress
+```
 
 ## Compress function
-
 
 ```python
 from huffpress.compress import compress
@@ -112,9 +116,9 @@ print(f"Length of original text: {len(long_str)}\nLength of compressed text: {le
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is 6600-2488
+     Volume Serial Number is XXX
     
-     Directory of C:\Users\datas\PycharmProjects\main\TMP
+     Directory of C:\Users\xx
     
     08/09/2021  18:33           481,072 text_file.txt
                    1 File(s)        481,072 bytes
@@ -140,9 +144,9 @@ comp_file
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is 6600-2488
+     Volume Serial Number is XXX
     
-     Directory of C:\Users\datas\PycharmProjects\main\TMP
+     Directory of C:\Users\xx
     
     08/09/2021  18:33           481,072 text_file.txt
     08/09/2021  18:59           288,356 text_file.txt.hac
@@ -169,9 +173,9 @@ decomp_file
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is 6600-2488
+     Volume Serial Number is XXX
     
-     Directory of C:\Users\datas\PycharmProjects\main\TMP
+     Directory of C:\Users\xx
     
     08/09/2021  18:59           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
