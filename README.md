@@ -1,11 +1,7 @@
-# Huffman compression, decompression functions and decorators (0.2.7)
-
-# Installation
-```commandline
-pip install huffpress
-```
+# Huffman compression and decompression functions and decorators (0.2.8)
 
 ## Compress function
+
 
 ```python
 from huffpress.compress import compress
@@ -116,9 +112,9 @@ print(f"Length of original text: {len(long_str)}\nLength of compressed text: {le
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is XXX
+     Volume Serial Number is 6600-2488
     
-     Directory of C:\Users\xx
+     Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:33           481,072 text_file.txt
                    1 File(s)        481,072 bytes
@@ -144,9 +140,9 @@ comp_file
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is XXX
+     Volume Serial Number is 6600-2488
     
-     Directory of C:\Users\xx
+     Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:33           481,072 text_file.txt
     08/09/2021  18:59           288,356 text_file.txt.hac
@@ -173,9 +169,9 @@ decomp_file
 ```
 
      Volume in drive C has no label.
-     Volume Serial Number is XXX
+     Volume Serial Number is 6600-2488
     
-     Directory of C:\Users\xx
+     Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:59           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
@@ -365,7 +361,69 @@ process_string(in_var=dec_string)  #  must provide the input variable key name i
     This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.This will be Huffman encoded many times.
     
 
+## Data structure types
 
-```python
+    """
+        htypes.py
 
-```
+        Contains all Huffman Data Structure Types:
+
+        ----------------
+
+        CompData = Union[str, bytearray]
+
+        Data to be compressed will either be the filename (str) or compressed data
+        (bytearray)
+
+        ----------------
+
+        InputData = Union[str, bytes]
+
+        Input data to be compressed will either be a string or sequence of bytes
+        string e.g. "Hello"
+        bytes e.g. b"ABC" or [65, 66, 67]
+
+        ----------------
+
+        TermFreq = Dict[str, int]
+
+        When calculating collections.Counter on a input string or bytes,
+        we return a dictionary of key being the ordinal ASCII value, and
+        the value being the frequency of occurrence in the input data.
+
+        ----------------
+
+        HuffTerm = Tuple[int, Optional[HuffNode]]
+
+        For a single Huffman Node we have a tuple of total number of frequency
+        occurrences, and we have the node (which can be null)
+
+        ----------------
+
+        Leaves = Dict[str, HuffTerm]
+
+        Initial set of leaves set as a dictionary of keys as the term made up of
+        comma delimited ordinal ASCII values, and the value as the HuffTerm.
+
+        ----------------
+
+        SortedTree = List[Tuple[str, HuffTerm]]
+
+        Huffman tree structure, which is a list of tuples of the term made up of
+        comma delimited ordinal ASCII values, and the HuffTerm. The list is sorted
+        by the total number of frequency order in ascending order.
+
+        ----------------
+
+        HuffTuple = Tuple[str, int, Optional[HuffNode]]
+
+        Similar structure to SortedTree where we have a tuple of string term,
+        total frequency, and the HuffNode (which could be null)
+
+        ----------------
+
+        HuffCode = Dict[int, str]
+
+        Final encoded Huffman encoded sequences with key as the ordinal ASCII value
+        and the value as the binary sequence string
+    """
