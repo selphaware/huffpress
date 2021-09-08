@@ -67,7 +67,7 @@ def reverse_huff_sequence(huff: HuffCode, seq: str,
     huff_trn = {v: k for k, v in huff.items()}
     for sq in tqdm(seq, disable=not verbose):
         term += sq
-        val = huff_trn.get(term)
+        val = huff_trn.get(term)  # TODO: Huff-Squared here
         if val is not None:
             res.append(val)
             term = ""
