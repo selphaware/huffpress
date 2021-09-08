@@ -1,4 +1,4 @@
-# Huffman compression, decompression functions and decorators (0.2.5)
+# Huffman compression, decompression functions and decorators (0.2.7)
 
 # Installation
 ```commandline
