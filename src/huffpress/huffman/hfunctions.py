@@ -201,7 +201,8 @@ def build_tree(sorted_new_tree: SortedTree,
     return sorted_new_tree.data[0].huff_term.node  # returning tree HuffNode object
 
 
-def print_node(node: Optional[HuffNode], depth: int = 0, verbose: bool = True) -> str:
+def print_node(node: Optional[HuffNode], depth: int = 0,
+               verbose: bool = True) -> str:
     """
     print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
 
@@ -221,7 +222,8 @@ def print_node(node: Optional[HuffNode], depth: int = 0, verbose: bool = True) -
     else:
         res = ""
         spc = "-" * depth * 2
-        line_chr = ("--o" * depth) + (("--" + f"[{depth}> ") * (1 if depth else 0))
+        line_chr = ("--o" * depth) + (("--" + f"[{depth}> ") * (
+            1 if depth else 0))
         if depth == 0:
             dash_chr = ""
             res += "\n"
@@ -241,7 +243,26 @@ def print_node(node: Optional[HuffNode], depth: int = 0, verbose: bool = True) -
             return res
 
 
-def encode(single_term: int, tree: Optional[HuffNode], path="") -> HuffCode:
+@singledispatch
+def encode(data, tree: Optional[HuffNode],
+           path: str = "", verbose: bool = False):
+    """
+    encode function calling either:
+    encode(int, HuffNode, str); or
+    encode(Leaves, HuffNode, bool)
+    :param verbose: bool for verbose printing
+    :param path: str for 1, 0 paths visited
+    :param data: either int (term) or Leaves (initial set of term leaves)
+    :param tree: Huffman tree
+    """
+    raise NotImplementedError(f"Got params {type(data)}, "
+                              f"{type(tree)}, {type(path)}, {type(verbose)}")
+
+
+@encode.register(int)
+@encode.register(HuffNode)
+@encode.register(str)
+def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
     """
     encode(single_term: int, tree: Optional[HuffNode], path="") -> HuffCode:
 
@@ -271,8 +292,11 @@ def encode(single_term: int, tree: Optional[HuffNode], path="") -> HuffCode:
             return HuffCode(data={})
 
 
-def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
-               verbose=False) -> HuffCode:
+@encode.register(Leaves)
+@encode.register(HuffNode)
+@encode.register(bool)
+def _(leaves: Leaves, tree: Optional[HuffNode],
+      verbose=False) -> HuffCode:
     """
     encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
                verbose=False) -> HuffCode:
@@ -281,7 +305,7 @@ def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
     Huffman tree
 
     :param leaves: initial list of leaves with unique character terms
-    :param final_tree: constructed Huffman tree computed by create_huff_tree_encoding
+    :param tree: constructed Huffman tree computed by create_huff_tree_encoding
                        function
     :param verbose: set to True to print to console, False to return string
                     output
@@ -293,7 +317,7 @@ def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
     terms: List[str] = list(leaves.data.keys())
     res = HuffCode(data={})
     for term in tqdm(terms, disable=not verbose):
-        encoded_term = encode(term, final_tree)
+        encoded_term = encode(term, tree)
         res.data.update(encoded_term.data)
     return res
 
@@ -301,9 +325,12 @@ def encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
 @singledispatch
 def create_huff_tree(data, verbose: bool = False):
     """
+    creates Huffman tree, calling either:
+    create_huff_tree(InputData, bool); or
+    create_huff_tree(TermFreq, bool)
 
-    :param data:
-    :type verbose: object
+    :param data: InputData (str or bytes) or TermFreq term frequency counts
+    :param verbose: bool - verbose for printing
     """
     raise NotImplementedError(f"Got params {type(data)} and {type(verbose)}")
 
@@ -348,5 +375,5 @@ def _(data: TermFreq, verbose: bool = False):
     leaves: Leaves = build_leaves(data, verbose=verbose)
     sleaves: SortedTree = sort_tree(leaves)
     huff_tree: Optional[HuffNode] = build_tree(sleaves, verbose=verbose)
-    encod_seq: HuffCode = encode_all(leaves, huff_tree, verbose=verbose)
+    encod_seq: HuffCode = encode(leaves, tree=huff_tree, verbose=verbose)
     return encod_seq, huff_tree
