@@ -1,4 +1,4 @@
-# Huffman compression and decompression functions and decorators (0.2.10)
+# Huffman compression and decompression functions and decorators (0.2.11)
 
 ## Compress function
 
