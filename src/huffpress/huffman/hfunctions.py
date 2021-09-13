@@ -292,7 +292,7 @@ def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
             return HuffCode(data={})
 
 
-@encode.register(Leaves)
+@encode.register(Leaves)  # type: ignore
 @encode.register(HuffNode)
 @encode.register(bool)
 def _(leaves: Leaves, tree: Optional[HuffNode],
@@ -335,7 +335,7 @@ def create_huff_tree(data, verbose: bool = False):
     raise NotImplementedError(f"Got params {type(data)} and {type(verbose)}")
 
 
-@create_huff_tree.register(InputData)
+@create_huff_tree.register(InputData)  # type: ignore
 @create_huff_tree.register(bool)
 def _(data: InputData, verbose: bool = False):
     """
@@ -363,7 +363,7 @@ def _(data: InputData, verbose: bool = False):
     return create_huff_tree(term_freq, verbose=verbose)
 
 
-@create_huff_tree.register(TermFreq)
+@create_huff_tree.register(TermFreq)  # type: ignore
 @create_huff_tree.register(bool)
 def _(data: TermFreq, verbose: bool = False):
     """
