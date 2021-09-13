@@ -8,19 +8,12 @@
 
 import filecmp
 from shutil import copyfile
-# noinspection Mypy
-from huffpress.compress import compress
-# noinspection Mypy
-from huffpress.decompress import decompress
-# noinspection Mypy
-from huffpress.decorators import comp, decomp
-# noinspection Mypy
-from huffpress.generic import Mode
-# noinspection Mypy
-from huffpress.huffman.hfunctions import create_huff_tree, print_node
-# noinspection Mypy
-from huffpress.huffman.htypes import CompData, InputData
-# noinspection Mypy
+from huffpress.press.compress import compress  # type: ignore
+from huffpress.press.decompress import decompress  # type: ignore
+from huffpress.press.decorators import comp, decomp  # type: ignore
+from huffpress.auxi.modes import Mode  # type: ignore
+from huffpress.huff.hfunctions import create_huff_tree, print_node  # type: ignore
+from huffpress.huff.htypes import CompData, InputData  # type: ignore
 from tests.test_const import LONG_TEXT, PRINT_RES_1
 
 

@@ -13,9 +13,9 @@ from tests.test_funcs import string_test, decorator_comp_test, \
 # noinspection Mypy
 from tests.test_const import LONG_TEXT
 # noinspection Mypy
-from huffpress.huffman.hfunctions import calc_term_freq
+from huffpress.huff.hfunctions import calc_term_freq
 # noinspection Mypy
-from huffpress.huffman.htypes import InputData, TermFreq
+from huffpress.huff.htypes import InputData, TermFreq
 
 
 class TestHuffPressSimple(unittest.TestCase):

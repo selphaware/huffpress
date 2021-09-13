@@ -4,7 +4,7 @@
 
 
 ```python
-from huffpress.compress import compress
+from huffpress.press.compress import compress
 ```
 
     """
@@ -47,7 +47,7 @@ comp_str
 
 
 ```python
-from huffpress.decompress import decompress
+from huffpress.press.decompress import decompress
 ```
 
     """
@@ -245,7 +245,7 @@ decomp_file
 
 
 ```python
-from huffpress.decorators import comp
+from huffpress.press.decorators import comp
 ```
 
     """
@@ -313,7 +313,7 @@ decompress(dec_string)[-2000:]  # last 2000 chars of decompressed data
 
 
 ```python
-from huffpress.decorators import decomp
+from huffpress.press.decorators import decomp
 ```
 
     """

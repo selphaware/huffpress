@@ -25,10 +25,11 @@ import os
 # noinspection Mypy
 from tqdm import tqdm
 from typing import Tuple, List, Optional
-from huffpress.generic import bin_to_dec, dec_to_bin, Mode
-from huffpress.huffman.hfunctions import create_huff_tree
-from huffpress.huffman.htypes import InputData, HuffCode, CompData
-from huffpress.huffman.HuffNode import HuffNode
+from huffpress.auxi.basen import to_basen, to_dec
+from huffpress.auxi.modes import Mode
+from huffpress.huff.hfunctions import create_huff_tree
+from huffpress.huff.htypes import InputData, HuffCode, CompData
+from huffpress.huff.HuffNode import HuffNode
 
 
 def create_huff_sequence(huff: HuffCode, inp_data: InputData,
@@ -70,7 +71,7 @@ def create_final_sequence(huff_seq_rem: Tuple[int, str],
     """
     if verbose:
         print("Generating final sequence")
-    bin_rem = "".join(list(map(str, dec_to_bin(huff_seq_rem[0]))))
+    bin_rem = "".join(to_basen(huff_seq_rem[0]))
     bin_rem = bin_rem.rjust(8, "0")
     data = bin_rem + huff_seq_rem[1]
     return data
@@ -116,7 +117,7 @@ def compress_seq_bins(final_bins: List[str],
     """
     res = []
     for fbin in tqdm(final_bins, disable=not verbose):
-        val = bin_to_dec(list(map(int, list(fbin))))
+        val = to_dec(list(map(str, list(fbin))))
         res.append(val)
     return bytearray(res)
 
@@ -136,7 +137,7 @@ def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
     huff_bytes = [ord(x) for x in list(json.dumps(huff_map.data)
                                        .replace(chr(32), ""))]
     huff_array = bytearray(huff_bytes)
-    huff_len = list(map(lambda x: ord(str(x)), dec_to_bin(len(huff_array))))
+    huff_len = list(map(lambda x: ord(str(x)), to_basen(len(huff_array))))
     final_res = final_seq + huff_array + bytearray(huff_len)
     return final_res
 

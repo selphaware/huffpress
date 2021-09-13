@@ -12,8 +12,8 @@ from tqdm import tqdm
 # noinspection Mypy
 from functools import singledispatch
 from typing import List, Optional, ItemsView
-from huffpress.huffman.HuffNode import HuffNode
-from huffpress.huffman.htypes import InputData, TermFreq, Leaves, \
+from huffpress.huff.HuffNode import HuffNode
+from huffpress.huff.htypes import InputData, TermFreq, Leaves, \
     SortedTree, HuffTuple, HuffCode, HuffTerm, HuffSeq
 
 

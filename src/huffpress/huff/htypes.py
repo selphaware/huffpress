@@ -8,7 +8,7 @@
 
 from dataclasses import dataclass
 from typing import Union, Dict, List, Optional
-from huffpress.huffman.HuffNode import HuffNode
+from huffpress.huff.HuffNode import HuffNode
 
 
 @dataclass

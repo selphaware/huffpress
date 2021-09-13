@@ -11,8 +11,8 @@ import json
 # noinspection Mypy
 from tqdm import tqdm
 from typing import Tuple, Optional
-from huffpress.generic import dec_to_bin, bin_to_dec
-from huffpress.huffman.htypes import HuffCode, CompData
+from huffpress.auxi.basen import to_basen, to_dec
+from huffpress.huff.htypes import HuffCode, CompData
 
 
 def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
@@ -35,7 +35,7 @@ def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
     data = data[1:]
     fbin = ""
     for dec in tqdm(data, disable=not verbose):
-        dbin = dec_to_bin(dec)
+        dbin = to_basen(dec)
         vbin = "".join(list(map(str, dbin))).rjust(8, "0")
         fbin += vbin
     fbin = fbin[:-rem]
@@ -98,10 +98,11 @@ def extract_huff_map(inp_bytes: bytes,
             break
         huff_len_bytes.append(r)
     huff_len_bytes.reverse()
-    huff_len = bin_to_dec(list(map(lambda x: int(chr(x)), huff_len_bytes)))
+    huff_len = to_dec(list(map(lambda x: chr(x), huff_len_bytes)))
     len_of_len = len(huff_len_bytes)
     huff_dic_str = inp_bytes[-(huff_len + len_of_len): -len_of_len]
-    huff_map = {int(k): v for k, v in json.loads(bytearray(huff_dic_str)).items()}
+    huff_map = {int(k): v
+                for k, v in json.loads(bytearray(huff_dic_str)).items()}
     return HuffCode(data=huff_map), len_of_len + len(huff_dic_str)
 
 

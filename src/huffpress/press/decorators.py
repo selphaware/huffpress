@@ -21,8 +21,8 @@
         ...
 """
 
-from huffpress.compress import compress_string
-from huffpress.decompress import decompress_bytes
+from huffpress.press.compress import compress_string
+from huffpress.press.decompress import decompress_bytes
 
 
 def comp(fun):
