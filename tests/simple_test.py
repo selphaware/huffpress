@@ -14,6 +14,8 @@ from tests.test_funcs import string_test, decorator_comp_test, \
 from tests.test_const import LONG_TEXT
 # noinspection Mypy
 from huffpress.huffman.hfunctions import calc_term_freq
+# noinspection Mypy
+from huffpress.huffman.htypes import InputData, TermFreq
 
 
 class TestHuffPressSimple(unittest.TestCase):
@@ -51,18 +53,18 @@ class TestHuffPressSimple(unittest.TestCase):
         self.assertEqual(print_res, actual)
 
     def test_calc_termfreq(self):
-        ctf = calc_term_freq("Hello World Hi")
+        ctf = calc_term_freq(InputData(data="Hello World Hi"))
         self.assertEqual(
             ctf,
-            {32: 2, 72: 2, 87: 1, 100: 1, 101: 1,
-             105: 1, 108: 3, 111: 2, 114: 1}
+            TermFreq(tf={32: 2, 72: 2, 87: 1, 100: 1, 101: 1,
+                         105: 1, 108: 3, 111: 2, 114: 1})
         )
 
     def test_calc_termfreq_bytes(self):
         inp_dat = b"ABCCDDDD"
         self.assertEqual([x for x in inp_dat], [65, 66, 67, 67, 68, 68, 68, 68])
-        ctf = calc_term_freq(inp_dat)
+        ctf = calc_term_freq(InputData(data=inp_dat))
         self.assertEqual(
             ctf,
-            {65: 1, 66: 1, 67: 2, 68: 4}
+            TermFreq(tf={65: 1, 66: 1, 67: 2, 68: 4})
         )

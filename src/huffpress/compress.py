@@ -41,14 +41,14 @@ def create_huff_sequence(huff: HuffCode, inp_data: InputData,
     and input data string text.
 
     :param huff: Huffman tree dictionary (encoded sequences per term)
-                computed by hfunctions.create_huff_tree
+                computed by hfunctions.create_huff_tree_encoding
     :param inp_data: input data string text to be encoded
     :param verbose: set to True for printing console outputs
     :return: (number of 0 paddings required, new encoded sequence)
     """
     new_str = ""
-    for i in tqdm(inp_data, disable=not verbose):
-        new_str += huff[i]
+    for i in tqdm(inp_data.data, disable=not verbose):
+        new_str += huff.data[i]
     rem = 8 - (len(new_str) % 8)
     new_str += "0" * rem
     return rem, new_str
@@ -133,7 +133,7 @@ def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
     :param huff_map: Huffman map containing terms and their encoding
     :return: concatenated final_seq + huff_map in a bytearray sequence
     """
-    huff_bytes = [ord(x) for x in list(json.dumps(huff_map)
+    huff_bytes = [ord(x) for x in list(json.dumps(huff_map.data)
                                        .replace(chr(32), ""))]
     huff_array = bytearray(huff_bytes)
     huff_len = list(map(lambda x: ord(str(x)), dec_to_bin(len(huff_array))))
@@ -155,8 +155,10 @@ def compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray:
     """
     encod_seq: HuffCode
     huff_tree: Optional[HuffNode]
-    encod_seq, huff_tree = create_huff_tree(inp_bytes, verbose=verbose)
-    huff_seq: Tuple[int, str] = create_huff_sequence(encod_seq, inp_bytes,
+    input_data = InputData(data=inp_bytes)
+    encod_seq, huff_tree = create_huff_tree(input_data,
+                                            verbose=verbose)
+    huff_seq: Tuple[int, str] = create_huff_sequence(encod_seq, input_data,
                                                      verbose=verbose)
     final_seq: str = create_final_sequence(huff_seq, verbose=verbose)
     seq_bins: List[str] = create_seq_bins(final_seq, verbose=verbose)
@@ -222,6 +224,6 @@ def compress(inp: str, verbose: bool = False,
              return bytearray compressed data
     """
     if (mode is not Mode.RAW) and os.path.exists(inp):
-        return compress_file(inp, verbose=verbose)
+        return CompData(data=compress_file(inp, verbose=verbose))
     else:
-        return compress_string(inp, verbose=verbose)
+        return CompData(data=compress_string(inp, verbose=verbose))

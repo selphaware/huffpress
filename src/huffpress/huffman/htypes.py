@@ -65,14 +65,55 @@
     and the value as the binary sequence string
 """
 
-from typing import Union, Dict, Tuple, List, Optional
+from dataclasses import dataclass
+from typing import Union, Dict, List, Optional
 from huffpress.huffman.HuffNode import HuffNode
 
-InputData = Union[str, bytes]
-CompData = Union[str, bytearray]
-TermFreq = Dict[int, int]
-HuffTerm = Tuple[int, Optional[HuffNode]]
-Leaves = Dict[str, HuffTerm]
-SortedTree = List[Tuple[str, HuffTerm]]
-HuffTuple = Tuple[str, int, Optional[HuffNode]]
-HuffCode = Dict[int, str]
+
+@dataclass
+class InputData:
+    data: Union[str, bytes]
+
+
+@dataclass
+class CompData:
+    data: Union[str, bytearray]
+
+
+@dataclass
+class TermFreq:
+    tf: Dict[int, int]
+
+
+@dataclass
+class HuffTerm:
+    freq: int
+    node: Optional[HuffNode]
+
+
+@dataclass
+class Leaves:
+    data: Dict[str, HuffTerm]
+
+
+@dataclass
+class HuffSeq:
+    seq_term: str
+    huff_term: HuffTerm
+
+
+@dataclass
+class SortedTree:
+    data: List[HuffSeq]
+
+
+@dataclass
+class HuffTuple:
+    seq_term: str = ""
+    total_freq: int = -1
+    node: Optional[HuffNode] = None
+
+
+@dataclass
+class HuffCode:
+    data: Dict[int, str]

@@ -42,7 +42,7 @@ def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
     return fbin
 
 
-def reverse_huff_sequence(huff: HuffCode, seq: str,
+def reverse_huff_sequence(huff_map: HuffCode, seq: str,
                           verbose: bool = False) -> bytearray:
     """
     reverse_huff_sequence(huff: HuffCode, seq: str,
@@ -54,7 +54,7 @@ def reverse_huff_sequence(huff: HuffCode, seq: str,
     given (huff) Huffman map. Since all encodings are unique at any length,
     we can replace in this forward travelling manner.
 
-    :param huff: Huffman map containing the binary encodings to original
+    :param huff_map: Huffman map containing the binary encodings to original
                  character
     :param seq: input binary string of Huffman encoded sequence
     :param verbose: set to True for printing console outputs
@@ -64,7 +64,7 @@ def reverse_huff_sequence(huff: HuffCode, seq: str,
         print("Reversing Huffman sequence")
     term = ""
     res = []
-    huff_trn = {v: k for k, v in huff.items()}
+    huff_trn = {v: k for k, v in huff_map.data.items()}
     for sq in tqdm(seq, disable=not verbose):
         term += sq
         val = huff_trn.get(term)  # TODO: Huff-Squared here
@@ -102,7 +102,7 @@ def extract_huff_map(inp_bytes: bytes,
     len_of_len = len(huff_len_bytes)
     huff_dic_str = inp_bytes[-(huff_len + len_of_len): -len_of_len]
     huff_map = {int(k): v for k, v in json.loads(bytearray(huff_dic_str)).items()}
-    return huff_map, len_of_len + len(huff_dic_str)
+    return HuffCode(data=huff_map), len_of_len + len(huff_dic_str)
 
 
 def decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray:
@@ -162,7 +162,9 @@ def decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
     :return: either decompressed bytearray data or name of decompressed output
             file
     """
-    if isinstance(inp, bytearray):
-        return decompress_bytes(inp, verbose=verbose)
+    if isinstance(inp.data, bytearray):
+        return decompress_bytes(inp.data, verbose=verbose)
+    elif isinstance(inp.data, str):
+        return decompress_file(inp.data, outfile=outfile, verbose=verbose)
     else:
-        return decompress_file(inp, outfile=outfile, verbose=verbose)
+        raise TypeError(f"inp.data is of type {type(inp.data)}")
