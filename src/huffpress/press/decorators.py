@@ -29,8 +29,8 @@ def comp(fun):
     """
     Compression decorator, which compresses final string result
 
-    :param fun: Function to be decorated
-    :return: decorator function
+    :param fun: Function where string output will be compressed
+    :return: compressed string
     """
     def decorator(*args, **kwargs) -> bytearray:
         """
@@ -52,7 +52,8 @@ def decomp(*bytearray_vars):
     objects before proceeding with the rest of the function
 
     :param bytearray_vars: Bytearray variables to decompress first
-    :return: decorator function
+    :return: function is run as normal with the input bytearray_vars
+            variables being decompressed first
     """
     def inner(fun):
         """
