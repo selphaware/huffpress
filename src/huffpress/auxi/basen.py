@@ -43,9 +43,7 @@ def nmod(x: int, y: int) -> str:
     """
     limit = 36
     if y > limit:
-        raise ValueError("limit cannot exceed base 36.")
-    if y < 11:
-        return str(x % y)
+        raise ValueError("modulo y cannot exceed base 36.")
     else:
         return BaseRange.dec[x % y]
 
