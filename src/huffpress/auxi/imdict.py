@@ -37,10 +37,3 @@ class ImDict(collections.Mapping):
                 hash_ ^= hash(pair)
             self._hash = hash_
         return self._hash
-
-
-h = ImDict(a=1, b=2)
-print(h.__dict__['_d'])
-p = {1:9, "k": 8}
-j = ImDict(p)
-print(j.__dict__['_d'])
