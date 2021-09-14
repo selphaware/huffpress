@@ -22,8 +22,7 @@
 
 import json
 import os
-# noinspection Mypy
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 from typing import Tuple, List, Optional
 from huffpress.auxi.basen import to_basen, to_dec
 from huffpress.auxi.modes import Mode

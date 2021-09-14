@@ -8,8 +8,7 @@
     characters to the original characters.
 """
 import json
-# noinspection Mypy
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 from typing import Tuple, Optional
 from huffpress.auxi.basen import to_basen, to_dec
 from huffpress.huff.htypes import HuffCode, CompData
