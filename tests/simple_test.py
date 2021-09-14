@@ -70,7 +70,32 @@ class TestHuffPressSimple(unittest.TestCase):
             TermFreq(tf={65: 1, 66: 1, 67: 2, 68: 4})
         )
 
-    def test_basen(self):
+    def test_basen1(self):
         val = basen(["5", "3", "6", "4", "1", "3", "5", "4", "3", "5", "4"],
                     7, 25)
         self.assertEqual(val, ["6", "A", "N", "1", "2", "H", "2"])
+
+    def test_basen2(self):
+        val = basen("UT67A001I",
+                    33, 3)
+        self.assertEqual(val, list("12200210110111102011011111220"))
+
+    def test_basen3(self):
+        val = basen("654",
+                    10, 2)
+        self.assertEqual(val, list("1010001110"))
+
+    def test_basen4(self):
+        val = basen("1101011011",
+                    2, 10)
+        self.assertEqual(val, list("859"))
+
+    def test_basen5(self):
+        val = basen("46894",
+                    10, 16)
+        self.assertEqual(val, list("B72E"))
+
+    def test_basen6(self):
+        val = basen("A872436BCD98F8D0",
+                    16, 10)
+        self.assertEqual(val, list("12137838076006824144"))

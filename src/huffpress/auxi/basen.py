@@ -9,6 +9,7 @@
 
 from typing import List
 from huffpress.auxi.imdict import ImDict
+from functools import singledispatch
 
 
 class BaseRange:
@@ -83,7 +84,26 @@ def to_dec(in_bin: List[str], base: int = 2) -> int:
     return res
 
 
-def basen(in_num: List[str], fbase: int = 10, tbase: int = 2) -> List[str]:
+@singledispatch
+def basen(in_num, fbase: int = 10, tbase: int = 2):
+    """
+    converts number in_num from base fbase to base tbase
+    see overloads below
+
+    :param in_num: number to convert: either str or List[str]
+    :param fbase: from base
+    :param tbase: to base
+    :return: List[str] value conversion
+    """
+    if not(isinstance(in_num, list) or isinstance(in_num, str)):
+        raise TypeError("in_num must be either List[str] or str"
+                        f"Types: {type(in_num)}, {type(fbase)}, {type(tbase)}")
+
+
+@basen.register(list)
+@basen.register(int)
+@basen.register(int)
+def _(in_num: List[str], fbase: int = 10, tbase: int = 2) -> List[str]:
     """
     Convert number in_num from Base of fbase to Base of tbase.
 
@@ -99,3 +119,18 @@ def basen(in_num: List[str], fbase: int = 10, tbase: int = 2) -> List[str]:
         dec_n = to_dec(in_num, fbase)
         val = to_basen(dec_n, tbase)
     return val
+
+
+@basen.register(str)  # type: ignore
+@basen.register(int)
+@basen.register(int)
+def _(in_num: str, fbase: int = 10, tbase: int = 2) -> List[str]:
+    """
+    Convert number in_num from Base of fbase to Base of tbase.
+
+    :param in_num: list of numbers e.g. ["16", "F"] is a hex number 16F
+    :param fbase: from base conversion
+    :param tbase: to base conversion
+    :return: resulting List[str] value converting in_num from fbase to tbase
+    """
+    return basen(list(in_num), fbase, tbase)
