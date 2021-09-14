@@ -285,11 +285,12 @@ def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
         return HuffCode(data={single_term: path})
     else:
         if str(single_term) in str(tree.left_child.term).split(","):
-            return encode(single_term, tree.left_child, path + "0")
+            ret_encode = encode(single_term, tree.left_child, path + "0")
         elif str(single_term) in str(tree.right_child.term).split(","):
-            return encode(single_term, tree.right_child, path + "1")
+            ret_encode = encode(single_term, tree.right_child, path + "1")
         else:
-            return HuffCode(data={})
+            ret_encode = HuffCode(data={})
+        return ret_encode
 
 
 @encode.register(Leaves)  # type: ignore
