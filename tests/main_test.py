@@ -7,8 +7,7 @@
 """
 
 import unittest
-# noinspection Mypy
-from tests.test_funcs import string_test, compress_test
+from tests.test_funcs import string_test, compress_test  # type: ignore
 from os import remove
 
 
