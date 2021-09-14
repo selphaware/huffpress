@@ -10,7 +10,7 @@
 import json
 from tqdm import tqdm  # type: ignore
 from typing import Tuple, Optional
-from huffpress.auxi.basen import to_basen, to_dec
+from huffpress.auxi.basen import to_basen, to_dec, basen
 from huffpress.huff.htypes import HuffCode, CompData
 
 
@@ -102,6 +102,12 @@ def extract_huff_map(inp_bytes: bytes,
     huff_dic_str = inp_bytes[-(huff_len + len_of_len): -len_of_len]
     huff_map = {int(k): v
                 for k, v in json.loads(bytearray(huff_dic_str)).items()}
+
+    # convert huff_map values from radix-36 to binary (base-2)
+    # and remove leading "1", which was added to handle encoded
+    # sequences starting with 0. e.g. 4 --> 100 --> 00
+    huff_map = {k: basen(v, 36, 2, True)[1:] for k, v in huff_map.items()}
+
     return HuffCode(data=huff_map), len_of_len + len(huff_dic_str)
 
 

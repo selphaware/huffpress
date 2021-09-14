@@ -24,7 +24,7 @@ import json
 import os
 from tqdm import tqdm  # type: ignore
 from typing import Tuple, List, Optional
-from huffpress.auxi.basen import to_basen, to_dec
+from huffpress.auxi.basen import to_basen, to_dec, basen
 from huffpress.auxi.modes import Mode
 from huffpress.huff.hfunctions import create_huff_tree
 from huffpress.huff.htypes import InputData, HuffCode, CompData
@@ -133,6 +133,13 @@ def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
     :param huff_map: Huffman map containing terms and their encoding
     :return: concatenated final_seq + huff_map in a bytearray sequence
     """
+    # convert huff_map binaries (base 2) to base 36
+    # adding 1 at the start to handle cases where encoded sequences
+    # start with 0. e.g. 00 --> 100 --> 4 (radix-36)
+    huff_map.data = {k: basen("1" + v, 2, 36, True)
+                     for k, v in huff_map.data.items()}
+
+    # add radix-36 huff map to final sequence
     huff_bytes = [ord(x) for x in list(json.dumps(huff_map.data)
                                        .replace(chr(32), ""))]
     huff_array = bytearray(huff_bytes)
