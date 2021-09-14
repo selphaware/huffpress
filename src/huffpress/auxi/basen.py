@@ -81,3 +81,21 @@ def to_dec(in_bin: List[str], base: int = 2) -> int:
     for i, x in enumerate(in_bin):
         res += BaseRange.rev[x] * (base ** i)
     return res
+
+
+def basen(in_num: List[str], fbase: int = 10, tbase: int = 2) -> List[str]:
+    """
+    Convert number in_num from Base of fbase to Base of tbase.
+
+    :param in_num: list of numbers e.g. ["16", "F"] is a hex number 16F
+    :param fbase: from base conversion
+    :param tbase: to base conversion
+    :return: resulting List[str] value converting in_num from fbase to tbase
+    """
+    val: List[str]
+    if fbase == 10:
+        val = to_basen(int("".join(in_num)), tbase)
+    else:
+        dec_n = to_dec(in_num, fbase)
+        val = to_basen(dec_n, tbase)
+    return val

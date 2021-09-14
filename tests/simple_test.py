@@ -16,6 +16,7 @@ from tests.test_const import LONG_TEXT
 from huffpress.huff.hfunctions import calc_term_freq
 # noinspection Mypy
 from huffpress.huff.htypes import InputData, TermFreq
+from huffpress.auxi.basen import basen  # type: ignore
 
 
 class TestHuffPressSimple(unittest.TestCase):
@@ -68,3 +69,8 @@ class TestHuffPressSimple(unittest.TestCase):
             ctf,
             TermFreq(tf={65: 1, 66: 1, 67: 2, 68: 4})
         )
+
+    def test_basen(self):
+        val = basen(["5", "3", "6", "4", "1", "3", "5", "4", "3", "5", "4"],
+                    7, 25)
+        self.assertEqual(val, ["6", "A", "N", "1", "2", "H", "2"])
