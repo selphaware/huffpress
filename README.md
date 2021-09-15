@@ -1,5 +1,4 @@
-TEST
-# Huffman compression and decompression functions and decorators (1.0.2)
+# Huffman compression, decompression functions and decorators (1.0.4)
 
 ## Compress functions
 
@@ -340,10 +339,10 @@ print(f"Length of original text: {len(long_str)}\nLength of compressed text: {le
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    14/09/2021  18:08           481,072 outfile.txt
+    15/09/2021  12:03           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
                    2 File(s)        962,144 bytes
-                   0 Dir(s)  478,878,687,232 bytes free
+                   0 Dir(s)  479,989,571,584 bytes free
     
 
 
@@ -370,9 +369,9 @@ comp_file
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:33           481,072 text_file.txt
-    14/09/2021  18:24           287,084 text_file.txt.hac
+    15/09/2021  12:04           287,084 text_file.txt.hac
                    2 File(s)        768,156 bytes
-                   0 Dir(s)  478,878,621,696 bytes free
+                   0 Dir(s)  479,989,575,680 bytes free
     
 
 
@@ -399,11 +398,11 @@ decomp_file
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    14/09/2021  18:24           481,072 outfile.txt
+    15/09/2021  12:04           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
-    14/09/2021  18:24           287,084 text_file.txt.hac
+    15/09/2021  12:04           287,084 text_file.txt.hac
                    3 File(s)      1,249,228 bytes
-                   0 Dir(s)  478,878,556,160 bytes free
+                   0 Dir(s)  479,989,092,352 bytes free
     
 
 
@@ -1185,7 +1184,7 @@ help(huffpress.auxi.basen)
         class BaseRange(builtins.object)
          |  BaseRange class holding the following static consts:
          |  
-         |  -- dec: dict --
+         |  -- dec: immutable dict --
          |  decimal to base range i.e. {10: A, 11:B, ..., 35: Z} and rest of the
          |  decimal to base range {1: 1, 2:2, ..., 9:9, 10:A, ..., 35: Z}
          |  
@@ -1202,7 +1201,7 @@ help(huffpress.auxi.basen)
          |  ----------------------------------------------------------------------
          |  Data and other attributes defined here:
          |  
-         |  __annotations__ = {'dec': <class 'huffpress.auxi.idict.IDict'>, 'rev...
+         |  __annotations__ = {'dec': <class 'huffpress.auxi.idict.IDict'>, 'rev':...
          |  
          |  dec = <huffpress.auxi.idict.IDict object>
          |  
@@ -1492,12 +1491,13 @@ help(huffpress.auxi.idict)
             IDict
         
         class IDict(collections.abc.Mapping)
-         |  IDict(*args, **kwargs)
+         |  IDict(immutable: bool = True, *args, **kwargs)
          |  
          |  IDict
          |  
-         |  Immutable dictionary class, can be used as a normal dictionary but
-         |  is immutable.
+         |  Dynamic Immutable/Mutable dictionary class,
+         |  can be used as a normal dictionary but can be __immutable or mutable
+         |  set in the constructor.
          |  
          |  Method resolution order:
          |      IDict
@@ -1511,16 +1511,48 @@ help(huffpress.auxi.idict)
          |  Methods defined here:
          |  
          |  __getitem__(self, key)
+         |      gets item from index key
+         |      
+         |      :param key: index key
+         |      :return: value from dictionary as per key
          |  
          |  __hash__(self)
-         |      Return hash(self).
+         |      updates and returns hash value of all items in the dictionary
+         |      
+         |      :return:
          |  
-         |  __init__(self, *args, **kwargs)
-         |      Initialize self.  See help(type(self)) for accurate signature.
+         |  __init__(self, immutable: bool = True, *args, **kwargs)
+         |      sets the input dictionary passed through and makes it __immutable or
+         |      mutable based on the input param '__immutable' (True/False)
+         |      
+         |      :param immutable: set to True to make this dict __immutable, ow. is mutable
+         |      :param args: input args
+         |      :param kwargs: input dict args
          |  
          |  __iter__(self)
+         |      returns iterable object of dictionary
+         |      
+         |      :return:
          |  
          |  __len__(self)
+         |      returns length of dictionary
+         |      
+         |      :return:
+         |  
+         |  __setitem__(self, key, value)
+         |      sets items in dictionary if dictionary is mutable
+         |      checks self.__immutable (bool)
+         |      
+         |      :param key: key index to set
+         |      :param value: value to set
+         |      :return:
+         |  
+         |  ----------------------------------------------------------------------
+         |  Readonly properties defined here:
+         |  
+         |  is_immutable
+         |      returns True if this dict obj is immutable, otherwise false
+         |      :return: looks at self.__immutable, set in the constructor
          |  
          |  ----------------------------------------------------------------------
          |  Data descriptors defined here:
@@ -1580,3 +1612,401 @@ help(huffpress.auxi.idict)
     
     
     
+
+
+```python
+from huffpress.auxi.idict import IDict
+```
+
+
+```python
+# Immutable normal dictionary (same as dict but immutable)
+idict = IDict(True, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+idict.__immutable = False  # this will not be possible
+print(f"\nDict is immutable: {idict.is_immutable}")
+correct_error = False
+try:
+    idict["yes"] = 1
+except TypeError as err:
+    print(f"\nCorrect error: {err}")
+    correct_error = True
+print("\nCorrect error: ", correct_error)
+print("Dictionaries contain same unchanged items as before: ",
+      idict == {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+```
+
+    
+    Dict is immutable: True
+    
+    Correct error: object is __immutable (set to False), cannot set assignment in this object.
+    
+    Correct error:  True
+    Dictionaries contain same unchanged items as before:  True
+    
+
+
+```python
+# Mutable normal dictionary (same as normal Python dict)
+idict = IDict(False, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+idict.__immutable = True  # this will not be possible
+print(f"\nDict is immutable: {idict.is_immutable}")
+idict["yes"] = 1
+idict[3] = ["9.99", 8]
+idict["a-b"] = "goodbye"
+print("Dictionaries contain added and changed items: ", 
+      idict == {1:2, "a": 3, "a-b": "goodbye", 2: 1.89, "yes": 1, 3: ["9.99", 8]})
+```
+
+    
+    Dict is immutable: False
+    Dictionaries contain added and changed items:  True
+    
+
+# Further examples and documentation
+
+## Going through the Huffman encoding compression step-by-step
+
+
+```python
+from huffpress.press.compress import *
+from huffpress.press.decompress import *
+```
+
+
+```python
+from huffpress.huff.hfunctions import *
+from huffpress.huff.htypes import *
+from huffpress.huff.HuffNode import *
+```
+
+
+```python
+text = "ABCA"
+```
+
+
+```python
+encod_seq: HuffCode
+huff_tree: Optional[HuffNode]
+```
+
+
+```python
+input_data = InputData(data=str.encode(text))
+input_data
+```
+
+
+
+
+    InputData(data=b'ABCA')
+
+
+
+
+```python
+help(calc_term_freq)
+```
+
+    Help on function calc_term_freq in module huffpress.huff.hfunctions:
+    
+    calc_term_freq(data: huffpress.huff.htypes.InputData) -> huffpress.huff.htypes.TermFreq
+        calc_term_freq(data: InputData) -> TermFreq:
+        
+        Returns dictionary of frequency occurrence counts for each character
+        of a given string
+        
+        e.g. "ABBcCC" --> { "A": 1, "B": 2, "c": 1, "C": 2 }
+        
+        :param data: input string text
+        :return: dictionary of character frequency occurrence counts
+    
+    
+
+
+```python
+term_freq: TermFreq = calc_term_freq(input_data)
+term_freq
+```
+
+
+
+
+    TermFreq(tf={65: 2, 66: 1, 67: 1})
+
+
+
+
+```python
+help(build_leaves)
+```
+
+    Help on function build_leaves in module huffpress.huff.hfunctions:
+    
+    build_leaves(term_freq: huffpress.huff.htypes.TermFreq, verbose: bool = False) -> huffpress.huff.htypes.Leaves
+        build_leaves(term_freq: TermFreq,
+                     verbose: bool = False) -> Leaves:
+        
+        Builds initial leaf HuffNode's from a given dictionary of character
+        frequency occurrence counts
+        
+        :param term_freq: dictionary of frequency occurrence counts of a given
+        string computed by calc_term_freq function
+        :param verbose: set to True for printing console outputs
+        :return: dictionary of leaf HuffNode's for a given character frequency
+        count dictionary
+    
+    
+
+
+```python
+leaves: Leaves = build_leaves(term_freq, verbose=True)
+for x in leaves.data.items():
+    print(x)
+```
+
+    Building leaves
+    
+
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<?, ?it/s]
+
+    (65, HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F39EB37F0>))
+    (66, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F39EB30D0>))
+    (67, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F3B4C5E80>))
+    
+
+    
+    
+
+
+```python
+help(sort_tree)
+```
+
+    Help on function sort_tree in module huffpress.huff.hfunctions:
+    
+    sort_tree(tree: huffpress.huff.htypes.Leaves, verbose: bool = False) -> huffpress.huff.htypes.SortedTree
+        sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
+        
+        Sorts a Huffman tree dictionary by total frequency ascending order
+        returning a list
+        
+        e.g.
+        
+        { "D": (4, HuffNode), "E": (3, HuffNode),
+          "F": (7, HuffNode), "ABC": (2, HuffNode) }
+        
+        -->
+        
+        [ ("ABC", (2, HuffNode)), ("E", (3, HuffNode)),
+          ("D", (4, HuffNode)), ("F", (7, HuffNode)) ]
+        
+        :param tree: dictionary of HuffNode's { term : (total-frequency, HuffNode) }
+        :param verbose: set to True for printing console outputs
+        :return: sorted dictionary of HuffNode's converted to a list
+    
+    
+
+
+```python
+sleaves: SortedTree = sort_tree(leaves)
+for x in sleaves.data:
+    print(x)
+```
+
+    HuffSeq(seq_term=66, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F39EB30D0>))
+    HuffSeq(seq_term=67, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F3B4C5E80>))
+    HuffSeq(seq_term=65, huff_term=HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x0000027F39EB37F0>))
+    
+
+
+```python
+help(build_tree)
+```
+
+    Help on function build_tree in module huffpress.huff.hfunctions:
+    
+    build_tree(sorted_new_tree: huffpress.huff.htypes.SortedTree, verbose: bool = False) -> Union[huffpress.huff.HuffNode.HuffNode, NoneType]
+        build_tree(sorted_new_tree: SortedTree,
+                   verbose: bool = False) -> Optional[HuffNode]:
+        
+        Builds Huffman tree made out of HuffNode's, constructed from initial
+        HuffNode leaves
+        
+        :param sorted_new_tree: sorted [ term, (total-frequency, HuffNode) ]
+        :param verbose: set to True for printing console outputs
+        :return: Built Huffman tree from initial asc sorted  list of leaves
+                 HuffNode's computed by build_leaves function and sorted by
+                 sort_tree function
+    
+    
+
+
+```python
+help(print_node)
+```
+
+    Help on function print_node in module huffpress.huff.hfunctions:
+    
+    print_node(node: Union[huffpress.huff.HuffNode.HuffNode, NoneType], depth: int = 0, verbose: bool = True) -> str
+        print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
+        
+        Recursive printing of the HuffNode tree showing all branches, leaves and
+        their terms and total-frequencies
+        
+        :param node: HuffNode tree i.e. Huffman tree
+        :param depth: How many whitespaces to print to represent depth level
+                     (starting at depth 0)
+        :param verbose: set to True to print to console, False to return string
+                        output
+        :return: None (prints Huffman tree to console)
+    
+    
+
+
+```python
+huff_tree: Optional[HuffNode] = build_tree(sleaves, verbose=True)
+print_node(huff_tree)
+```
+
+    Building Huffman tree
+    
+
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<?, ?it/s]
+
+    |--o--[1> Term: 65, Freq: 2
+    
+    |--o--o--[2> Term: 66, Freq: 1
+    
+    |--o--o--[2> Term: 67, Freq: 1
+    
+    |--o--[1> Term: 66,67, Freq: 2
+    |
+    |--Left child:
+    |
+    |--Right child:
+    
+    
+    Term: 65,66,67, Freq: 4
+    |
+    Left child:
+    |
+    Right child:
+    
+    
+
+    
+    
+
+
+
+
+    ''
+
+
+
+
+```python
+encod_seq: HuffCode = encode(leaves, tree=huff_tree, verbose=True)
+encod_seq
+```
+
+    Encoding tree
+    
+
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<?, ?it/s]
+    
+
+
+
+
+    HuffCode(data={65: '0', 66: '10', 67: '11'})
+
+
+
+
+```python
+huff_seq: Tuple[int, str] = create_huff_sequence(encod_seq, input_data, verbose=True)
+huff_seq
+```
+
+    100%|██████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 4014.65it/s]
+    
+
+
+
+
+    (2, '01011000')
+
+
+
+
+```python
+final_seq: str = create_final_sequence(huff_seq, verbose=True)
+final_seq
+```
+
+    Generating final sequence
+    
+
+
+
+
+    '0000001001011000'
+
+
+
+
+```python
+seq_bins: List[str] = create_seq_bins(final_seq, verbose=True)
+final_res: bytearray = compress_seq_bins(seq_bins, verbose=True)
+final_res
+```
+
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<?, ?it/s]
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<?, ?it/s]
+    
+
+
+
+
+    bytearray(b'\x02X')
+
+
+
+
+```python
+f"RESULT = {len(input_data.data) - len(final_res)}, FINAL: {len(final_res)}, ORIGINAL: {len(input_data.data)}"
+```
+
+
+
+
+    'RESULT = 2, FINAL: 2, ORIGINAL: 4'
+
+
+
+
+```python
+app_res = add_huff_map(final_res, encod_seq)
+app_res
+```
+
+
+
+
+    bytearray(b'\x02X{"65":"2","66":"6","67":"7"}11100')
+
+
+
+
+```python
+f"RESULT = {len(input_data.data) - len(app_res)}, FINAL: {len(app_res)}, ORIGINAL: {len(input_data.data)}"
+```
+
+
+
+
+    'RESULT = -31, FINAL: 35, ORIGINAL: 4'
+
+
