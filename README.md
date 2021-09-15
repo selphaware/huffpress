@@ -1,4 +1,4 @@
-# TEST 1.0.51: Huffman compression, decompression functions and decorators (1.0.50)
+# Huffman compression, decompression functions and decorators (1.0.52)
 
 ## Compress functions
 
@@ -49,7 +49,7 @@ help(huffpress.press.compress)
             :param huff_map: Huffman map containing terms and their encoding
             :return: concatenated final_seq + huff_map in a bytearray sequence
         
-        compress(inp: str, verbose: bool = False, mode: huffpress.auxi.modes.Mode = <Mode.DEFAULT: 0>) -> huffpress.huff.htypes.CompData
+        compress(inp: str, verbose: bool = False, mode: huffpress.auxi.modes.Mode = <Mode.DEFAULT: 0>) -> Union[str, bytearray]
             compress(inp: str, verbose: bool = False,
                      mode: Mode = Mode.DEFAULT) -> CompData:
             
@@ -153,6 +153,7 @@ help(huffpress.press.compress)
         List = typing.List
         Optional = typing.Optional
         Tuple = typing.Tuple
+        Union = typing.Union
     
     FILE
         c:\programdata\anaconda3\lib\site-packages\huffpress\press\compress.py
@@ -174,7 +175,7 @@ comp_str
 
 
 
-    CompData(data=bytearray(b'\x07p\xbbNU\xb3\xdb?)\xa1\xc8\x98\xf2\xbb>v\xbb\xef\x1cB\x84\x88\x8f}<\xa8\xee\xaaR\xd6\xe1\xf7u\xa6\x0cWX\x80{"72":"1A","101":"8","108":"R","111":"K","32":"F","116":"9","104":"L","105":"M","115":"1L","109":"1M","120":"2U","97":"1N","119":"2V","98":"1B","110":"1C","99":"2W","100":"1D","121":"2X","117":"2Y","102":"1E","103":"2Z","114":"34","46":"35"}6P'))
+    bytearray(b'\x07p\xbbNU\xb3\xdb?)\xa1\xc8\x98\xf2\xbb>v\xbb\xef\x1cB\x84\x88\x8f}<\xa8\xee\xaaR\xd6\xe1\xf7u\xa6\x0cWX\x80{"72":"1A","101":"8","108":"R","111":"K","32":"F","116":"9","104":"L","105":"M","115":"1L","109":"1M","120":"2U","97":"1N","119":"2V","98":"1B","110":"1C","99":"2W","100":"1D","121":"2X","117":"2Y","102":"1E","103":"2Z","114":"34","46":"35"}6P')
 
 
 
@@ -203,7 +204,7 @@ help(huffpress.press.decompress)
         characters to the original characters.
     
     FUNCTIONS
-        decompress(inp: huffpress.huff.htypes.CompData, outfile: Union[str, NoneType] = None, verbose=False)
+        decompress(inp: Union[str, bytes, bytearray], outfile: Union[str, NoneType] = None, verbose=False)
             decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
             
             Decompress bytearray data or contents of a file
@@ -279,6 +280,7 @@ help(huffpress.press.decompress)
     DATA
         Optional = typing.Optional
         Tuple = typing.Tuple
+        Union = typing.Union
     
     FILE
         c:\programdata\anaconda3\lib\site-packages\huffpress\press\decompress.py
@@ -314,13 +316,13 @@ comp_long_str
 
 
 
-    CompData(data=bytearray(b'\x07\x9e\xc8k\x8d|\x91\xf5\x88\x19\xden\x9e\xf9\x0b<]\xad\xf8oy:w\xd1\x9ck\xa7\x8b\xb5\xbc\xd6&\xe8\x8dH\xaf\xcc\x97g\xc9&t\xe0Qd>\xa1\x8c~\xe3\xd65\x80\x97a_\xddg\xc9\x1e\x05\x16\x9b\xa2}\xce\xd8[;\xcd\xd3\xec\x96\x9f\xaaE\xbc]\xf4\x8b[\xd38\xe5x\xa5\x8e\xac\x9d\xe7\xb2?g\x16\xce\xf3uP\xb5\xbf}\xc0\xc3\xe8\xda\x95\x0e5\xf2I\x9cs\xc9+\xa7\x83\x81\x9e8O"j\xbb8A#\xd65\x80;\x95\x82\xed\xdeo\x13\x98B\xb5\xf4\xae\xfbl\xf4W\xf1\xfa\xa8Z\xdf\xbd\xbcN\xd8[<\x88\x1d~\xe7l-\x9eD\x0e\xf7_\x82i\x16\xb7\x8ex\xbb\xe9\xf1\x1d\'\x81E\xa6\xe8\x9fx\xda\xd8\x8dJw\x9f\x91\xac\xeb5\xa7\x1fo\xb2\xb7DjB\xd6\xfd\x92\xed)i\xae\x8c\xbf\xa8\xee\xfb%\xa7\x95\x8e8Wg\xd5\xd5G\xef\xb8\x18}\x1bR\xa1\xd2\xbeH\x88u\x99\x91Q\xcf\x07Y\x8f\xc3{\xcd}\x19}=\x14\x0b\xa5\xe6p\xfb\xd8\xb8\x18q\xda\x95\r\xef\xd41\x8fS\\\xf7\xc8x#Y\xf5\x1d\xde\x87\rz\xc1\x8cx\xb7\xc9\x11\x0e-25\xd6N\xf7\x91\x00]U\xef\x90\xa1v\xaf$\xbey\xbe\xf1\xbeW\xde\xf9\x0f\x92>\xc2\x81Z\xfd<\x0e\x0c\r}\xd6t\xba\xe1Yl\xd7\xe9\xe0p`k\xbb}\x94\x1b=\x1fyE\xa7\xc6\xec+\xf2T\x1dA\xd1\x97\xf2G\xc4t\x9b\xcd;\xef\xb8\x18}\x1bR\xa1\xc6\xbd\x0c6\x8d\x9dj\x84,\xf8oy\xdeo\x92?`\x16\xc1kz2\xfeY\xb1\xa3\x98-o\x16Z\xab\x02\xc9\xdf}\xc0\xc3\xe8\xda\x95\x0f$\xaf\xb8\x96\xf9#\xc5\x96\xaa\xc0\xb3{^\xb1\x19h\x0b\xebT!g\xc3{\xceo\x90\xf4-q\xf9#\xe7\xfb\xcf\xbc\xdeV\xbf\xaaE\xba7Sig\xd4\xdf`\x16\xc2\x1f\x1d\xf4\xf4\xf6\xa4bl\xef7\xcb6=\x19~\xae\x04\x86\xe8\x95\xf1\xcf\x8f\xe0\x9aOO\x96l}ln\x18\x16\xfb\x9d\xf4\xce\xfa3\xc9+\xd2\x82\xf8\xdf+\xec\xf9\xdd\xa3g\x98o\x9fqlP\t\xad\x7fr\xb3\xa4i\xfeH\xf8\x94\xdb\x8bc\xf3\x13v\x03\xb0\xdd\xf2\xcd\x8d\x1c\xc1ku\xf00Aaky\xaa-\x82\x91\x8d\x9dMt\x91\xad+\x9d\xf4g\xd4\x95\xf6}\x95\x14\x01\xa2\xbe-\xf2G\xcf\xf7\xa2\xf4\xef+\xea\x1c\x97\xc9\x1e\x06%(\xf7\x9b\xef\x9c\x04\xa3\x9e\xa4NW\xb9\xdb\x10XZ\xdf\xbe\xe0a\xf4mJ\x87\xd9*\x92\xd3Z\xfa2\xfc\x1c\x0f\x03ql\x8d\x9fP\xe4\xba\xcdi\xc7\xdb\xec\xad\xd1\x1a\x90\xb5\xbe\x9el\xd4\x80|GI\xf7\x84V\xaa\xf7\xa9-3\xf2i!\xc5\xae\x8a\x96-o\xbeB\x85\xda\xbb\xcd\xf7\xdc\x0c>\x8d\xa9P\x9d\xe7\xb2 z\x01\xf0F\xb3\xdf@\x14\xc1v\xae\xf3}\x92\xa9-5\xdeo\xbe\xe0a\xf4mJ\x87K\xe81M\xd1:\xfe\xe5g\xc9\x1f\x04\x9f8\x0eY\xe4\x97\xcf\xa5M1\x02\xbe\x91\xc2\t\x82\xed\xc5\xbd<\x0f\x99\xc2\x1a\xfe\xeb8\xb4\xf8\xdd\x85~J\x83\xa85\xf7\x0e\x08\xcbx\r\x15\xfdN\x0b\xaf\xaaCt\xba\xdd\xb7\xb9\xe2\xef\xa7\x9b\xe5\xbdDm\x96F\xcf\xb8\xc4M\xf4\xdd\x13;\xe8\x9b\xd8\xea\xe8\x07\xda\xe2\xd6\xfc~\xaa=>\xc9T\x96\x9e\xf3}\xf7\x03\x0f\xa3jT5\xfb\x1d]\x89_\xc7\xfb\x8f\xa5\x01\xf9"\x07\x8d6\xf7:5\x99!ky\x86\xe4\x00J\xa1k|\x85k-\xc5\xbeH\xf8\n\xd7\x13\xdeo\x86\xf7\x93\xbd\xe1\x18\xfc\x91\xfb\xee\x06\x1fF\xd4\xa8{K\x10Lp\xae\xed\xf2G\xe8l \xc7>\x16_\xc7\xe0v)\x9f`+3\x0b\x15\xfb\xa4\xa6\xd3]+\xb1\xb8\xd5 Y\xaf\xc14\x8b[\xf2C_$|\xc2\x15\x9f\x01G\xdaX\x82c\x87v\xf9#\xf46\x10c\x93\xbe\x8c\xea\xa3]:\xc6\xec\x17d\x0b;\xcd\xde\xf9\x0fz\xf7\x9b\xcf\xbe\x98-\xf58.\xb5\xfb\x9e\x1b\x85\x8a\xfe\xa1\xc9t\xf2F\\\xca\x8fy\xbc\x1df>\x8bak\x8f\xac\x05]\x8a\x03Z\xfe?\xb4\xb1\x04\xc3\xf7\xdc\x0c>\x8d\xa9P\xfa\xa47K\xc5\xdfMp)N\xc9\xba&w\x9e\xc8\xfbK\x10L+\xfb\xee\x06\x1fF\xd4\xa8q\xaf\x92 fp=#\xa9,\xaf0\x13\xe6\x07\x87\x03\xb1\xc1\xc1v\xd7\xc5\xa7\xc6\xec+\xf2T\x1dA\xaf\xb8vv\x9e]$\x04\xbb\x08\r`\xdd\xf58.\xb9\xcb\xa7\x00{"84":"N1","104":"1E","105":"H","115":"Q","32":"F","116":"S","101":"9","97":"K","114":"G","111":"N","102":"2U","118":"67","121":"30","108":"1D","110":"M","103":"31","120":"OR","46":"5Q","73":"6G","98":"6M","100":"17","99":"32","119":"6I","112":"3A","107":"6H","117":"16","76":"DB","109":"1C","45":"N0","44":"6J","39":"QL","67":"2QQ","69":"2QR","77":"1A6","86":"2QS","40":"2QT","106":"N2","41":"2QU","49":"1A7","53":"2QV","48":"QK","57":"2QW","54":"2QX","65":"1DC","80":"2QY","50":"2QZ"}DI'))
+    bytearray(b'\x07\x9e\xc8k\x8d|\x91\xf5\x88\x19\xden\x9e\xf9\x0b<]\xad\xf8oy:w\xd1\x9ck\xa7\x8b\xb5\xbc\xd6&\xe8\x8dH\xaf\xcc\x97g\xc9&t\xe0Qd>\xa1\x8c~\xe3\xd65\x80\x97a_\xddg\xc9\x1e\x05\x16\x9b\xa2}\xce\xd8[;\xcd\xd3\xec\x96\x9f\xaaE\xbc]\xf4\x8b[\xd38\xe5x\xa5\x8e\xac\x9d\xe7\xb2?g\x16\xce\xf3uP\xb5\xbf}\xc0\xc3\xe8\xda\x95\x0e5\xf2I\x9cs\xc9+\xa7\x83\x81\x9e8O"j\xbb8A#\xd65\x80;\x95\x82\xed\xdeo\x13\x98B\xb5\xf4\xae\xfbl\xf4W\xf1\xfa\xa8Z\xdf\xbd\xbcN\xd8[<\x88\x1d~\xe7l-\x9eD\x0e\xf7_\x82i\x16\xb7\x8ex\xbb\xe9\xf1\x1d\'\x81E\xa6\xe8\x9fx\xda\xd8\x8dJw\x9f\x91\xac\xeb5\xa7\x1fo\xb2\xb7DjB\xd6\xfd\x92\xed)i\xae\x8c\xbf\xa8\xee\xfb%\xa7\x95\x8e8Wg\xd5\xd5G\xef\xb8\x18}\x1bR\xa1\xd2\xbeH\x88u\x99\x91Q\xcf\x07Y\x8f\xc3{\xcd}\x19}=\x14\x0b\xa5\xe6p\xfb\xd8\xb8\x18q\xda\x95\r\xef\xd41\x8fS\\\xf7\xc8x#Y\xf5\x1d\xde\x87\rz\xc1\x8cx\xb7\xc9\x11\x0e-25\xd6N\xf7\x91\x00]U\xef\x90\xa1v\xaf$\xbey\xbe\xf1\xbeW\xde\xf9\x0f\x92>\xc2\x81Z\xfd<\x0e\x0c\r}\xd6t\xba\xe1Yl\xd7\xe9\xe0p`k\xbb}\x94\x1b=\x1fyE\xa7\xc6\xec+\xf2T\x1dA\xd1\x97\xf2G\xc4t\x9b\xcd;\xef\xb8\x18}\x1bR\xa1\xc6\xbd\x0c6\x8d\x9dj\x84,\xf8oy\xdeo\x92?`\x16\xc1kz2\xfeY\xb1\xa3\x98-o\x16Z\xab\x02\xc9\xdf}\xc0\xc3\xe8\xda\x95\x0f$\xaf\xb8\x96\xf9#\xc5\x96\xaa\xc0\xb3{^\xb1\x19h\x0b\xebT!g\xc3{\xceo\x90\xf4-q\xf9#\xe7\xfb\xcf\xbc\xdeV\xbf\xaaE\xba7Sig\xd4\xdf`\x16\xc2\x1f\x1d\xf4\xf4\xf6\xa4bl\xef7\xcb6=\x19~\xae\x04\x86\xe8\x95\xf1\xcf\x8f\xe0\x9aOO\x96l}ln\x18\x16\xfb\x9d\xf4\xce\xfa3\xc9+\xd2\x82\xf8\xdf+\xec\xf9\xdd\xa3g\x98o\x9fqlP\t\xad\x7fr\xb3\xa4i\xfeH\xf8\x94\xdb\x8bc\xf3\x13v\x03\xb0\xdd\xf2\xcd\x8d\x1c\xc1ku\xf00Aaky\xaa-\x82\x91\x8d\x9dMt\x91\xad+\x9d\xf4g\xd4\x95\xf6}\x95\x14\x01\xa2\xbe-\xf2G\xcf\xf7\xa2\xf4\xef+\xea\x1c\x97\xc9\x1e\x06%(\xf7\x9b\xef\x9c\x04\xa3\x9e\xa4NW\xb9\xdb\x10XZ\xdf\xbe\xe0a\xf4mJ\x87\xd9*\x92\xd3Z\xfa2\xfc\x1c\x0f\x03ql\x8d\x9fP\xe4\xba\xcdi\xc7\xdb\xec\xad\xd1\x1a\x90\xb5\xbe\x9el\xd4\x80|GI\xf7\x84V\xaa\xf7\xa9-3\xf2i!\xc5\xae\x8a\x96-o\xbeB\x85\xda\xbb\xcd\xf7\xdc\x0c>\x8d\xa9P\x9d\xe7\xb2 z\x01\xf0F\xb3\xdf@\x14\xc1v\xae\xf3}\x92\xa9-5\xdeo\xbe\xe0a\xf4mJ\x87K\xe81M\xd1:\xfe\xe5g\xc9\x1f\x04\x9f8\x0eY\xe4\x97\xcf\xa5M1\x02\xbe\x91\xc2\t\x82\xed\xc5\xbd<\x0f\x99\xc2\x1a\xfe\xeb8\xb4\xf8\xdd\x85~J\x83\xa85\xf7\x0e\x08\xcbx\r\x15\xfdN\x0b\xaf\xaaCt\xba\xdd\xb7\xb9\xe2\xef\xa7\x9b\xe5\xbdDm\x96F\xcf\xb8\xc4M\xf4\xdd\x13;\xe8\x9b\xd8\xea\xe8\x07\xda\xe2\xd6\xfc~\xaa=>\xc9T\x96\x9e\xf3}\xf7\x03\x0f\xa3jT5\xfb\x1d]\x89_\xc7\xfb\x8f\xa5\x01\xf9"\x07\x8d6\xf7:5\x99!ky\x86\xe4\x00J\xa1k|\x85k-\xc5\xbeH\xf8\n\xd7\x13\xdeo\x86\xf7\x93\xbd\xe1\x18\xfc\x91\xfb\xee\x06\x1fF\xd4\xa8{K\x10Lp\xae\xed\xf2G\xe8l \xc7>\x16_\xc7\xe0v)\x9f`+3\x0b\x15\xfb\xa4\xa6\xd3]+\xb1\xb8\xd5 Y\xaf\xc14\x8b[\xf2C_$|\xc2\x15\x9f\x01G\xdaX\x82c\x87v\xf9#\xf46\x10c\x93\xbe\x8c\xea\xa3]:\xc6\xec\x17d\x0b;\xcd\xde\xf9\x0fz\xf7\x9b\xcf\xbe\x98-\xf58.\xb5\xfb\x9e\x1b\x85\x8a\xfe\xa1\xc9t\xf2F\\\xca\x8fy\xbc\x1df>\x8bak\x8f\xac\x05]\x8a\x03Z\xfe?\xb4\xb1\x04\xc3\xf7\xdc\x0c>\x8d\xa9P\xfa\xa47K\xc5\xdfMp)N\xc9\xba&w\x9e\xc8\xfbK\x10L+\xfb\xee\x06\x1fF\xd4\xa8q\xaf\x92 fp=#\xa9,\xaf0\x13\xe6\x07\x87\x03\xb1\xc1\xc1v\xd7\xc5\xa7\xc6\xec+\xf2T\x1dA\xaf\xb8vv\x9e]$\x04\xbb\x08\r`\xdd\xf58.\xb9\xcb\xa7\x00{"84":"N1","104":"1E","105":"H","115":"Q","32":"F","116":"S","101":"9","97":"K","114":"G","111":"N","102":"2U","118":"67","121":"30","108":"1D","110":"M","103":"31","120":"OR","46":"5Q","73":"6G","98":"6M","100":"17","99":"32","119":"6I","112":"3A","107":"6H","117":"16","76":"DB","109":"1C","45":"N0","44":"6J","39":"QL","67":"2QQ","69":"2QR","77":"1A6","86":"2QS","40":"2QT","106":"N2","41":"2QU","49":"1A7","53":"2QV","48":"QK","57":"2QW","54":"2QX","65":"1DC","80":"2QY","50":"2QZ"}DI')
 
 
 
 
 ```python
-print(f"Length of original text: {len(long_str)}\nLength of compressed text: {len(comp_long_str.data)}")
+print(f"Length of original text: {len(long_str)}\nLength of compressed text: {len(comp_long_str)}")
 ```
 
     Length of original text: 1979
@@ -339,10 +341,10 @@ print(f"Length of original text: {len(long_str)}\nLength of compressed text: {le
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    15/09/2021  12:10           481,072 outfile.txt
+    15/09/2021  15:53           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
                    2 File(s)        962,144 bytes
-                   0 Dir(s)  479,985,577,984 bytes free
+                   0 Dir(s)  479,926,046,720 bytes free
     
 
 
@@ -354,7 +356,7 @@ comp_file
 
 
 
-    CompData(data='text_file.txt.hac')
+    'text_file.txt.hac'
 
 
 
@@ -369,15 +371,15 @@ comp_file
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:33           481,072 text_file.txt
-    15/09/2021  12:20           287,076 text_file.txt.hac
+    15/09/2021  15:54           287,076 text_file.txt.hac
                    2 File(s)        768,148 bytes
-                   0 Dir(s)  479,985,577,984 bytes free
+                   0 Dir(s)  479,926,046,720 bytes free
     
 
 
 ```python
 from huffpress.huff.htypes import InputData
-decomp_file = decompress(InputData(data="text_file.txt.hac"), "outfile.txt")
+decomp_file = decompress("text_file.txt.hac", "outfile.txt")
 decomp_file
 ```
 
@@ -398,11 +400,11 @@ decomp_file
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    15/09/2021  12:20           481,072 outfile.txt
+    15/09/2021  15:54           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
-    15/09/2021  12:20           287,076 text_file.txt.hac
+    15/09/2021  15:54           287,076 text_file.txt.hac
                    3 File(s)      1,249,220 bytes
-                   0 Dir(s)  479,985,577,984 bytes free
+                   0 Dir(s)  479,926,046,720 bytes free
     
 
 
@@ -524,7 +526,7 @@ print(f"Length of original string: {len(in_st) * 500}\nLength of compressed stri
 
 
 ```python
-decompress(InputData(data=dec_string))[-2000:]  # last 2000 chars of decompressed data
+decompress(dec_string)[-2000:]  # last 2000 chars of decompressed data
 ```
 
 
@@ -600,7 +602,6 @@ help(huffpress.huff.htypes)
     
     CLASSES
         builtins.object
-            CompData
             HuffCode
             HuffSeq
             HuffTerm
@@ -609,42 +610,6 @@ help(huffpress.huff.htypes)
             Leaves
             SortedTree
             TermFreq
-        
-        class CompData(builtins.object)
-         |  CompData(data: Union[str, bytearray]) -> None
-         |  
-         |  data = Union[str, bytearray]
-         |  
-         |  Data to be compressed will either be the filename (str) or compressed data
-         |  (bytearray)
-         |  
-         |  Methods defined here:
-         |  
-         |  __eq__(self, other)
-         |  
-         |  __init__(self, data: Union[str, bytearray]) -> None
-         |  
-         |  __repr__(self)
-         |  
-         |  ----------------------------------------------------------------------
-         |  Data descriptors defined here:
-         |  
-         |  __dict__
-         |      dictionary for instance variables (if defined)
-         |  
-         |  __weakref__
-         |      list of weak references to the object (if defined)
-         |  
-         |  ----------------------------------------------------------------------
-         |  Data and other attributes defined here:
-         |  
-         |  __annotations__ = {'data': typing.Union[str, bytearray]}
-         |  
-         |  __dataclass_fields__ = {'data': Field(name='data',type=typing.Union[st...
-         |  
-         |  __dataclass_params__ = _DataclassParams(init=True,repr=True,eq=True,or...
-         |  
-         |  __hash__ = None
         
         class HuffCode(builtins.object)
          |  HuffCode(data: Dict[int, str]) -> None
@@ -1768,16 +1733,16 @@ for x in leaves.data.items():
     Building leaves
     
 
-    100%|████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<?, ?it/s]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 8116.70it/s]
 
-    (72, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116E165BB0>))
-    (101, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DDC0>))
-    (108, HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DD90>))
-    (111, HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DC40>))
-    (32, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DEE0>))
-    (87, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DFA0>))
-    (114, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DB80>))
-    (100, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14D490>))
+    (72, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D57820>))
+    (101, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CA60>))
+    (108, HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C520>))
+    (111, HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C790>))
+    (32, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CB80>))
+    (87, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CC40>))
+    (114, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CD00>))
+    (100, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CDC0>))
     
 
     
@@ -1819,14 +1784,14 @@ for x in sleaves.data:
     print(x)
 ```
 
-    HuffSeq(seq_term=72, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116E165BB0>))
-    HuffSeq(seq_term=101, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DDC0>))
-    HuffSeq(seq_term=32, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DEE0>))
-    HuffSeq(seq_term=87, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DFA0>))
-    HuffSeq(seq_term=114, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DB80>))
-    HuffSeq(seq_term=100, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14D490>))
-    HuffSeq(seq_term=111, huff_term=HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DC40>))
-    HuffSeq(seq_term=108, huff_term=HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000002116F14DD90>))
+    HuffSeq(seq_term=72, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D57820>))
+    HuffSeq(seq_term=101, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CA60>))
+    HuffSeq(seq_term=32, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CB80>))
+    HuffSeq(seq_term=87, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CC40>))
+    HuffSeq(seq_term=114, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CD00>))
+    HuffSeq(seq_term=100, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CDC0>))
+    HuffSeq(seq_term=111, huff_term=HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C790>))
+    HuffSeq(seq_term=108, huff_term=HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C520>))
     
 
 
@@ -1882,7 +1847,7 @@ print_node(huff_tree)
     Building Huffman tree
     
 
-    100%|████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00<?, ?it/s]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00<00:00, 7010.54it/s]
 
     |--o--o--o--[3> Term: 32, Freq: 1
     
@@ -1964,7 +1929,7 @@ encod_seq
     Encoding tree
     
 
-    100%|████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<?, ?it/s]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 8006.31it/s]
     
 
 
@@ -2014,7 +1979,7 @@ final_res
 ```
 
     100%|████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<?, ?it/s]
-    100%|████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<?, ?it/s]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 6014.78it/s]
     
 
 
