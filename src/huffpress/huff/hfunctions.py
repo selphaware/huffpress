@@ -17,8 +17,6 @@ from huffpress.huff.htypes import InputData, TermFreq, Leaves, \
 
 def calc_term_freq(data: InputData) -> TermFreq:
     """
-    calc_term_freq(data: InputData) -> TermFreq:
-
     Returns dictionary of frequency occurrence counts for each character
     of a given string
 
@@ -38,9 +36,6 @@ def calc_term_freq(data: InputData) -> TermFreq:
 def build_leaves(term_freq: TermFreq,
                  verbose: bool = False) -> Leaves:
     """
-    build_leaves(term_freq: TermFreq,
-                 verbose: bool = False) -> Leaves:
-
     Builds initial leaf HuffNode's from a given dictionary of character
     frequency occurrence counts
 
@@ -61,8 +56,6 @@ def build_leaves(term_freq: TermFreq,
 
 def sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
     """
-    sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
-
     Sorts a Huffman tree dictionary by total frequency ascending order
     returning a list
 
@@ -100,9 +93,6 @@ def sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
 def build_tree(sorted_new_tree: SortedTree,
                verbose: bool = False) -> Optional[HuffNode]:
     """
-    build_tree(sorted_new_tree: SortedTree,
-               verbose: bool = False) -> Optional[HuffNode]:
-
     Builds Huffman tree made out of HuffNode's, constructed from initial
     HuffNode leaves
 
@@ -202,8 +192,6 @@ def build_tree(sorted_new_tree: SortedTree,
 def print_node(node: Optional[HuffNode], depth: int = 0,
                verbose: bool = True) -> str:
     """
-    print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
-
     Recursive printing of the HuffNode tree showing all branches, leaves and
     their terms and total-frequencies
 
@@ -262,8 +250,6 @@ def encode(data, tree: Optional[HuffNode],
 @encode.register(str)
 def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
     """
-    encode(single_term: int, tree: Optional[HuffNode], path="") -> HuffCode:
-
     Encode Huffman tree recursively adding 0's to left branches, and 1's to
     right branches.
 
@@ -297,9 +283,6 @@ def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
 def _(leaves: Leaves, tree: Optional[HuffNode],
       verbose=False) -> HuffCode:
     """
-    encode_all(leaves: Leaves, final_tree: Optional[HuffNode],
-               verbose=False) -> HuffCode:
-
     Encode all unique character terms, constructing binary sequences from the
     Huffman tree
 
@@ -338,17 +321,6 @@ def create_huff_tree(data, verbose: bool = False):
 @create_huff_tree.register(bool)
 def _(data: InputData, verbose: bool = False):
     """
-    create_huff_tree_encoding(data: InputData,
-                     verbose: bool = False) -> Tuple[HuffCode,
-                                                     Optional[HuffNode]]:
-
-    Method:
-        leaves = build_leaves(calc_term_freq(data), verbose=verbose)
-        sleaves = sort_tree(leaves)
-        huff_tree = build_tree(sleaves, verbose=verbose)
-        encod_seq = encode_all(leaves, huff_tree, verbose=verbose)
-        return encod_seq, huff_tree
-
     Main function to create Huffman tree from an input data string
 
     :param data: input data string or bytearray to be transformed to a
@@ -366,10 +338,10 @@ def _(data: InputData, verbose: bool = False):
 @create_huff_tree.register(bool)
 def _(data: TermFreq, verbose: bool = False):
     """
-
-    :param data:
-    :param verbose:
-    :return:
+    Sub function create Huffman tree from an input term frequency object
+    :param data: TermFreq object
+    :param verbose: for printing
+    :return: Huffman tree and encoded sequence
     """
     leaves: Leaves = build_leaves(data, verbose=verbose)
     sleaves: SortedTree = sort_tree(leaves)

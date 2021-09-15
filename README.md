@@ -1,4 +1,4 @@
-# Huffman compression, decompression functions and decorators (1.0.52)
+# TEST 1.0.52: Huffman compression, decompression functions and decorators (1.0.52)
 
 ## Compress functions
 

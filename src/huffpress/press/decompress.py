@@ -16,8 +16,6 @@ from huffpress.huff.htypes import HuffCode
 
 def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
     """
-    reverse_final_sequence(bstr: bytearray, verbose: bool = False) -> str:
-
     Convert the input (already compressed sequence) of ascii ordinal values to
     a binary sequence string, which is the encoded Huffman sequence
 
@@ -44,9 +42,6 @@ def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
 def reverse_huff_sequence(huff_map: HuffCode, seq: str,
                           verbose: bool = False) -> bytearray:
     """
-    reverse_huff_sequence(huff: HuffCode, seq: str,
-                          verbose: bool = False) -> bytearray:
-
     Reverse the input binary string Huffman encoded sequence --> back to the
     original characters. This is done by traversing through the sequence in
     order and identifying any of the Huffman encoded sequence from the
@@ -76,9 +71,6 @@ def reverse_huff_sequence(huff_map: HuffCode, seq: str,
 def extract_huff_map(inp_bytes: bytes,
                      verbose: bool = False) -> Tuple[HuffCode, int]:
     """
-    extract_huff_map(inp_bytes: bytes,
-                     verbose: bool = False) -> Tuple[HuffCode, int]:
-
     Extract Huffman encoding dictionary map from the input data.
 
     :param inp_bytes: input sequence of bytes containing compressed data
@@ -113,8 +105,6 @@ def extract_huff_map(inp_bytes: bytes,
 
 def decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray:
     """
-    decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray:
-
     Main function to decompress input bytes by extracting the Huffman map
     and using the map to replace the encoded sequences with the original
     characters.
@@ -135,9 +125,6 @@ def decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray:
 def decompress_file(inp_file: str, outfile: Optional[str] = None,
                     verbose=False):
     """
-    decompress_file(inp_file: str, outfile: Optional[str] = None,
-                    verbose=False):
-
     Decompress file
 
     :param inp_file: File to be decompressed
@@ -158,8 +145,6 @@ def decompress_file(inp_file: str, outfile: Optional[str] = None,
 def decompress(inp: Union[str, bytes, bytearray],
                outfile: Optional[str] = None, verbose=False):
     """
-    decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
-
     Decompress bytearray data or contents of a file
 
     :param inp: either bytearray compressed data or the filename containing the

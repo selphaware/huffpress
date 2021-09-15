@@ -34,9 +34,6 @@ from huffpress.huff.HuffNode import HuffNode
 def create_huff_sequence(huff: HuffCode, inp_data: InputData,
                          verbose: bool = False) -> Tuple[int, str]:
     """
-    create_huff_sequence(huff: HuffCode, inp_data: InputData,
-                         verbose: bool = False) -> Tuple[int, str]:
-
     Creates an encoded Huffman sequence from a given Huffman tree dictionary
     and input data string text.
 
@@ -57,9 +54,6 @@ def create_huff_sequence(huff: HuffCode, inp_data: InputData,
 def create_final_sequence(huff_seq_rem: Tuple[int, str],
                           verbose: bool = False) -> str:
     """
-    create_final_sequence(huff_seq_rem: Tuple[int, str],
-                          verbose: bool = False) -> str:
-
     From a given Huffman encoded sequence (computed by create_huff_sequence
     function), convert to a binary sequence.
 
@@ -78,8 +72,6 @@ def create_final_sequence(huff_seq_rem: Tuple[int, str],
 
 def create_seq_bins(final_seq: str, verbose: bool = False) -> List[str]:
     """
-    create_seq_bins(final_seq: str, verbose: bool = False) -> List[str]:
-
     From a given final Huffman sequence (computed by create_final_sequence
     function) extract the sequence of binaries of length 8 and store in a list
 
@@ -99,9 +91,6 @@ def create_seq_bins(final_seq: str, verbose: bool = False) -> List[str]:
 def compress_seq_bins(final_bins: List[str],
                       verbose: bool = False) -> bytearray:
     """
-    compress_seq_bins(final_bins: List[str],
-                      verbose: bool = False) -> bytearray:
-
     From a given list of binaries constructed from the final Huffman sequence
     i.e. create_seq_bins function, compress the binaries (converting) to an
     ASCII ordinal value.
@@ -123,8 +112,6 @@ def compress_seq_bins(final_bins: List[str],
 
 def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
     """
-    add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray
-
     Concatenate the final generated Huffman sequence with the Huffman map,
     which is required for decoding the Huffman sequence.
 
@@ -150,8 +137,6 @@ def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
 
 def compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray:
     """
-    compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray:
-
     Compress input data bytes using the Huffman Encoding algorithm.
     Function compress_string takes an input string which transforms to bytes,
     then calls this function to compress.
@@ -177,8 +162,6 @@ def compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray:
 
 def compress_string(inp_st: str, verbose: bool = False) -> bytearray:
     """
-    compress_string(inp_st: str, verbose=False) -> bytearray:
-
     Compresses input string using the Huffman Encoding algorithm
 
     :param inp_st: input string to be compressed
@@ -191,8 +174,6 @@ def compress_string(inp_st: str, verbose: bool = False) -> bytearray:
 
 def compress_file(inp_file: str, verbose: bool = False):
     """
-    compress_file(inp_file: str, verbose: bool = False):
-
     Compresses the contents of a file and outputs to a file
     with extension ".hac"
 
@@ -214,9 +195,6 @@ def compress_file(inp_file: str, verbose: bool = False):
 def compress(inp: str, verbose: bool = False,
              mode: Mode = Mode.DEFAULT) -> Union[str, bytearray]:
     """
-    compress(inp: str, verbose: bool = False,
-             mode: Mode = Mode.DEFAULT) -> CompData:
-
     Generic compression function taking in input either filename or
     string to compress.
 
