@@ -1,3 +1,4 @@
+TEST
 # Huffman compression and decompression functions and decorators (1.0.2)
 
 ## Compress functions
@@ -1201,11 +1202,11 @@ help(huffpress.auxi.basen)
          |  ----------------------------------------------------------------------
          |  Data and other attributes defined here:
          |  
-         |  __annotations__ = {'dec': <class 'huffpress.auxi.imdict.ImDict'>, 'rev...
+         |  __annotations__ = {'dec': <class 'huffpress.auxi.idict.IDict'>, 'rev...
          |  
-         |  dec = <huffpress.auxi.imdict.ImDict object>
+         |  dec = <huffpress.auxi.idict.IDict object>
          |  
-         |  rev = <huffpress.auxi.imdict.ImDict object>
+         |  rev = <huffpress.auxi.idict.IDict object>
     
     FUNCTIONS
         basen(in_num, fbase: int = 10, tbase: int = 2, out_str: bool = False)
@@ -1473,33 +1474,33 @@ help(huffpress.auxi.modes)
 
 
 ```python
-help(huffpress.auxi.imdict)
+help(huffpress.auxi.idict)
 ```
 
-    Help on module huffpress.auxi.imdict in huffpress.auxi:
+    Help on module huffpress.auxi.idict in huffpress.auxi:
     
     NAME
-        huffpress.auxi.imdict - (c) 2021 Usman Ahmad https://github.com/selphaware
+        huffpress.auxi.idict - (c) 2021 Usman Ahmad https://github.com/selphaware
     
     DESCRIPTION
-        imdict.py
+        idict.py
         
         Immutable dictionary
     
     CLASSES
         collections.abc.Mapping(collections.abc.Collection)
-            ImDict
+            IDict
         
-        class ImDict(collections.abc.Mapping)
-         |  ImDict(*args, **kwargs)
+        class IDict(collections.abc.Mapping)
+         |  IDict(*args, **kwargs)
          |  
-         |  ImDict
+         |  IDict
          |  
          |  Immutable dictionary class, can be used as a normal dictionary but
          |  is immutable.
          |  
          |  Method resolution order:
-         |      ImDict
+         |      IDict
          |      collections.abc.Mapping
          |      collections.abc.Collection
          |      collections.abc.Sized
@@ -1575,7 +1576,7 @@ help(huffpress.auxi.imdict)
         __warningregistry__ = {'version': 7}
     
     FILE
-        c:\programdata\anaconda3\lib\site-packages\huffpress\auxi\imdict.py
+        c:\programdata\anaconda3\lib\site-packages\huffpress\auxi\idict.py
     
     
     
