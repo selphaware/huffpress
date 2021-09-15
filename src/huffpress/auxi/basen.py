@@ -53,7 +53,7 @@ def to_basen(num: int, base: int = 2) -> List[str]:
     """
     to_basen(num: int) -> List[str]:
 
-    Convert decimal to binary list
+    Convert decimal to base number list
 
     :param base: base number. for binary, base = 2. for hex, base = 16
     :param num: decimal number
@@ -71,7 +71,7 @@ def to_dec(in_bin: List[str], base: int = 2) -> int:
     """
     to_dec(in_bin: List[str]) -> int:
 
-    Convert binary list to decimal integer
+    Convert base number list to decimal integer
 
     :param base: base number. for binary, base = 2. for hex, base = 16
     :param in_bin: binary list of 1's and 0's
