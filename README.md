@@ -1,4 +1,4 @@
-# Huffman compression, decompression functions and decorators (1.0.4)
+# 1.0.41 - TESTING. BELOW IS OLD DOC: Huffman compression, decompression functions and decorators (1.0.4)
 
 ## Compress functions
 

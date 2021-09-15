@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="huffpress",
-    version="1.0.4",
+    version="1.0.41",
     author="Usman Ahmad",
     author_email="uahmad3013@outlook.com",
     description="Library containing Huffman algos and bespoke compressor",
