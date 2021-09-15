@@ -1,4 +1,4 @@
-# TEST 1.0.52: Huffman compression, decompression functions and decorators (1.0.52)
+# Huffman compression, decompression functions and decorators (1.0.54)
 
 ## Compress functions
 
@@ -39,8 +39,6 @@ help(huffpress.press.compress)
     
     FUNCTIONS
         add_huff_map(final_seq: bytearray, huff_map: huffpress.huff.htypes.HuffCode) -> bytearray
-            add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray
-            
             Concatenate the final generated Huffman sequence with the Huffman map,
             which is required for decoding the Huffman sequence.
             
@@ -50,9 +48,6 @@ help(huffpress.press.compress)
             :return: concatenated final_seq + huff_map in a bytearray sequence
         
         compress(inp: str, verbose: bool = False, mode: huffpress.auxi.modes.Mode = <Mode.DEFAULT: 0>) -> Union[str, bytearray]
-            compress(inp: str, verbose: bool = False,
-                     mode: Mode = Mode.DEFAULT) -> CompData:
-            
             Generic compression function taking in input either filename or
             string to compress.
             
@@ -67,8 +62,6 @@ help(huffpress.press.compress)
                      return bytearray compressed data
         
         compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray
-            compress_bytes(inp_bytes: bytes, verbose: bool = False) -> bytearray:
-            
             Compress input data bytes using the Huffman Encoding algorithm.
             Function compress_string takes an input string which transforms to bytes,
             then calls this function to compress.
@@ -78,8 +71,6 @@ help(huffpress.press.compress)
             :return: Final compressed bytearray sequence
         
         compress_file(inp_file: str, verbose: bool = False)
-            compress_file(inp_file: str, verbose: bool = False):
-            
             Compresses the contents of a file and outputs to a file
             with extension ".hac"
             
@@ -90,9 +81,6 @@ help(huffpress.press.compress)
             :return: name of the compressed output file
         
         compress_seq_bins(final_bins: List[str], verbose: bool = False) -> bytearray
-            compress_seq_bins(final_bins: List[str],
-                              verbose: bool = False) -> bytearray:
-            
             From a given list of binaries constructed from the final Huffman sequence
             i.e. create_seq_bins function, compress the binaries (converting) to an
             ASCII ordinal value.
@@ -106,8 +94,6 @@ help(huffpress.press.compress)
                     occurring terms in the original raw data
         
         compress_string(inp_st: str, verbose: bool = False) -> bytearray
-            compress_string(inp_st: str, verbose=False) -> bytearray:
-            
             Compresses input string using the Huffman Encoding algorithm
             
             :param inp_st: input string to be compressed
@@ -115,9 +101,6 @@ help(huffpress.press.compress)
             :return: compressed data in bytearray format
         
         create_final_sequence(huff_seq_rem: Tuple[int, str], verbose: bool = False) -> str
-            create_final_sequence(huff_seq_rem: Tuple[int, str],
-                                  verbose: bool = False) -> str:
-            
             From a given Huffman encoded sequence (computed by create_huff_sequence
             function), convert to a binary sequence.
             
@@ -127,9 +110,6 @@ help(huffpress.press.compress)
             :return: final Huffman sequence converted to a binary sequence
         
         create_huff_sequence(huff: huffpress.huff.htypes.HuffCode, inp_data: huffpress.huff.htypes.InputData, verbose: bool = False) -> Tuple[int, str]
-            create_huff_sequence(huff: HuffCode, inp_data: InputData,
-                                 verbose: bool = False) -> Tuple[int, str]:
-            
             Creates an encoded Huffman sequence from a given Huffman tree dictionary
             and input data string text.
             
@@ -140,8 +120,6 @@ help(huffpress.press.compress)
             :return: (number of 0 paddings required, new encoded sequence)
         
         create_seq_bins(final_seq: str, verbose: bool = False) -> List[str]
-            create_seq_bins(final_seq: str, verbose: bool = False) -> List[str]:
-            
             From a given final Huffman sequence (computed by create_final_sequence
             function) extract the sequence of binaries of length 8 and store in a list
             
@@ -205,8 +183,6 @@ help(huffpress.press.decompress)
     
     FUNCTIONS
         decompress(inp: Union[str, bytes, bytearray], outfile: Union[str, NoneType] = None, verbose=False)
-            decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
-            
             Decompress bytearray data or contents of a file
             
             :param inp: either bytearray compressed data or the filename containing the
@@ -217,8 +193,6 @@ help(huffpress.press.decompress)
                     file
         
         decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray
-            decompress_bytes(inp_bytes: bytes, verbose=False) -> bytearray:
-            
             Main function to decompress input bytes by extracting the Huffman map
             and using the map to replace the encoded sequences with the original
             characters.
@@ -228,9 +202,6 @@ help(huffpress.press.decompress)
             :return: decompressed bytearray data
         
         decompress_file(inp_file: str, outfile: Union[str, NoneType] = None, verbose=False)
-            decompress_file(inp_file: str, outfile: Optional[str] = None,
-                            verbose=False):
-            
             Decompress file
             
             :param inp_file: File to be decompressed
@@ -239,9 +210,6 @@ help(huffpress.press.decompress)
             :return: name and path of the output file
         
         extract_huff_map(inp_bytes: bytes, verbose: bool = False) -> Tuple[huffpress.huff.htypes.HuffCode, int]
-            extract_huff_map(inp_bytes: bytes,
-                             verbose: bool = False) -> Tuple[HuffCode, int]:
-            
             Extract Huffman encoding dictionary map from the input data.
             
             :param inp_bytes: input sequence of bytes containing compressed data
@@ -250,8 +218,6 @@ help(huffpress.press.decompress)
             :return: Huffmann map dictionary and the length of the map
         
         reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str
-            reverse_final_sequence(bstr: bytearray, verbose: bool = False) -> str:
-            
             Convert the input (already compressed sequence) of ascii ordinal values to
             a binary sequence string, which is the encoded Huffman sequence
             
@@ -262,9 +228,6 @@ help(huffpress.press.decompress)
                      of 0's and 1's)
         
         reverse_huff_sequence(huff_map: huffpress.huff.htypes.HuffCode, seq: str, verbose: bool = False) -> bytearray
-            reverse_huff_sequence(huff: HuffCode, seq: str,
-                                  verbose: bool = False) -> bytearray:
-            
             Reverse the input binary string Huffman encoded sequence --> back to the
             original characters. This is done by traversing through the sequence in
             order and identifying any of the Huffman encoded sequence from the
@@ -341,10 +304,10 @@ print(f"Length of original text: {len(long_str)}\nLength of compressed text: {le
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    15/09/2021  15:53           481,072 outfile.txt
+    15/09/2021  16:14           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
                    2 File(s)        962,144 bytes
-                   0 Dir(s)  479,926,046,720 bytes free
+                   0 Dir(s)  479,901,315,072 bytes free
     
 
 
@@ -371,9 +334,9 @@ comp_file
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
     08/09/2021  18:33           481,072 text_file.txt
-    15/09/2021  15:54           287,076 text_file.txt.hac
+    15/09/2021  16:14           287,076 text_file.txt.hac
                    2 File(s)        768,148 bytes
-                   0 Dir(s)  479,926,046,720 bytes free
+                   0 Dir(s)  479,901,315,072 bytes free
     
 
 
@@ -400,11 +363,11 @@ decomp_file
     
      Directory of C:\Users\datas\PycharmProjects\main\TMP
     
-    15/09/2021  15:54           481,072 outfile.txt
+    15/09/2021  16:14           481,072 outfile.txt
     08/09/2021  18:33           481,072 text_file.txt
-    15/09/2021  15:54           287,076 text_file.txt.hac
+    15/09/2021  16:14           287,076 text_file.txt.hac
                    3 File(s)      1,249,220 bytes
-                   0 Dir(s)  479,926,046,720 bytes free
+                   0 Dir(s)  479,899,254,784 bytes free
     
 
 
@@ -942,9 +905,6 @@ help(huffpress.huff.hfunctions)
     
     FUNCTIONS
         build_leaves(term_freq: huffpress.huff.htypes.TermFreq, verbose: bool = False) -> huffpress.huff.htypes.Leaves
-            build_leaves(term_freq: TermFreq,
-                         verbose: bool = False) -> Leaves:
-            
             Builds initial leaf HuffNode's from a given dictionary of character
             frequency occurrence counts
             
@@ -955,9 +915,6 @@ help(huffpress.huff.hfunctions)
             count dictionary
         
         build_tree(sorted_new_tree: huffpress.huff.htypes.SortedTree, verbose: bool = False) -> Union[huffpress.huff.HuffNode.HuffNode, NoneType]
-            build_tree(sorted_new_tree: SortedTree,
-                       verbose: bool = False) -> Optional[HuffNode]:
-            
             Builds Huffman tree made out of HuffNode's, constructed from initial
             HuffNode leaves
             
@@ -968,8 +925,6 @@ help(huffpress.huff.hfunctions)
                      sort_tree function
         
         calc_term_freq(data: huffpress.huff.htypes.InputData) -> huffpress.huff.htypes.TermFreq
-            calc_term_freq(data: InputData) -> TermFreq:
-            
             Returns dictionary of frequency occurrence counts for each character
             of a given string
             
@@ -996,8 +951,6 @@ help(huffpress.huff.hfunctions)
             :param tree: Huffman tree
         
         print_node(node: Union[huffpress.huff.HuffNode.HuffNode, NoneType], depth: int = 0, verbose: bool = True) -> str
-            print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
-            
             Recursive printing of the HuffNode tree showing all branches, leaves and
             their terms and total-frequencies
             
@@ -1009,8 +962,6 @@ help(huffpress.huff.hfunctions)
             :return: None (prints Huffman tree to console)
         
         sort_tree(tree: huffpress.huff.htypes.Leaves, verbose: bool = False) -> huffpress.huff.htypes.SortedTree
-            sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
-            
             Sorts a Huffman tree dictionary by total frequency ascending order
             returning a list
             
@@ -1676,8 +1627,6 @@ help(calc_term_freq)
     Help on function calc_term_freq in module huffpress.huff.hfunctions:
     
     calc_term_freq(data: huffpress.huff.htypes.InputData) -> huffpress.huff.htypes.TermFreq
-        calc_term_freq(data: InputData) -> TermFreq:
-        
         Returns dictionary of frequency occurrence counts for each character
         of a given string
         
@@ -1709,9 +1658,6 @@ help(build_leaves)
     Help on function build_leaves in module huffpress.huff.hfunctions:
     
     build_leaves(term_freq: huffpress.huff.htypes.TermFreq, verbose: bool = False) -> huffpress.huff.htypes.Leaves
-        build_leaves(term_freq: TermFreq,
-                     verbose: bool = False) -> Leaves:
-        
         Builds initial leaf HuffNode's from a given dictionary of character
         frequency occurrence counts
         
@@ -1733,16 +1679,16 @@ for x in leaves.data.items():
     Building leaves
     
 
-    100%|██████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 8116.70it/s]
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<?, ?it/s]
 
-    (72, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D57820>))
-    (101, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CA60>))
-    (108, HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C520>))
-    (111, HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C790>))
-    (32, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CB80>))
-    (87, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CC40>))
-    (114, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CD00>))
-    (100, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CDC0>))
+    (72, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A056CD0>))
+    (101, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A056B50>))
+    (108, HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058A90>))
+    (111, HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A0584C0>))
+    (32, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058B20>))
+    (87, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058BE0>))
+    (114, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058CA0>))
+    (100, HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058D60>))
     
 
     
@@ -1756,8 +1702,6 @@ help(sort_tree)
     Help on function sort_tree in module huffpress.huff.hfunctions:
     
     sort_tree(tree: huffpress.huff.htypes.Leaves, verbose: bool = False) -> huffpress.huff.htypes.SortedTree
-        sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
-        
         Sorts a Huffman tree dictionary by total frequency ascending order
         returning a list
         
@@ -1784,14 +1728,14 @@ for x in sleaves.data:
     print(x)
 ```
 
-    HuffSeq(seq_term=72, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D57820>))
-    HuffSeq(seq_term=101, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CA60>))
-    HuffSeq(seq_term=32, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CB80>))
-    HuffSeq(seq_term=87, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CC40>))
-    HuffSeq(seq_term=114, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CD00>))
-    HuffSeq(seq_term=100, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5CDC0>))
-    HuffSeq(seq_term=111, huff_term=HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C790>))
-    HuffSeq(seq_term=108, huff_term=HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001A0B4D5C520>))
+    HuffSeq(seq_term=72, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A056CD0>))
+    HuffSeq(seq_term=101, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A056B50>))
+    HuffSeq(seq_term=32, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058B20>))
+    HuffSeq(seq_term=87, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058BE0>))
+    HuffSeq(seq_term=114, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058CA0>))
+    HuffSeq(seq_term=100, huff_term=HuffTerm(freq=1, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058D60>))
+    HuffSeq(seq_term=111, huff_term=HuffTerm(freq=2, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A0584C0>))
+    HuffSeq(seq_term=108, huff_term=HuffTerm(freq=3, node=<huffpress.huff.HuffNode.HuffNode object at 0x000001793A058A90>))
     
 
 
@@ -1802,9 +1746,6 @@ help(build_tree)
     Help on function build_tree in module huffpress.huff.hfunctions:
     
     build_tree(sorted_new_tree: huffpress.huff.htypes.SortedTree, verbose: bool = False) -> Union[huffpress.huff.HuffNode.HuffNode, NoneType]
-        build_tree(sorted_new_tree: SortedTree,
-                   verbose: bool = False) -> Optional[HuffNode]:
-        
         Builds Huffman tree made out of HuffNode's, constructed from initial
         HuffNode leaves
         
@@ -1824,8 +1765,6 @@ help(print_node)
     Help on function print_node in module huffpress.huff.hfunctions:
     
     print_node(node: Union[huffpress.huff.HuffNode.HuffNode, NoneType], depth: int = 0, verbose: bool = True) -> str
-        print_node(node: HuffNode, depth: int = 0, verbose: bool = True) -> str:
-        
         Recursive printing of the HuffNode tree showing all branches, leaves and
         their terms and total-frequencies
         
@@ -1847,7 +1786,7 @@ print_node(huff_tree)
     Building Huffman tree
     
 
-    100%|██████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00<00:00, 7010.54it/s]
+    100%|████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00<?, ?it/s]
 
     |--o--o--o--[3> Term: 32, Freq: 1
     
@@ -1929,7 +1868,7 @@ encod_seq
     Encoding tree
     
 
-    100%|██████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 8006.31it/s]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00, 8305.55it/s]
     
 
 
