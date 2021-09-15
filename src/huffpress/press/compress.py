@@ -143,7 +143,7 @@ def add_huff_map(final_seq: bytearray, huff_map: HuffCode) -> bytearray:
     huff_bytes = [ord(x) for x in list(json.dumps(huff_map.data)
                                        .replace(chr(32), ""))]
     huff_array = bytearray(huff_bytes)
-    huff_len = list(map(lambda x: ord(str(x)), to_basen(len(huff_array))))
+    huff_len = list(map(lambda x: ord(str(x)), to_basen(len(huff_array), 36)))
     final_res = final_seq + huff_array + bytearray(huff_len)
     return final_res
 

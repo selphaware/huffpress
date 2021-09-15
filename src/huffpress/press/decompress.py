@@ -97,7 +97,7 @@ def extract_huff_map(inp_bytes: bytes,
             break
         huff_len_bytes.append(r)
     huff_len_bytes.reverse()
-    huff_len = to_dec(list(map(lambda x: chr(x), huff_len_bytes)))
+    huff_len = to_dec(list(map(lambda x: chr(x), huff_len_bytes)), 36)
     len_of_len = len(huff_len_bytes)
     huff_dic_str = inp_bytes[-(huff_len + len_of_len): -len_of_len]
     huff_map = {int(k): v
