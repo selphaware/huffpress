@@ -8,7 +8,7 @@
 """
 
 from typing import List, Union
-from huffpress.auxi.imdict import ImDict
+from huffpress.auxi.idict import IDict
 from functools import singledispatch
 
 
@@ -16,19 +16,19 @@ class BaseRange:
     """
     BaseRange class holding the following static consts:
 
-    -- dec: dict --
+    -- dec: immutable dict --
     decimal to base range i.e. {10: A, 11:B, ..., 35: Z} and rest of the
     decimal to base range {1: 1, 2:2, ..., 9:9, 10:A, ..., 35: Z}
 
     -- rev: dict --
 
     """
-    dec: ImDict = ImDict({
+    dec: IDict = IDict(True, {
         **{int(x): chr(x + 55) for x in range(10, 36)},
         **{int(x): str(x) for x in range(0, 10)}
     })
 
-    rev: ImDict = ImDict({v: k for k, v in dec.items()})
+    rev: IDict = IDict(True, {v: k for k, v in dec.items()})
 
 
 def nmod(x: int, y: int) -> str:

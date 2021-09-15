@@ -13,6 +13,7 @@ from tests.test_const import LONG_TEXT  # type: ignore
 from huffpress.huff.hfunctions import calc_term_freq  # type: ignore
 from huffpress.huff.htypes import InputData, TermFreq  # type: ignore
 from huffpress.auxi.basen import basen  # type: ignore
+from huffpress.auxi.idict import IDict
 
 
 class TestHuffPressSimple(unittest.TestCase):
@@ -95,3 +96,55 @@ class TestHuffPressSimple(unittest.TestCase):
         val = basen("A872436BCD98F8D0",
                     16, 10)
         self.assertEqual(val, list("12137838076006824144"))
+
+    def test_idict_mut(self):
+        idict = IDict(False, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+        idict["yes"] = 1
+        idict[3] = ["9.99", 8]
+        idict["a-b"] = "goodbye"
+        self.assertEqual(idict,
+                         {
+                             1:2, "a": 3, "a-b": "goodbye", 2: 1.89,
+                             "yes": 1,
+                             3: ["9.99", 8]
+                         })
+
+    def test_idict_imut(self):
+        idict = IDict(True, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+        correct_error = False
+        try:
+            idict["yes"] = 1
+        except TypeError as err:
+            print(f"\nCorrect error: {err}")
+            correct_error = True
+        self.assertEqual(correct_error, True)
+        self.assertEqual(idict, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+
+    def test_idict_manipulation(self):
+        idict = IDict(True, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+        idict.__immutable = False  # this will not be possible
+        print(f"\nDict is immutable: {idict.is_immutable}")
+        self.assertEqual(idict.is_immutable, True)
+        correct_error = False
+        try:
+            idict["yes"] = 1
+        except TypeError as err:
+            print(f"\nCorrect error: {err}")
+            correct_error = True
+        self.assertEqual(correct_error, True)
+        self.assertEqual(idict, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+
+    def test_idict_manipulation2(self):
+        idict = IDict(False, {1: 2, "a": 3, "a-b": "hello", 2: 1.89})
+        idict.__immutable = True  # this will not be possible
+        print(f"\nDict is immutable: {idict.is_immutable}")
+        self.assertEqual(idict.is_immutable, False)
+        idict["yes"] = 1
+        idict[3] = ["9.99", 8]
+        idict["a-b"] = "goodbye"
+        self.assertEqual(idict,
+                         {
+                             1:2, "a": 3, "a-b": "goodbye", 2: 1.89,
+                             "yes": 1,
+                             3: ["9.99", 8]
+                         })
