@@ -13,7 +13,7 @@ from tests.test_const import LONG_TEXT  # type: ignore
 from huffpress.huff.hfunctions import calc_term_freq  # type: ignore
 from huffpress.huff.htypes import InputData, TermFreq  # type: ignore
 from huffpress.auxi.basen import basen  # type: ignore
-from huffpress.auxi.idict import IDict
+from huffpress.auxi.idict import IDict  # type: ignore
 
 
 class TestHuffPressSimple(unittest.TestCase):
@@ -104,7 +104,7 @@ class TestHuffPressSimple(unittest.TestCase):
         idict["a-b"] = "goodbye"
         self.assertEqual(idict,
                          {
-                             1:2, "a": 3, "a-b": "goodbye", 2: 1.89,
+                             1: 2, "a": 3, "a-b": "goodbye", 2: 1.89,
                              "yes": 1,
                              3: ["9.99", 8]
                          })
@@ -144,7 +144,7 @@ class TestHuffPressSimple(unittest.TestCase):
         idict["a-b"] = "goodbye"
         self.assertEqual(idict,
                          {
-                             1:2, "a": 3, "a-b": "goodbye", 2: 1.89,
+                             1: 2, "a": 3, "a-b": "goodbye", 2: 1.89,
                              "yes": 1,
                              3: ["9.99", 8]
                          })

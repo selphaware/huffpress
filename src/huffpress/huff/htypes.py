@@ -24,17 +24,6 @@ class InputData:
 
 
 @dataclass
-class CompData:
-    """
-    data = Union[str, bytearray]
-
-    Data to be compressed will either be the filename (str) or compressed data
-    (bytearray)
-    """
-    data: Union[str, bytearray]
-
-
-@dataclass
 class TermFreq:
     """
     tf = Dict[str, int]

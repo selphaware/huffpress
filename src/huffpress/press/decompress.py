@@ -9,9 +9,9 @@
 """
 import json
 from tqdm import tqdm  # type: ignore
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Union
 from huffpress.auxi.basen import to_basen, to_dec, basen
-from huffpress.huff.htypes import HuffCode, CompData
+from huffpress.huff.htypes import HuffCode
 
 
 def reverse_final_sequence(bstr: bytes, verbose: bool = False) -> str:
@@ -155,7 +155,8 @@ def decompress_file(inp_file: str, outfile: Optional[str] = None,
     return outfile
 
 
-def decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
+def decompress(inp: Union[str, bytes, bytearray],
+               outfile: Optional[str] = None, verbose=False):
     """
     decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
 
@@ -168,9 +169,9 @@ def decompress(inp: CompData, outfile: Optional[str] = None, verbose=False):
     :return: either decompressed bytearray data or name of decompressed output
             file
     """
-    if isinstance(inp.data, bytearray):
-        return decompress_bytes(inp.data, verbose=verbose)
-    elif isinstance(inp.data, str):
-        return decompress_file(inp.data, outfile=outfile, verbose=verbose)
+    if isinstance(inp, bytearray) or isinstance(inp, bytes):
+        return decompress_bytes(inp, verbose=verbose)
+    elif isinstance(inp, str):
+        return decompress_file(inp, outfile=outfile, verbose=verbose)
     else:
-        raise TypeError(f"inp.data is of type {type(inp.data)}")
+        raise TypeError(f"inp.data is of type {type(inp)}")

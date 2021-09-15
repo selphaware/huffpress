@@ -23,11 +23,11 @@
 import json
 import os
 from tqdm import tqdm  # type: ignore
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Union
 from huffpress.auxi.basen import to_basen, to_dec, basen
 from huffpress.auxi.modes import Mode
 from huffpress.huff.hfunctions import create_huff_tree
-from huffpress.huff.htypes import InputData, HuffCode, CompData
+from huffpress.huff.htypes import InputData, HuffCode
 from huffpress.huff.HuffNode import HuffNode
 
 
@@ -212,7 +212,7 @@ def compress_file(inp_file: str, verbose: bool = False):
 
 
 def compress(inp: str, verbose: bool = False,
-             mode: Mode = Mode.DEFAULT) -> CompData:
+             mode: Mode = Mode.DEFAULT) -> Union[str, bytearray]:
     """
     compress(inp: str, verbose: bool = False,
              mode: Mode = Mode.DEFAULT) -> CompData:
@@ -231,6 +231,6 @@ def compress(inp: str, verbose: bool = False,
              return bytearray compressed data
     """
     if (mode is not Mode.RAW) and os.path.exists(inp):
-        return CompData(data=compress_file(inp, verbose=verbose))
+        return compress_file(inp, verbose=verbose)
     else:
-        return CompData(data=compress_string(inp, verbose=verbose))
+        return compress_string(inp, verbose=verbose)

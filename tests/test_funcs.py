@@ -13,7 +13,7 @@ from huffpress.press.decompress import decompress  # type: ignore
 from huffpress.press.decorators import comp, decomp  # type: ignore
 from huffpress.auxi.modes import Mode  # type: ignore
 from huffpress.huff.hfunctions import create_huff_tree, print_node  # type: ignore
-from huffpress.huff.htypes import CompData, InputData  # type: ignore
+from huffpress.huff.htypes import InputData  # type: ignore
 from tests.test_const import LONG_TEXT, PRINT_RES_1
 
 
@@ -42,5 +42,5 @@ def decorator_decomp_test(in_var):
 def compress_test(filename, mode=Mode.DEFAULT):
     copyfile(filename, f"{filename}.bak")
     compress(filename, mode=mode, verbose=True)
-    decompress(CompData(data=f"{filename}.hac"), verbose=True)
+    decompress(f"{filename}.hac", verbose=True)
     return filecmp.cmp(f"{filename}.bak", filename)
