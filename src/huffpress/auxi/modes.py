@@ -4,7 +4,7 @@
     modes.py
 
     Contains all modes used in the rest of the codebase (currently we only
-    have 1 mode)
+    have 1 mode).
 """
 
 from enum import Enum
