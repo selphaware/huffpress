@@ -1,7 +1,7 @@
 """
     (c) 2021 Usman Ahmad https://github.com/selphaware
 
-    test_const.py
+    consts.py
 
     Test strings
 """

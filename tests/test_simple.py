@@ -1,15 +1,15 @@
 """
     (c) 2021 Usman Ahmad https://github.com/selphaware
 
-    main_test.py
+    test_main.py
 
     Testing mainly string compressions, term frequencies, and a decorator test
 """
 
 import unittest
-from tests.test_funcs import string_test, decorator_comp_test, \
+from tests.tfuncs import string_test, decorator_comp_test, \
     decorator_decomp_test, print_test  # type: ignore
-from tests.test_const import LONG_TEXT  # type: ignore
+from tests.consts import LONG_TEXT  # type: ignore
 from huffpress.huff.hfunctions import calc_term_freq  # type: ignore
 from huffpress.huff.htypes import InputData, TermFreq  # type: ignore
 from huffpress.auxi.basen import basen  # type: ignore

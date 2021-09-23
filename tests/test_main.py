@@ -1,13 +1,13 @@
 """
     (c) 2021 Usman Ahmad https://github.com/selphaware
 
-    main_test.py
+    test_main.py
 
     Testing mainly file compressions and some string compressions
 """
 
 import unittest
-from tests.test_funcs import string_test, compress_test  # type: ignore
+from tests.tfuncs import string_test, compress_test  # type: ignore
 from os import remove
 
 

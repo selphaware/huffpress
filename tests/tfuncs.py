@@ -1,7 +1,7 @@
 """
     (c) 2021 Usman Ahmad https://github.com/selphaware
 
-    test_funcs.py
+    tfuncs.py
 
     Testing functionality used in main_test and simple_test
 """
@@ -14,7 +14,7 @@ from huffpress.press.decorators import comp, decomp  # type: ignore
 from huffpress.auxi.modes import Mode  # type: ignore
 from huffpress.huff.hfunctions import create_huff_tree, print_node  # type: ignore
 from huffpress.huff.htypes import InputData  # type: ignore
-from tests.test_const import LONG_TEXT, PRINT_RES_1
+from tests.consts import LONG_TEXT, PRINT_RES_1
 
 
 def string_test(inp_txt):

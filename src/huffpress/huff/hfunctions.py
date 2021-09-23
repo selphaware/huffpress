@@ -6,6 +6,9 @@
     Contains all Huffman building and deconstructing functions
 """
 
+# TODO: Refactor bytesarray/bytes and str to typing.AnyStr
+
+
 from collections import Counter
 from tqdm import tqdm  # type: ignore
 from functools import singledispatch  # type: ignore
