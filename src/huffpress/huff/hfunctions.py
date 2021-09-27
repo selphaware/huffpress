@@ -14,8 +14,10 @@ from tqdm import tqdm  # type: ignore
 from functools import singledispatch  # type: ignore
 from typing import List, Optional, ItemsView
 from huffpress.huff.HuffNode import HuffNode
-from huffpress.huff.htypes import InputData, TermFreq, Leaves, \
-    SortedTree, HuffTuple, HuffCode, HuffTerm, HuffSeq
+from huffpress.huff.htypes import (
+    InputData, TermFreq, Leaves,
+    SortedTree, HuffTuple, HuffCode, HuffTerm, HuffSeq,
+    )
 
 
 def calc_term_freq(data: InputData) -> TermFreq:
@@ -31,7 +33,7 @@ def calc_term_freq(data: InputData) -> TermFreq:
     count_dat = {
         k if isinstance(k, int) else ord(str(k)): v
         for k, v in dict(Counter(data.data)).items()
-    }
+        }
     dc: TermFreq = TermFreq(tf=count_dat)
     return dc
 
@@ -53,7 +55,7 @@ def build_leaves(term_freq: TermFreq,
     leaves: Leaves = Leaves(data={
         term: HuffTerm(freq=count, node=HuffNode(term, count))
         for term, count in tqdm(term_freq.tf.items(), disable=not verbose)
-    })
+        })
     return leaves
 
 
@@ -82,14 +84,14 @@ def sort_tree(tree: Leaves, verbose: bool = False) -> SortedTree:
     sorted_leaves: list = sorted(
         tree_data,
         key=lambda pair: pair[1].freq, reverse=False
-    )
+        )
     term_freq: SortedTree = SortedTree(
         data=[
             HuffSeq(seq_term=x,
                     huff_term=y)
             for x, y in sorted_leaves
-        ]
-    )
+            ]
+        )
     return term_freq
 
 
@@ -125,8 +127,8 @@ def build_tree(sorted_new_tree: SortedTree,
                     seq_term=huff_seq.seq_term,
                     total_freq=huff_seq.huff_term.freq,
                     node=huff_seq.huff_term.node
-                ) for huff_seq in sorted_new_tree.data
-            ]
+                    ) for huff_seq in sorted_new_tree.data
+                ]
 
             # check if there is only a single unique character in the input data
             single_char_only = len(tree) <= 1
@@ -158,7 +160,7 @@ def build_tree(sorted_new_tree: SortedTree,
                 freq=new_freq,
                 left_child=new_left,
                 right_child=new_right
-            )
+                )
 
             new_tree: List[HuffTuple]
             # if only single unique char then there is no other chars to process
@@ -189,7 +191,8 @@ def build_tree(sorted_new_tree: SortedTree,
             if while_one:
                 while_one = False
 
-    return sorted_new_tree.data[0].huff_term.node  # returning tree HuffNode object
+    return sorted_new_tree.data[
+        0].huff_term.node  # returning tree HuffNode object
 
 
 def print_node(node: Optional[HuffNode], depth: int = 0,
@@ -221,10 +224,11 @@ def print_node(node: Optional[HuffNode], depth: int = 0,
         res += f"{dash_chr}{line_chr}Term: {node.term}, Freq: {node.freq}\n"
         if node.left_child is not None:
             res += f"|\n{dash_chr}{spc}Left child:\n"
-            res += print_node(node.left_child, depth=depth+1, verbose=verbose)
+            res += print_node(node.left_child, depth=depth + 1, verbose=verbose)
         if node.right_child is not None:
             res += f"|\n{dash_chr}{spc}Right child:\n"
-            res += print_node(node.right_child, depth=depth+1, verbose=verbose)
+            res += print_node(node.right_child, depth=depth + 1,
+                              verbose=verbose)
         if verbose:
             print(res)
             return ""
@@ -260,7 +264,8 @@ def _(single_term: int, tree: Optional[HuffNode], path: str = "") -> HuffCode:
     Least frequent occurring terms will be encoded with a longer sequence
 
     :param single_term: single character term
-    :param tree: HuffNode tree already built by create_huff_tree_encoding function
+    :param tree: HuffNode tree already built by create_huff_tree_encoding
+    function
     :param path: visited nodes collecting 0's (left side), 1's (right side)
                  along the way
     :return: dictionary containing a single term as the key, and its continually
